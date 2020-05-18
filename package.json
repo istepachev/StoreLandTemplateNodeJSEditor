@@ -15,7 +15,7 @@
 		"moment": "^2.25.3",
 		"node-fetch": "^2.2.0",
 		"node-notifier": "^7.0.0",
-		"nodejs-base64": "^1.0.3",
+		"nodejs-base64": "^1.0.3"
 	},
 	"devDependencies": {
 		"bootstrap": "^4.4.1",
