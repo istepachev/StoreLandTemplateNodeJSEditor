@@ -5,7 +5,7 @@ let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
     imageswatch  = 'jpg,jpeg,png,webp,svg', // List of images extensions for watching & compression (comma separated)
     baseDir      = 'files', // Base directory path without «/» at the end
     online       = true, // If «false» - Browsersync will work offline without internet connection
-	WAIT_TIME    = 1300;  // Время задержки перед обновлением страницы.
+	WAIT_TIME    = 500;  // Время задержки перед обновлением страницы.
 
 let paths = {
 
@@ -140,10 +140,7 @@ function startwatch() {
 		watch(baseDir  + '/**/*.scss', { delay: 100 }, styles);
 	}
 	watch(baseDir  + '/**/*.css').on('change', function(event){
-		uploadFile(event);
-		if(!preprocessorOn){
-			styles()
-		}		
+		uploadFile(event);	
 	})	
 	watch(baseDir  + '/**/*.{' + imageswatch + '}')
 	.on('add', function(event){
@@ -157,9 +154,6 @@ function startwatch() {
 	});
 	watch([baseDir + '/**/*.js']).on('change', function(event){
 		uploadFile(event);
-		if(!preprocessorOn){
-			scripts()
-		}
 	})
 }
 
@@ -195,10 +189,10 @@ function uploadFile(event){
 		.then(res => res.json())
 		.then(json=>{
 			if(json.status === `ok`){
-				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`);     
-				if(!fileName.includes('css')){
+				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`); 
+				setTimeout(() => {
 					browserSync.reload()
-				}           
+				}, WAIT_TIME);
 			} else if (json.status == `error`) {
 				console.log(`Ошибка отправки ⛔ ${fileName}`); 
 				console.log(`${json.message}`);                                        
@@ -206,12 +200,87 @@ function uploadFile(event){
 		}); 
 	})
 	.catch(err => console.error(err));
+}
+function download(done) {
+	const FILES_PATH = './files';
+	let params = new URLSearchParams();
+	params.append('secret_key', SECRET_KEY);
 
-	
+	fetch(`${SITE}/api/v1/site_files/get_list`, {
+		method: 'post',
+		body:    params,
+		timeout: 5000,
+	})
+	.then(res => res.json())
+	.then(json => {
+		if(json.status === `ok`) {
+		  console.log(`Загружен список всех файлов ✔️`);  
+		  
+		  if (!fs.existsSync(FILES_PATH)){
+			  fs.mkdirSync(FILES_PATH);
+		  }			
+		  const filesArray = json.data.map((item)=>{
+			  return {
+				file_id: item['file_id']['value'],
+				file_name: item['file_name']['value'],
+			  }
+		  });
+		  return filesArray;
 
+		} else if (json.status == `error`) {
+		  console.log(`Ошибка загрузки ⛔`);                         
+		}
+	})
+	.then(array =>{
+		console.log(`Всего файлов ${array.length}`);
+		const arrLength = array.length;
+		let count = 1;
+		const getFile = (arr) => {
+			if(!arr.length){
+				console.log(`Всего скачано файлов ${count} из ${arrLength}`)
+				return;
+			}
+			const {file_id, file_name} = arr.shift();
+			
+			let params = new URLSearchParams();
+			params.append('secret_key', SECRET_KEY);
+			
+			fetch(`${SITE}/api/v1/site_files/get/${file_id}`, {
+				method: 'post',
+				body:    params,
+				timeout: 5000,
+			})
+			.then(res => res.json())
+			.then(json => {		
+				if(json.status === `ok`) {						
+					return json;
+				}	
+			})
+			.then(json => {
+				fs.writeFileSync(`${FILES_PATH}/${json['data']['file_name'].value}`, json['data']['file_content'].value, 'base64', function(err) {
+					if(err){
+						console.log(err);
+					}
+				});
+			})
+			.then(()=>{
+				console.log(`Скачан файл ${file_name}. Итого ${count} из ${arrLength}`);
+				
+				setTimeout(() => {
+					getFile(array);						
+					count++
+				}, 500);
+			})
+			.catch(console.log)	
+
+		}
+		getFile(array);
+	})
+	done()
 }
 exports.browsersync = browsersync;
 exports.assets      = series(cleanimg, styles, scripts, images);
+exports.download     = download;
 exports.styles      = styles;
 exports.scripts     = scripts;
 exports.images      = images;
