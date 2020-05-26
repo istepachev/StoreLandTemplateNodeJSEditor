@@ -7,6 +7,7 @@
 * Устанавливаем глобально <b>Gulp</b> `npm install --global gulp-cli`
 * Устанавливаем зависимости командой `npm install`
 * Заполняем настройки в файле `storeland-uploader-config.json`
+* Скачиваем файлы шаблона командой: `gulp download`
 * Запускаем сборку командой: `gulp`
 
 #### Файл настроек
