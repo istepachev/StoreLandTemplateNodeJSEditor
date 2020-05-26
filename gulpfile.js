@@ -2,7 +2,8 @@
 let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
 	preprocessorOn = false,
     fileswatch   = 'html,htm', // List of files extensions for watching & hard reload (comma separated)
-    imageswatch  = 'jpg,jpeg,png,webp,svg', // List of images extensions for watching & compression (comma separated)
+    imageswatch  = 'jpg,jpeg,png,webp,svg,gif', // List of images extensions for watching & compression (comma separated)
+    fontsswatch  = 'eot,woff,woff2,ttf', // List of images extensions for watching & compression (comma separated)
     baseDir      = 'files', // Base directory path without «/» at the end
     online       = true, // If «false» - Browsersync will work offline without internet connection
 	WAIT_TIME    = 500;  // Время задержки перед обновлением страницы.
@@ -11,7 +12,6 @@ let paths = {
 
 	scripts: {
 		src: [
-			// 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
 			baseDir + '/main.js' // app.js. Always at the end
 		],
 		dest: baseDir + '/js',
@@ -57,27 +57,18 @@ const { URLSearchParams } = require('url');
 const path = require('path');
 const chalk = require('chalk');
 const moment = require('moment'); // require
-const notifier = require('node-notifier');
-const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
-uuidv4();
+
 
 const {SECRET_KEY, SITE} = require('./storeland-uploader-config.json');
 
 function checkConfig(cb){
 	if(!SECRET_KEY) {
-		notifier.notify({
-			message: `Не задан SECRET_KEY в файле storeland-uploader-config.json`,
-			type: 'info'
-		});
 		cb(new Error(`Не задан ${chalk.red(`SECRET_KEY`)} в файле ` + chalk.red(`storeland-uploader-config.json`)))
 	}
 	if(!SITE) {
-		notifier.notify({
-			message: `Не задан url адрес SITE в файле storeland-uploader-config.json`,
-			type: 'info'
-		});
-		cb(new Error(`Не задан url адрес ${chalk.red(`SITE`)} в файле ` + chalk.red(`storeland-uploader-config.json`)))
+		cb(new Error(`Не задан url адрес cайта в параметре ${chalk.red(`SITE`)} в файле ` + chalk.red(`storeland-uploader-config.json`)))
 	}
+	cb()
 }
 const href = `${SITE}/api/v1/site_files/save`;
 
@@ -201,7 +192,7 @@ function uploadFile(event){
 	})
 	.catch(err => console.error(err));
 }
-function download(done) {
+function downloadFiles(done) {
 	const FILES_PATH = './files';
 	let params = new URLSearchParams();
 	params.append('secret_key', SECRET_KEY);
@@ -238,6 +229,7 @@ function download(done) {
 		const getFile = (arr) => {
 			if(!arr.length){
 				console.log(`Всего скачано файлов ${count} из ${arrLength}`)
+				done();
 				return;
 			}
 			const {file_id, file_name} = arr.shift();
@@ -257,30 +249,25 @@ function download(done) {
 				}	
 			})
 			.then(json => {
-				fs.writeFileSync(`${FILES_PATH}/${json['data']['file_name'].value}`, json['data']['file_content'].value, 'base64', function(err) {
+				fs.writeFile(`${FILES_PATH}/${json['data']['file_name'].value}`, json['data']['file_content'].value, 'base64', function(err) {
 					if(err){
 						console.log(err);
 					}
-				});
-			})
-			.then(()=>{
-				console.log(`Скачан файл ${file_name}. Итого ${count} из ${arrLength}`);
-				
-				setTimeout(() => {
+
+					console.log(`Скачан файл ${file_name}. Всего ${count} из ${arrLength}`);
 					getFile(array);						
-					count++
-				}, 500);
+					count++;
+				});
 			})
 			.catch(console.log)	
 
 		}
 		getFile(array);
 	})
-	done()
 }
 exports.browsersync = browsersync;
 exports.assets      = series(cleanimg, styles, scripts, images);
-exports.download     = download;
+exports.download    = parallel(checkConfig,downloadFiles);
 exports.styles      = styles;
 exports.scripts     = scripts;
 exports.images      = images;
