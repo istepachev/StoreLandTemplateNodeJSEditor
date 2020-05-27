@@ -4,7 +4,7 @@
 #### Порядок работы
 
 * Устанавливаем <a target="_blank" href="//nodejs.org/en/"><strong>Node.js</strong></a> на компьютер (LTS версию)
-* Устанавливаем глобально <b>Gulp</b> `npm install --global gulp-cli`
+* Устанавливаем глобально <b>Gulp</b> `npm install --global gulp-cli gulp`
 * Устанавливаем зависимости командой `npm install`
 * Заполняем настройки в файле `storeland-uploader-config.json`
 * Скачиваем файлы шаблона командой: `gulp download`
