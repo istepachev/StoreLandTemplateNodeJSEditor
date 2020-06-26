@@ -6,7 +6,7 @@ let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
     fontsswatch  = 'eot,woff,woff2,ttf', // List of images extensions for watching & compression (comma separated)
     baseDir      = 'files', // Base directory path without «/» at the end
     online       = true, // If «false» - Browsersync will work offline without internet connection
-	WAIT_TIME    = 500;  // Время задержки перед обновлением страницы.
+	WAIT_TIME    = 0;  // Время задержки перед обновлением страницы.
 
 let paths = {
 
@@ -130,9 +130,14 @@ function startwatch() {
 	if(preprocessorOn){
 		watch(baseDir  + '/**/*.scss', { delay: 100 }, styles);
 	}
+	// Загрузка css файлов
 	watch(baseDir  + '/**/*.css').on('change', function(event){
 		uploadFile(event);	
+		if(!preprocessorOn){
+			styles()
+		}			
 	})	
+	// Загрузка изображений
 	watch(baseDir  + '/**/*.{' + imageswatch + '}')
 	.on('add', function(event){
 		uploadFile(event)
@@ -140,12 +145,22 @@ function startwatch() {
 	.on('change', function(event){
 		uploadFile(event)
 	});
+	// Загрузка htm файлов
 	watch(baseDir  + '/**/*.{' + fileswatch + '}').on('change', function(event){
 		uploadFile(event)
 	});
+	// Загрузка js файлов
 	watch([baseDir + '/**/*.js']).on('change', function(event){
 		uploadFile(event);
 	})
+	// Загрузка шрифтов
+	watch(baseDir  + '/**/*.{' + fontsswatch + '}')
+	.on('add', function(event){
+		uploadFile(event)
+	})
+	.on('change', function(event){
+		uploadFile(event)
+	});	
 }
 
 function uploadFile(event){
@@ -181,9 +196,12 @@ function uploadFile(event){
 		.then(json=>{
 			if(json.status === `ok`){
 				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`); 
-				setTimeout(() => {
+
+				// Если это htm файлы
+				fileExt = fileExt.replace('.','');
+				if(fileswatch.includes(fileExt)){
 					browserSync.reload()
-				}, WAIT_TIME);
+				}
 			} else if (json.status == `error`) {
 				console.log(`Ошибка отправки ⛔ ${fileName}`); 
 				console.log(`${json.message}`);                                        
