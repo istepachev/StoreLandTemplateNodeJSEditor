@@ -20,3 +20,5 @@
     "SITE": "https://trialshop.storeland.ru"
 }
 ```
+#### Видеоинструкция 
+https://youtu.be/EpTXvI1-Dqo
