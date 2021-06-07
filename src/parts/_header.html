@@ -1,0 +1,120 @@
+<title>{PAGE_TITLE}</title>
+<meta name="description" content="{PAGE_META_DESCRIPTION}" />
+<meta name="keywords" content="{PAGE_META_KEYWORDS}" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no"><!--если вы где-нибудь на странице указали номер телефона в html-коде и не указали в хедере, то смартфон распознает его как телефонный номер и попытается набрать его по клику. -->
+<link rel="icon" href="{ASSETS_IMAGES_PATH}favicon.ico?design=techno" type="image/x-icon" />
+<link rel="shortcut icon" href="{ASSETS_IMAGES_PATH}favicon.ico?design=techno" type="image/x-icon" />
+
+  <meta property="og:title" content="{PAGE_TITLE}">
+  <meta property="og:image" content="{% IF MOD_LNAME=goods %}{GOODS_IMAGE_MEDIUM}{% ELSE %}{ASSETS_IMAGES_PATH}logo.png{% ENDIF %}">
+  <meta property="og:url" content="{INDEX_PAGE_URL}">
+  <meta property="og:site_name" content='{SETTINGS_STORE_NAME}'>
+  <meta property="og:type" content="website">
+<meta property="og:description" content="{PAGE_META_DESCRIPTION}">  
+
+<!-- SEO параметр определяющий главную страницу для фильтрации её дублей -->
+{% IF PAGE_CANONICAL %}
+  <link rel="canonical" href="{PAGE_CANONICAL}" />
+{% ENDIF %}
+
+<!-- Подключаемые шрифты -->
+<link rel="stylesheet" type="text/css" href="/design/fonts.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+
+<!-- Стили магазина -->
+<link rel="stylesheet" href="{ASSETS_STYLES_PATH}forall.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{ASSETS_STYLES_PATH}main.css?design=techno">
+<!-- Скрипты магазина -->
+<script  src="{ASSETS_JS_PATH}forall.js"></script>
+<script  src="{ASSETS_JS_PATH}main.js?design=techno"></script>
+
+{% IF user_agent_ie %}
+<script>
+  // Picture element HTML5 shiv
+  document.createElement( "picture" );
+</script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/picturefill/3.0.3/picturefill.min.js" async></script>
+{% ENDIF %}  
+<!-- В случае их возникновения JS ошибок, отображаем их владельцу магазина для возможности отладки. Покупатели сообщений о JS ошибках не видят -->
+{% IF JAVASCRIPT_BUG_HUNTING_URL %}
+  <script src="{JAVASCRIPT_BUG_HUNTING_URL}"></script>
+{% ENDIF %}
+<!-- Если отключен JS -->
+<script >$(function () { $('.wrapper').removeClass('nojs'); });</script>
+<!-- ВНИМАНИЕ! Если Вы удалите код ниже, то это повлияет на работу вашего сайта. Пожалуйста ничего не удаляйте без консультации у специалистов. -->
+<!-- Скрипты страниц с сайдбаром-->
+{% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare %}
+<script>
+  // Запуск основных скриптов для страниц Каталога
+  $(function () { catalogFunctions(); });
+  $(function () { accordion(); });
+  $(function () { viewed(); });
+</script>
+{% ENDIF %}
+<!-- Скрипты для страницы Сравнение -->
+{% IF MOD_LNAME = compare %}
+<script >
+  // Запуск основных скриптов для страницы Сравнение
+  $(function () { comparePage(); });
+</script>
+{% ENDIF %}
+<!-- Скрипты для страницы Товар -->
+{% IF MOD_LNAME = goods %}
+<script >
+  // Запуск основных скриптов для страницы Товар
+  $(function () { goodspage(); });
+  $(function () { goodsImage(); });
+  // Инициализируем табы на странице
+  $(function () { initTabs(); });
+  // Вы смотрели
+  $(function () { viewed(); });    
+</script>
+{% ENDIF %}
+<!-- Скрипты для главной -->
+{% IF index_page %}
+<script >
+  // Запуск основных скриптов для главной страницы
+  $(function () { indexPage(); });
+</script>
+{% ENDIF %}
+<script >
+  // Анимация перед загружаемым слайдером
+  $(window).on('load', function () {
+    preloadHide();
+  });
+  //Модальное окно уведомления при отправке сообщения
+  {% IF FORM_NOTICE %}
+    function generate(type) {
+      new Noty({
+        text: '<div class="noty_content">{FORM_NOTICE | nl2br}</div>',
+        type: '{% IF FORM_NOTICE_IS_GOOD %}success{% ELSE %}error{% ENDIF %}'
+      }).show()        
+    }
+    $(function () { generate(); });
+  {% ENDIF %}
+</script>
+<!-- /END Конец основных скриптов которые лучше не удалять -->
+<!-- Сообщение для инвалидов -->
+<style>
+  .nojs .preloader{animation:fadeOut 0.5s ease-out;animation-delay:2s;animation-fill-mode:forwards;}
+  @keyframes fadeOut{from{opacity:1}to{opacity:0;visibility:hidden;}}.fadeOut{animation-name:fadeOut}
+</style>
+<!-- /END Сообщение для инвалидов -->
+<!-- Обратный звонок в шапке -->
+<script>
+$(function(){
+  $("#header-callback, #header-feedback").fancybox({
+    'hideOnContentClick': true,
+    'title': false,
+    padding: 0,
+    maxWidth: 500,
+    autoHeight: true,
+        openMethod: 'slidebottomIn',
+        closeMethod: 'slidebottomOut'      
+  });    
+})
+</script>
+<!-- /END Обратный звонок в шапке -->  

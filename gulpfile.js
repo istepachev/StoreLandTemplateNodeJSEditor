@@ -2,16 +2,17 @@
 let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
 	preprocessorOn = false,
     fileswatch   = 'html,htm', // List of files extensions for watching & hard reload (comma separated)
-    imageswatch  = 'jpg,jpeg,png,webp,svg,gif', // List of images extensions for watching & compression (comma separated)
-    fontsswatch  = 'eot,woff,woff2,ttf', // List of images extensions for watching & compression (comma separated)
-    baseDir      = 'files', // Base directory path without «/» at the end
+    imageswatch  = 'jpg,jpeg,png,webp,svg', // List of images extensions for watching & compression (comma separated)
+    baseDir      = 'src', // Base directory path without «/» at the end    
     online       = true, // If «false» - Browsersync will work offline without internet connection
 	WAIT_TIME    = 0;  // Время задержки перед обновлением страницы.
 
 let paths = {
-
+	baseDir: 'src',
+	downloadDir: 'files',
 	scripts: {
 		src: [
+			// 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
 			baseDir + '/main.js' // app.js. Always at the end
 		],
 		dest: baseDir + '/js',
@@ -20,6 +21,7 @@ let paths = {
 	styles: {
 		src:  (preprocessorOn) ? baseDir + '/' + preprocessor + '/main.scss' : baseDir + '/main.css',				
 		dest: baseDir + '/',
+		all: baseDir + '/**.css'
 	},
 
 	images: {
@@ -32,12 +34,9 @@ let paths = {
 }
 
 // LOGIC
-
 const { src, dest, parallel, series, watch } = require('gulp');
-const sass         = require('gulp-sass');
 const scss         = require('gulp-sass');
-const less         = require('gulp-less');
-const styl         = require('gulp-stylus');
+const fileinclude = require('gulp-file-include');
 const cleancss     = require('gulp-clean-css');
 const concat       = require('gulp-concat');
 const browserSync  = require('browser-sync').create();
@@ -52,31 +51,36 @@ const plumber      = require('gulp-plumber');
 // Dev depend
 const fetch = require('node-fetch');
 const fs = require("fs");
-const { base64encode, base64decode } = require('nodejs-base64');
+const { base64encode } = require('nodejs-base64');
 const { URLSearchParams } = require('url');
 const path = require('path');
 const chalk = require('chalk');
 const moment = require('moment'); // require
 
-
-const {SECRET_KEY, SITE} = require('./storeland-uploader-config.json');
+const {CURRENT_SITE} = require('./storeland-uploader-config.json'); // Текущий url адрес сайта, с которым работаем
+const SECRET_KEYS = require('./secret-keys.json'); // JSON карта сайтов с секретными ключами
+const {SECRET_KEY} = SECRET_KEYS[CURRENT_SITE]; // Секретный ключ текущего сайта
 
 function checkConfig(cb){
-	if(!SECRET_KEY) {
-		cb(new Error(`Не задан ${chalk.red(`SECRET_KEY`)} в файле ` + chalk.red(`storeland-uploader-config.json`)))
+	if(!CURRENT_SITE) {
+		cb(new Error(`Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ` + chalk.red(`storeland-uploader-config.json`)))
 	}
-	if(!SITE) {
-		cb(new Error(`Не задан url адрес cайта в параметре ${chalk.red(`SITE`)} в файле ` + chalk.red(`storeland-uploader-config.json`)))
+	if(!SECRET_KEY) {
+		cb(new Error(`Не задан ${chalk.red(`SECRET_KEY`)} в файле ` + chalk.red(`secret-key.json`)))
 	}
 	cb()
 }
-const href = `${SITE}/api/v1/site_files/save`;
+const URL_MAP = {
+	save : `${CURRENT_SITE}/api/v1/site_files/save`,
+	get_list: `${CURRENT_SITE}/api/v1/site_files/get_list`,
+	get_file: `${CURRENT_SITE}/api/v1/site_files/get`
+}
 
 function browsersync() {
 	browserSync.init({
 		notify: false,
 		proxy: {
-			target: `${SITE}`,     
+			target: `${CURRENT_SITE}`,     
 			proxyReq: [
 				function(proxyReq) {
 					proxyReq.setHeader('x-nodejs-editor-version', '1.01');            
@@ -96,7 +100,9 @@ function scripts() {
 	.pipe(browserSync.stream())
 }
 
-function styles() {
+function styles(event = {}) {	
+	let {fileName} = event;
+
 	if(preprocessorOn){
 		return src(paths.styles.src)
 		.pipe(plumber())
@@ -108,9 +114,13 @@ function styles() {
 		// .pipe(wait(1500))
 		.pipe(browserSync.stream())
 	} else {
-		return src(paths.styles.src)
-		.pipe(wait(WAIT_TIME))
-		.pipe(browserSync.stream())
+		if(fileName){
+			return src(`${baseDir}/${fileName}`).pipe(browserSync.stream())
+		}else {
+			return src(paths.styles.all).pipe(browserSync.stream())
+		}
+		// .pipe(wait(WAIT_TIME))
+		// .pipe(browserSync.stream())
 	}
 }
 
@@ -124,20 +134,35 @@ function images() {
 function cleanimg() {
 	return del('' + paths.images.dest + '/**/*', { force: true })
 }
+function htmlinclude(event){
+	let file = event;
+	// console.log(file);
+	let fileName = path.basename(file)
+	let fileExt =  path.extname(file);	
 
+	// console.log(event,fileName,  typeof fileName);
+
+	return	src([file])
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(dest('./dist'));
+	return `./dist/files/${fileName}`;
+}
 
 function startwatch() {
+	// Стили
 	if(preprocessorOn){
 		watch(baseDir  + '/**/*.scss', { delay: 100 }, styles);
 	}
-	// Загрузка css файлов
 	watch(baseDir  + '/**/*.css').on('change', function(event){
-		uploadFile(event);	
+		uploadFile(event, styles);
 		if(!preprocessorOn){
-			styles()
-		}			
+			// styles()
+		}		
 	})	
-	// Загрузка изображений
+	// Изображения
 	watch(baseDir  + '/**/*.{' + imageswatch + '}')
 	.on('add', function(event){
 		uploadFile(event)
@@ -145,33 +170,32 @@ function startwatch() {
 	.on('change', function(event){
 		uploadFile(event)
 	});
-	// Загрузка htm файлов
-	watch(baseDir  + '/**/*.{' + fileswatch + '}').on('change', function(event){
-		uploadFile(event)
+	// Html
+	watch(baseDir  + '/**/[^_]*.{' + fileswatch + '}').on('change', function(event){		
+		htmlinclude(event);
 	});
-	// Загрузка js файлов
-	watch([baseDir + '/**/*.js']).on('change', function(event){
-		uploadFile(event);
-	})
-	// Загрузка шрифтов
-	watch(baseDir  + '/**/*.{' + fontsswatch + '}')
-	.on('add', function(event){
-		uploadFile(event)
-	})
-	.on('change', function(event){
+	watch('./dist/files/*.{' + fileswatch + '}').on('change', function(event){		
 		uploadFile(event)
 	});	
+	// Javascript
+	watch([baseDir + '/**/*.js']).on('change', function(event){
+		uploadFile(event);
+		if(!preprocessorOn){
+			scripts()
+		}
+	})
 }
 
-function uploadFile(event){
+function uploadFile(event, cb){
 	let file = event;
 	let fileName = path.basename(file)
 	let fileExt =  path.extname(file);	
 
 	new Promise(resolve => {
 		fs.readFile(`${file}`, {encoding: 'utf8'}, (err, data) =>{
-			if (err) throw err;
-			resolve(base64encode(data));
+			if (err) throw err;			
+			const content = base64encode(data);
+			resolve(content);
 		});
 
 		if(imageswatch.includes(fileExt.replace('.',''))){				
@@ -187,7 +211,7 @@ function uploadFile(event){
 			params.append('form[do_not_receive_file]', `1`);
 		// }	
 	
-		fetch(href, {
+		fetch(URL_MAP.save, {
 			method: 'post',
 			body:    params,
 			timeout: 5000,
@@ -195,12 +219,12 @@ function uploadFile(event){
 		.then(res => res.json())
 		.then(json=>{
 			if(json.status === `ok`){
-				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`); 
-
-				// Если это htm файлы
-				fileExt = fileExt.replace('.','');
-				if(fileswatch.includes(fileExt)){
+				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`);     
+				if(!fileName.includes('css')){
 					browserSync.reload()
+				}
+				if(cb){
+					cb()
 				}
 			} else if (json.status == `error`) {
 				console.log(`Ошибка отправки ⛔ ${fileName}`); 
@@ -211,11 +235,11 @@ function uploadFile(event){
 	.catch(err => console.error(err));
 }
 function downloadFiles(done) {
-	const FILES_PATH = './files';
+	const FILES_PATH = `./${paths.downloadDir}`;
 	let params = new URLSearchParams();
 	params.append('secret_key', SECRET_KEY);
 
-	fetch(`${SITE}/api/v1/site_files/get_list`, {
+	fetch(URL_MAP.get_list, {
 		method: 'post',
 		body:    params,
 		timeout: 5000,
@@ -247,7 +271,7 @@ function downloadFiles(done) {
 		const getFile = (arr) => {
 			if(!arr.length){
 				console.log(`Всего скачано файлов ${count} из ${arrLength}`)
-				done();
+				done();		
 				return;
 			}
 			const {file_id, file_name} = arr.shift();
@@ -255,7 +279,7 @@ function downloadFiles(done) {
 			let params = new URLSearchParams();
 			params.append('secret_key', SECRET_KEY);
 			
-			fetch(`${SITE}/api/v1/site_files/get/${file_id}`, {
+			fetch(`${URL_MAP.get_file}/${file_id}`, {
 				method: 'post',
 				body:    params,
 				timeout: 5000,
@@ -284,8 +308,8 @@ function downloadFiles(done) {
 	})
 }
 exports.browsersync = browsersync;
+exports.download    = series(checkConfig,downloadFiles);
 exports.assets      = series(cleanimg, styles, scripts, images);
-exports.download    = parallel(checkConfig,downloadFiles);
 exports.styles      = styles;
 exports.scripts     = scripts;
 exports.images      = images;

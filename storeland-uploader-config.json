@@ -1,4 +1,3 @@
 {
-    "SECRET_KEY": "d93d92820e793051d5bad7e32930ff68",
-    "SITE": "http://support6.storeland.ru"
+    "CURRENT_SITE": "http://support6.storeland.ru"
 }

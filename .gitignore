@@ -59,6 +59,8 @@ typings/
 
 # next.js build output
 .next
-
-#/files
-#storeland-uploader-config.json
+# Папки с файлами
+files
+dist
+# Карта с ключами сайтов
+secret-keys.json
