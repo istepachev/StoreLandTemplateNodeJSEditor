@@ -9,24 +9,25 @@ let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
 
 let paths = {
 	baseDir: 'src',
+	distDir: 'dist',
 	downloadDir: 'files',
 	scripts: {
 		src: [
 			// 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
-			baseDir + '/main.js' // app.js. Always at the end
+			this.baseDir + '/js/main.js' // app.js. Always at the end
 		],
-		dest: baseDir + '/js',
+		dest: this.distDir,
 	},
 
 	styles: {
-		src:  (preprocessorOn) ? baseDir + '/' + preprocessor + '/main.scss' : baseDir + '/main.css',				
-		dest: baseDir + '/',
-		all: baseDir + '/**.css'
+		src:  (preprocessorOn) ? this.baseDir + '/' + preprocessor + '/main.scss' : this.baseDir+ '/' + 'css' + + '/main.css',				
+		dest: this.distDir + '/',
+		all: this.baseDir + '/**.css'
 	},
 
 	images: {
-		src:  baseDir + '/images/src/**/*',
-		dest: baseDir + '/images/dest',
+		src:  this.baseDir + '/images/**/*',
+		dest: this.distDir + '/',
 	},
 	cssOutputName: 'main.css',
 	jsOutputName:  'main.js',
