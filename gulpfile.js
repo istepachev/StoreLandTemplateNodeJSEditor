@@ -4,6 +4,7 @@ let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
     fileswatch   = 'html,htm', // List of files extensions for watching & hard reload (comma separated)
     imageswatch  = 'jpg,jpeg,png,webp,svg', // List of images extensions for watching & compression (comma separated)
     baseDir      = 'src', // Base directory path without «/» at the end    
+    distDir      = 'dist', // Base directory path without «/» at the end    
     online       = true, // If «false» - Browsersync will work offline without internet connection
 	WAIT_TIME    = 0;  // Время задержки перед обновлением страницы.
 
@@ -14,7 +15,7 @@ let paths = {
 	scripts: {
 		src: [
 			// 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
-			this.baseDir + '/js/main.js' // app.js. Always at the end
+			baseDir + '/js/main.js' // app.js. Always at the end
 		],
 		dest: this.distDir,
 	},
@@ -96,6 +97,9 @@ function browsersync() {
 }
 
 function scripts() {
+	console.log(
+		paths.scripts.src
+	);
 	return src(paths.scripts.src)
 	.pipe(wait(WAIT_TIME))
 	.pipe(browserSync.stream())
@@ -137,19 +141,46 @@ function cleanimg() {
 }
 function htmlinclude(event){
 	let file = event;
-	// console.log(file);
 	let fileName = path.basename(file)
 	let fileExt =  path.extname(file);	
+	console.log(file, fileName);
+	let PATH;
+	if(fileName.startsWith(`_`)){
+		fs.readFile(`${file}`, {encoding: 'utf8'}, (err, data) =>{
+			if (err) throw err;			
+			// data = data.split('\n')[0].replace(/<!--.*?-->/, '123')
+			data = data.split('\n')[0]
+				.replace(/<!--/, '')
+				.replace('-->','')
+				.replace('[','')
+				.replace(']','')
+				.replace('\r','')
+				.trim()
+				.split(',')
+				.map(el=>`${baseDir}/${el.trim()}`)
+			PATH = data;
+			console.log(
+				`path`, PATH
+			);
+			return	src(PATH)
+			.pipe(fileinclude({
+			  prefix: '@@',
+			  basepath: '@file'
+			}))
+			.pipe(dest('dist'));			
+		});
+	} else {
+		PATH = file;
 
-	// console.log(event,fileName,  typeof fileName);
-
-	return	src([file])
-    .pipe(fileinclude({
-      prefix: '@@',
-      basepath: '@file'
-    }))
-    .pipe(dest('./dist'));
-	return `./dist/files/${fileName}`;
+		return	src(PATH)
+		.pipe(fileinclude({
+		  prefix: '@@',
+		  basepath: '@file'
+		}))
+		.pipe(dest('dist'));		
+	}
+	// console.log(PATH);
+	// return `./dist/files/${fileName}`;
 }
 
 function startwatch() {
@@ -172,10 +203,17 @@ function startwatch() {
 		uploadFile(event)
 	});
 	// Html
+	watch(baseDir  + '/**/[?_]*.{' + fileswatch + '}').on('change', function(event){		
+		htmlinclude(event);
+	});
 	watch(baseDir  + '/**/[^_]*.{' + fileswatch + '}').on('change', function(event){		
 		htmlinclude(event);
 	});
-	watch('./dist/files/*.{' + fileswatch + '}').on('change', function(event){		
+	watch(distDir + '/**/*.{' + fileswatch + '}')
+	.on('change', function(event){		
+		uploadFile(event)
+	})
+	.on('add', function(event){		
 		uploadFile(event)
 	});	
 	// Javascript

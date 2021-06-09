@@ -1,3 +1,4 @@
+@@include('./parts/_test.html', {"goods_array_name": "TEST_ARRR"})
 {% IF FORM_NOTICE && ONLY_BODY=0 %}<div class="{% IF FORM_NOTICE_IS_GOOD %}success{% ELSE %}warning{% ENDIF %}">{FORM_NOTICE | nl2br}</div>{% ENDIF %}
 
 <!-- В корне каталога товаров отобразим все корневые категории если они есть на сайте -->
@@ -130,7 +131,9 @@
       {% IF GOODS_VIEW_TYPE=1 %}
         <!-- Вывод товаров ТАБЛИЦЕЙ -->
         <div class="products-grid">
+          @@include('./parts/_goods-catalog.html', {"goods_array_name": "goods"})
           {% FOR goods %}
+            {break}
             <div class="item {% IF goods.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF goods.COUNT_MODIFICATION > 1 %} _with-mod{% ENDIF %} col-lg-3 col-md-4 col-sm-6 col-sms-6 col-smb-12">
               <div class="item-inner" itemscope itemtype="https://schema.org/Product">
                 <form action="{CART_ADD_GOODS_MODIFICATION_URL | url_amp}" method="post" class="product-form-{goods.MIN_PRICE_NOW_ID} goodsListForm">
