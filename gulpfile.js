@@ -143,13 +143,13 @@ function htmlinclude(event){
 	let file = event;
 	let fileName = path.basename(file)
 	let fileExt =  path.extname(file);	
-	console.log(file, fileName);
+	// console.log(file, fileName);
 	let PATH;
+	
 	if(fileName.startsWith(`_`)){
 		fs.readFile(`${file}`, {encoding: 'utf8'}, (err, data) =>{
-			if (err) throw err;			
-			// data = data.split('\n')[0].replace(/<!--.*?-->/, '123')
-			data = data.split('\n')[0]
+			if (err) throw err;		
+			PATH = data.split('\n')[0]
 				.replace(/<!--/, '')
 				.replace('-->','')
 				.replace('[','')
@@ -157,30 +157,40 @@ function htmlinclude(event){
 				.replace('\r','')
 				.trim()
 				.split(',')
-				.map(el=>`${baseDir}/${el.trim()}`)
-			PATH = data;
-			console.log(
-				`path`, PATH
-			);
+				.map(el=>`${baseDir}/${el.trim()}`);
+				
+			const pathInStart = data.split('\n')[0].startsWith(`<!--`);
+			if(!pathInStart){
+				console.error(` ⛔ Путь не указан в 1й строке. Пример: <!-- [html.htm] --> `);
+				return
+			}				
+			const allFilesExist = PATH.every(el=>fs.existsSync(el));
+			if(!allFilesExist) {
+				console.error(` ⛔ В путях к файлам в 1й строке ошибка `);
+				return
+			}
+			console.log(				`path`, PATH			);
 			return	src(PATH)
-			.pipe(fileinclude({
-			  prefix: '@@',
-			  basepath: '@file'
-			}))
-			.pipe(dest('dist'));			
+				.pipe(fileinclude({
+				prefix: '@@',
+				basepath: '@file'
+				}))			
+				.pipe(dest('dist'));	
 		});
 	} else {
-		PATH = file;
-
-		return	src(PATH)
+		PATH = `${baseDir}/${fileName}`;
+		console.log(
+			file
+		);
+		console.log(				`path`, [PATH]			);
+		return	src([PATH])
 		.pipe(fileinclude({
 		  prefix: '@@',
 		  basepath: '@file'
 		}))
 		.pipe(dest('dist'));		
 	}
-	// console.log(PATH);
-	// return `./dist/files/${fileName}`;
+
 }
 
 function startwatch() {
@@ -203,10 +213,7 @@ function startwatch() {
 		uploadFile(event)
 	});
 	// Html
-	watch(baseDir  + '/**/[?_]*.{' + fileswatch + '}').on('change', function(event){		
-		htmlinclude(event);
-	});
-	watch(baseDir  + '/**/[^_]*.{' + fileswatch + '}').on('change', function(event){		
+	watch(baseDir  + '/**/*.{' + fileswatch + '}').on('change', function(event){		
 		htmlinclude(event);
 	});
 	watch(distDir + '/**/*.{' + fileswatch + '}')
