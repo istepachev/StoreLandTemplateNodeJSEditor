@@ -1,6 +1,6 @@
 // VARIABLES & PATHS
 let preprocessor = 'scss', // Preprocessor (sass, scss, less, styl),
-	preprocessorOn = false,
+	preprocessorOn = true,
     fileswatch   = 'html,htm', // List of files extensions for watching & hard reload (comma separated)
     imageswatch  = 'jpg,jpeg,png,webp,svg', // List of images extensions for watching & compression (comma separated)
     baseDir      = 'src', // Base directory path without «/» at the end    
@@ -17,18 +17,18 @@ let paths = {
 			// 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
 			baseDir + '/js/main.js' // app.js. Always at the end
 		],
-		dest: this.distDir,
+		dest: distDir,
 	},
 
 	styles: {
-		src:  (preprocessorOn) ? this.baseDir + '/' + preprocessor + '/main.scss' : this.baseDir+ '/' + 'css' + + '/main.css',				
-		dest: this.distDir + '/',
-		all: this.baseDir + '/**.css'
+		src:  (preprocessorOn) ? baseDir + '/' + preprocessor + '/**.scss' : baseDir+ '/' + 'css' + + '/main.css',				
+		dest: distDir + '/',
+		all: distDir + '/**.css'
 	},
 
 	images: {
-		src:  this.baseDir + '/images/**/*',
-		dest: this.distDir + '/',
+		src:  baseDir + '/images/**/*',
+		dest: distDir + '/',
 	},
 	cssOutputName: 'main.css',
 	jsOutputName:  'main.js',
@@ -92,7 +92,8 @@ function browsersync() {
 		online,
 		injectChanges: true,
 		open: 'external',
-		port: 8088
+		port: 8088,
+		// files: `${distDir}/*.css`
 	})
 }
 
@@ -106,18 +107,52 @@ function scripts() {
 }
 
 function styles(event = {}) {	
-	let {fileName} = event;
+	let file = event;
+	let fileName = path.basename(file)
+	let fileNameOnly = path.basename(file,`.${preprocessor}`)
+
+	let PATH;
 
 	if(preprocessorOn){
-		return src(paths.styles.src)
+		PATH = `${baseDir}/${preprocessor}/${fileName}`;
+		src(PATH)
 		.pipe(plumber())
-		.pipe(eval(preprocessor)({ includePaths : ['./files/scss/templates/'] }))
+		.pipe(eval(preprocessor)({ includePaths : [`${baseDir}/${preprocessor}/templates/`] }))
 		// .pipe(concat(paths.cssOutputName))
-		// .pipe(autoprefixer({ overrideBrowserslist: ['last 10 versions'], grid: true }))
+		.pipe(autoprefixer({ overrideBrowserslist: ['last 10 versions'], grid: true }))
 		// .pipe(cleancss( {level: { 1: { specialComments: 0 } }, /* format: 'beautify' */ }))
+        /*.pipe(cleancss({
+            format: {
+                breaks: { // controls where to insert breaks
+                    afterAtRule: false, // controls if a line break comes after an at-rule; e.g. `@charset`; defaults to `false`
+                    afterBlockBegins: true, // controls if a line break comes after a block begins; e.g. `@media`; defaults to `false`
+                    afterBlockEnds: true, // controls if a line break comes after a block ends, defaults to `false`
+                    afterComment: true, // controls if a line break comes after a comment; defaults to `false`
+                    afterProperty: false, // controls if a line break comes after a property; defaults to `false`
+                    afterRuleBegins: false, // controls if a line break comes after a rule begins; defaults to `false`
+                    afterRuleEnds: true, // controls if a line break comes after a rule ends; defaults to `false`
+                    beforeBlockEnds: true, // controls if a line break comes before a block ends; defaults to `false`
+                    betweenSelectors: false // controls if a line break comes between selectors; defaults to `false`
+                },
+                breakWith: '\n', // controls the new line character, can be `'\r\n'` or `'\n'` (aliased as `'windows'` and `'unix'` or `'crlf'` and `'lf'`); defaults to system one, so former on Windows and latter on Unix
+                indentBy: 0, // controls number of characters to indent with; defaults to `0`
+                indentWith: 'space', // controls a character to indent with, can be `'space'` or `'tab'`; defaults to `'space'`
+                spaces: { // controls where to insert spaces
+                    aroundSelectorRelation: true, // controls if spaces come around selector relations; e.g. `div > a`; defaults to `false`
+                    beforeBlockBegins: true, // controls if a space comes before a block begins; e.g. `.block {`; defaults to `false`
+                    beforeValue: true // controls if a space comes before a value; e.g. `width: 1rem`; defaults to `false`
+                },
+                wrapAt: false // controls maximum line length; defaults to `false`
+            }
+        }))	*/	
 		.pipe(dest(paths.styles.dest))
-		// .pipe(wait(1500))
-		.pipe(browserSync.stream())
+		// .pipe(wait(300))
+		// .pipe(browserSync.stream());
+		// .pipe(browserSync.stream({match: `${distDir}/*.css`}));
+		// .pipe();
+
+		// browserSync.reload(`${distDir}/${fileNameOnly}.css`)
+		// return src(paths.styles.all).pipe(browserSync.stream())
 	} else {
 		if(fileName){
 			return src(`${baseDir}/${fileName}`).pipe(browserSync.stream())
@@ -158,7 +193,7 @@ function htmlinclude(event){
 				.trim()
 				.split(',')
 				.map(el=>`${baseDir}/${el.trim()}`);
-				
+
 			const pathInStart = data.split('\n')[0].startsWith(`<!--`);
 			if(!pathInStart){
 				console.error(` ⛔ Путь не указан в 1й строке. Пример: <!-- [html.htm] --> `);
@@ -169,7 +204,7 @@ function htmlinclude(event){
 				console.error(` ⛔ В путях к файлам в 1й строке ошибка `);
 				return
 			}
-			console.log(				`path`, PATH			);
+			// console.log(				`path`, PATH			);
 			return	src(PATH)
 				.pipe(fileinclude({
 				prefix: '@@',
@@ -179,10 +214,7 @@ function htmlinclude(event){
 		});
 	} else {
 		PATH = `${baseDir}/${fileName}`;
-		console.log(
-			file
-		);
-		console.log(				`path`, [PATH]			);
+		// console.log(				`path`, [PATH]			);
 		return	src([PATH])
 		.pipe(fileinclude({
 		  prefix: '@@',
@@ -196,13 +228,18 @@ function htmlinclude(event){
 function startwatch() {
 	// Стили
 	if(preprocessorOn){
-		watch(baseDir  + '/**/*.scss', { delay: 100 }, styles);
+ 		// watch(baseDir  + '/**/*.scss', { delay: 100 }, function (evt) {			styles(evt)		}); 
+		watch(baseDir  + '/**/*.scss')
+		.on('change',function(event){		
+			styles(event)
+		})
 	}
-	watch(baseDir  + '/**/*.css').on('change', function(event){
-		uploadFile(event, styles);
-		if(!preprocessorOn){
-			// styles()
-		}		
+	watch(distDir  + '/**/*.css')
+	.on('add', function(event){		
+		uploadFile(event)
+	})
+	.on('change', function(event){
+		uploadFile(event);	
 	})	
 	// Изображения
 	watch(baseDir  + '/**/*.{' + imageswatch + '}')
@@ -268,6 +305,11 @@ function uploadFile(event, cb){
 				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`);     
 				if(!fileName.includes('css')){
 					browserSync.reload()
+				}
+				if(fileName.includes('css')){
+					// browserSync.reload(file)
+					// browserSync.reload({stream: true})
+					browserSync.reload("*.css")
 				}
 				if(cb){
 					cb()
@@ -360,4 +402,4 @@ exports.styles      = styles;
 exports.scripts     = scripts;
 exports.images      = images;
 exports.cleanimg    = cleanimg;
-exports.default     = parallel(checkConfig, styles, scripts, browsersync, startwatch);
+exports.default     = parallel(checkConfig, browsersync, startwatch);
