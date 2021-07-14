@@ -1,4 +1,4 @@
-<!-- [discount_data.htm, goods_list.htm] -->
+<!-- [html.htm, discount_data.htm, goods_list.htm, search.htm] -->
 {% FOR @@goods_array_name %}
 <div class="item {% IF @@goods_array_name.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF @@goods_array_name.COUNT_MODIFICATION > 1 %} _with-mod{% ENDIF %}">
   <div class="item-inner" itemscope itemtype="https://schema.org/Product">
@@ -6,7 +6,7 @@
       <input type="hidden" name="hash" value="{HASH}" />
       <input type="hidden" name="form[goods_from]" value="{@@goods_array_name.GOODS_FROM}" />
       <input type="hidden" name="form[goods_mod_id]" value="{@@goods_array_name.MIN_PRICE_NOW_ID}" />
-      <div class="product-image" style="display: none;display: inline;">
+      <div class="product-image" style="display: none;">
         <div class="product-icons">
             <a class="quickview  product-ico" href="{@@goods_array_name.URL_MIN_PRICE_NOW}" title="Быстрый просмотр &laquo;{@@goods_array_name.NAME}&raquo;" data-tooltip="Быстрый просмотр" rel="nofollow">
               <i class="fal fa-search-plus" aria-hidden="true"></i>
@@ -118,10 +118,10 @@
         <meta itemprop="description" content="{% IF @@goods_array_name.DESCRIPTION_SHORT %}{@@goods_array_name.DESCRIPTION_SHORT}{% ELSE %}Описание отсутствует{% ENDIF %}">
         <div class="product-name" style="display: none;">
           <a href="{@@goods_array_name.URL_MIN_PRICE_NOW | url_amp}" title="{@@goods_array_name.NAME}" itemprop="url">
-            {@@goods_array_name.NAME}
+            {@@goods_array_name.NAME} 111
           </a>
         </div>
-        <div class="ratings" style="display: none;">
+        <div class="ratings">
           <a href="{@@goods_array_name.URL | url_amp}" title="Перейти к отзывам">
             <div class="rating-box">
               {% IF @@goods_array_name.OPINION_RATING_VALUE %}
@@ -150,7 +150,7 @@
             {% ENDIF %}                          
           <span class="price {CURRENCY_CHAR_CODE}" itemprop="price" content="{@@goods_array_name.MIN_PRICE_NOW}">{@@goods_array_name.MIN_PRICE_NOW | money_format}</span>
         </div>
-        <div class="actions" style="display: none;">
+        <div class="actions" >
           <div class="qty-wrap">
             <div class="qty-set">
               <a href="javascript:void(0)" class="qty-plus unselectable" title="Увеличить"><i class="fal fa-plus"></i></a>

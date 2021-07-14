@@ -158,7 +158,9 @@
            {% IF @@goods_array_name.COUNT_MODIFICATION > 1 %}
             <!-- <a class="quickviewmod button" title="В корзину" data-tooltip="В корзину" rel="nofollow" href="{@@goods_array_name.URL_MIN_PRICE_NOW}"><i class="fal fa-shopping-cart" aria-hidden="true"></i><span>В корзину</span></a> -->
            {% ELSE %}
-            <!-- <a class="add-cart" title="В корзину" data-tooltip="В корзину" rel="nofollow" href="{CART_ADD_GOODS_MODIFICATION_URL | url_amp}?hash={HASH | url_amp}&amp;form%5Bgoods_from%5D={@@goods_array_name.GOODS_FROM}&amp;form%5Bgoods_mod_id%5D={@@goods_array_name.MIN_PRICE_NOW_ID}"><i class="fal fa-shopping-cart" aria-hidden="true"></i><span>В корзину</span></a> -->
+            <a class="add-cart" title="В корзину" data-tooltip="В корзину" rel="nofollow" href="{CART_ADD_GOODS_MODIFICATION_URL | url_amp}?hash={HASH | url_amp}&amp;form%5Bgoods_from%5D={@@goods_array_name.GOODS_FROM}&amp;form%5Bgoods_mod_id%5D={@@goods_array_name.MIN_PRICE_NOW_ID}">
+              <i class="fal fa-shopping-cart" aria-hidden="true"></i><span>В корзину 1</span>
+            </a>
             <a class="add-cart quick" title="Быстро оформить заказ" rel="nofollow" href="{CART_ADD_GOODS_MODIFICATION_URL | url_amp}?hash={HASH | url_amp}&amp;form%5Bgoods_from%5D={@@goods_array_name.GOODS_FROM}&amp;form%5Bgoods_mod_id%5D={@@goods_array_name.MIN_PRICE_NOW_ID}"><span>Купить в 1 клик</span></a>
            {% ENDIF %}
          {% ENDIF %}

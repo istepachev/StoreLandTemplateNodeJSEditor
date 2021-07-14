@@ -1,4 +1,5 @@
 <div class="cart-info">
+@@include('./parts/cart/_cart-goods.htm')
   {% IF FORM_NOTICE %}
     <div class="{% IF FORM_NOTICE_IS_GOOD %}success{% ELSE %}warning{% ENDIF %}">{FORM_NOTICE | nl2br}</div>
     <script>

@@ -6,7 +6,7 @@
     {% IFNOT FORM_SEND_OK %}
     <div class="col-md-6 col-xs-12 first">
       <div class="col-account">
-        <h3>Форма связи</h3>
+        <h3>Форма связи 111</h3>
         <form method="post" action="{FEEDBACK_URL}" class="feedbackForm" enctype="multipart/form-data">
           <input type="hidden" name="hash" value="{HASH}" />
           <!-- Набор полей которые не видит пользователь, но видят боты. Когда они их заполняют мы точно знаем, что их прислал нам бот и мы не сохраняем подобный отзыв о товаре, а боту отправившему отзыв сообщаем, что отзыв добавлен успешно, но будет отображён здесь после прохождения модерации -->
