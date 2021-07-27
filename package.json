@@ -8,16 +8,14 @@
 	},
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
+	"devDependencies": {
 		"chalk": "^4.0.0",
 		"gulp-plumber": "^1.2.1",
 		"gulp-wait": "0.0.2",
 		"moment": "^2.25.3",
 		"node-fetch": "^2.6.1",
 		"node-notifier": "^7.0.0",
-		"nodejs-base64": "^1.0.3"
-	},
-	"devDependencies": {
+		"nodejs-base64": "^1.0.3",		
 		"browser-sync": "^2.26.14",
 		"del": "^5.1.0",
 		"gulp": "^4.0.2",
