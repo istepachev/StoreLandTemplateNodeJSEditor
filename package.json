@@ -9,14 +9,8 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"chalk": "^4.0.0",
-		"gulp-plumber": "^1.2.1",
-		"gulp-wait": "0.0.2",
-		"moment": "^2.25.3",
-		"node-fetch": "^2.6.1",
-		"node-notifier": "^7.0.0",
-		"nodejs-base64": "^1.0.3",		
 		"browser-sync": "^2.26.14",
+		"chalk": "^4.0.0",
 		"del": "^5.1.0",
 		"gulp": "^4.0.2",
 		"gulp-autoprefixer": "^7.0.1",
@@ -26,6 +20,12 @@
 		"gulp-file-include": "^2.3.0",
 		"gulp-imagemin": "^7.1.0",
 		"gulp-newer": "^1.4.0",
-		"gulp-uglify-es": "^2.0.0"
+		"gulp-plumber": "^1.2.1",
+		"gulp-uglify-es": "^2.0.0",
+		"gulp-wait": "0.0.2",
+		"moment": "^2.25.3",
+		"node-fetch": "^2.6.1",
+		"node-notifier": "^7.0.0",
+		"nodejs-base64": "^1.0.3"
 	}
 }
