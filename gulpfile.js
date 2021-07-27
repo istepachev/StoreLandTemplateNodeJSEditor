@@ -37,7 +37,8 @@ let paths = {
 
 // LOGIC
 const { src, dest, parallel, series, watch } = require('gulp');
-const scss         = require('gulp-sass');
+// const scss         = require('gulp-sass');
+const scss = require('gulp-dart-sass');
 const fileinclude = require('gulp-file-include');
 const cleancss     = require('gulp-clean-css');
 const concat       = require('gulp-concat');
