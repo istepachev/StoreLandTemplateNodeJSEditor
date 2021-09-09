@@ -194,7 +194,8 @@ function htmlinclude(event){
 	let file = event;
 	let fileName = path.basename(file)
 	let fileExt =  path.extname(file);	
-	// console.log(file, fileName);
+	let filePath = file.split('\\').join('/');
+	console.log(file, fileName);
 	let PATH;
 	
 	if(fileName.startsWith(`_`)){
@@ -208,17 +209,17 @@ function htmlinclude(event){
 				.replace('\r','')
 				.trim()
 				.split(',')
-				.map(el=>`${baseDir}/${el.trim()}`);
-
+				.map(el=>`${baseDir}/html/**/${el.trim()}`);
+			console.log(PATH)
 			const pathInStart = data.split('\n')[0].startsWith(`<!--`);
 			if(!pathInStart){
-				console.error(` ⛔ Путь не указан в 1й строке. Пример: <!-- [html.htm] --> `);
+				console.error(` ⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] --> `);
 				return
 			}				
 			const allFilesExist = PATH.every(el=>fs.existsSync(el));
 			if(!allFilesExist) {
 				console.error(` ⛔ В путях к файлам в 1й строке ошибка `);
-				return
+				// return
 			}
 			// console.log(				`path`, PATH			);
 			return	src(PATH)
@@ -229,8 +230,9 @@ function htmlinclude(event){
 				.pipe(dest('dist'));	
 		});
 	} else {
-		PATH = `${baseDir}/${fileName}`;
-		// console.log(				`path`, [PATH]			);
+		PATH = `${filePath}`;
+		console.log(				`path`, [PATH]		, file	);
+		// return;
 		return	src([PATH])
 		.pipe(fileinclude({
 		  prefix: '@@',
