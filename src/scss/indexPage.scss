@@ -1,4 +1,10 @@
 body {
-    background: rgba(0, 0, 139, 0.281);
-    background-color: gray;
+    font-size: inherit;
+
+    &.index {
+        background-color: pink;
+        @media (max-width: 1200px){
+            // background-color: green;
+        }
+    }
 }

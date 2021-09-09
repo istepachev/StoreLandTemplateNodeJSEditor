@@ -1,4 +1,7 @@
 @import '_variables.scss';
+$blue: #1da1f2;
+$green:  #4DB725;
+$main: gray;
 html {font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-font-smoothing:antialiased;}
 body {position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;line-height: 1.2;font-weight: 400;background-color: #fafafa;color: #2e2e2e;overflow-x: hidden;margin:0;padding:0;}
 body {
@@ -6,8 +9,9 @@ body {
   // background-color: $main-color;
   // background: pink;
   // background: gray;
-  background-color: #1da1f2;
-  // background-color: #4DB725;
+  // background-color: $blue;
+  // background-color: $green;
+  background-color: $main;
   padding: 0;
   margin: 0;
 }
