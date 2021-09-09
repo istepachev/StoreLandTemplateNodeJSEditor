@@ -17,7 +17,7 @@ let paths = {
 			// 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
 			baseDir + '/js/main.js' // app.js. Always at the end
 		],
-		dest: distDir,
+		dest: distDir + '/',
 	},
 
 	styles: {
@@ -42,6 +42,8 @@ const scss = require('gulp-dart-sass');
 const fileinclude = require('gulp-file-include');
 const cleancss     = require('gulp-clean-css');
 const concat       = require('gulp-concat');
+const babel = require('gulp-babel');
+const sourcemaps = require('gulp-sourcemaps');
 const browserSync  = require('browser-sync').create();
 const uglify       = require('gulp-uglify-es').default;
 const autoprefixer = require('gulp-autoprefixer');
@@ -98,13 +100,26 @@ function browsersync() {
 	})
 }
 
-function scripts() {
+function scripts(event = {}) {
+	let file = event;
+	let fileName = path.basename(file)
+	let fileNameOnly = path.basename(file,`.${preprocessor}`)
 	console.log(
 		paths.scripts.src
 	);
-	return src(paths.scripts.src)
-	.pipe(wait(WAIT_TIME))
-	.pipe(browserSync.stream())
+	// return src(paths.scripts.src)
+	// .pipe(wait(WAIT_TIME))
+	// .pipe(browserSync.stream())
+	const onlyTransfer = [`!${baseDir}/js/forall.js`, `!${baseDir}/js/smart-search.js`];
+	src(onlyTransfer.map(el=>el.substr(1))).pipe(dest(paths.scripts.dest));
+
+	return src([`${baseDir}/**/*.js`, ...onlyTransfer])
+	// .pipe(sourcemaps.init())
+	.pipe(babel({
+		presets: ['@babel/env']
+	}))
+	// .pipe(sourcemaps.write('.'))
+	.pipe(dest(paths.scripts.dest))
 }
 
 function styles(event = {}) {	
@@ -263,11 +278,15 @@ function startwatch() {
 	});	
 	// Javascript
 	watch([baseDir + '/**/*.js']).on('change', function(event){
-		uploadFile(event);
-		if(!preprocessorOn){
-			scripts()
-		}
+		scripts(event)
 	})
+	watch(distDir  + '/**/*.js')
+	.on('add', function(event){		
+		uploadFile(event)
+	})
+	.on('change', function(event){
+		uploadFile(event);	
+	})	
 }
 
 function uploadFile(event, cb){
