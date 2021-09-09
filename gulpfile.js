@@ -56,6 +56,7 @@ const plumber      = require('gulp-plumber');
 // Dev depend
 const fetch = require('node-fetch');
 const fs = require("fs");
+const fsPromises = fs.promises;
 const { base64encode } = require('nodejs-base64');
 const { URLSearchParams } = require('url');
 const path = require('path');
@@ -104,9 +105,7 @@ function scripts(event = {}) {
 	let file = event;
 	let fileName = path.basename(file)
 	let fileNameOnly = path.basename(file,`.${preprocessor}`)
-	console.log(
-		paths.scripts.src
-	);
+
 	// return src(paths.scripts.src)
 	// .pipe(wait(WAIT_TIME))
 	// .pipe(browserSync.stream())
@@ -195,7 +194,6 @@ function htmlinclude(event){
 	let fileName = path.basename(file)
 	let fileExt =  path.extname(file);	
 	let filePath = file.split('\\').join('/');
-	console.log(file, fileName);
 	let PATH;
 	
 	if(fileName.startsWith(`_`)){
@@ -231,8 +229,8 @@ function htmlinclude(event){
 		});
 	} else {
 		PATH = `${filePath}`;
-		console.log(				`path`, [PATH]		, file	);
-		// return;
+		// console.log(				`path`, [PATH]		, file	);
+		
 		return	src([PATH])
 		.pipe(fileinclude({
 		  prefix: '@@',
@@ -291,7 +289,7 @@ function startwatch() {
 	})	
 }
 
-function uploadFile(event, cb){
+function uploadFileOLD(event, cb){
 	let file = event;
 	let fileName = path.basename(file)
 	let fileExt =  path.extname(file);	
@@ -344,6 +342,61 @@ function uploadFile(event, cb){
 	})
 	.catch(err => console.error(err));
 }
+function uploadFile(event, cb){
+
+	async function getFileContent(){
+		let filehandle = null;
+		let file = event;
+		let fileName = path.basename(file)
+		let fileExt =  path.extname(file);	
+	
+		try {
+			filehandle = await fsPromises.open(`${file}`, 'r+');
+			const data = await filehandle.readFile('base64');
+			filehandle.close()
+			return {data, fileName};
+		} catch (e) {
+			console.log("Error", e);
+		}
+	}
+	getFileContent()
+	.then(({data, fileName}) => {		
+		let params = new URLSearchParams();
+		params.append('secret_key', SECRET_KEY);
+		params.append('form[file_name]', `${fileName}`);
+		params.append('form[file_content]', `${data}`);
+		// if(fileName.includes('css')){
+			params.append('form[do_not_receive_file]', `1`);
+		// }	
+	
+		fetch(URL_MAP.save, {
+			method: 'post',
+			body:    params,
+			timeout: 5000,
+		})
+		.then(res => res.json())
+		.then(json=>{
+			if(json.status === `ok`){
+				console.log(`[${moment().format("HH:mm:ss")}] Файл ${chalk.red(fileName)} успешно отправлен ✔️`);     
+				if(!fileName.includes('css')){
+					browserSync.reload()
+				}
+				if(fileName.includes('css')){
+					browserSync.reload("*.css")
+				}
+				if(cb){
+					cb()
+				}
+			} else if (json.status == `error`) {
+				console.log(`Ошибка отправки ⛔ ${fileName}`); 
+				console.log(`${json.message}`);                                        
+			}
+		}); 
+	})
+	.catch(console.error);
+	
+}
+
 function downloadFiles(done) {
 	const FILES_PATH = `./${paths.downloadDir}`;
 	let params = new URLSearchParams();
