@@ -191,8 +191,7 @@ function cleanimg() {
 }
 function htmlinclude(event){
 	let file = event;
-	let fileName = path.basename(file)
-	let fileExt =  path.extname(file);	
+	let fileName = path.basename(file)	
 	let filePath = file.split('\\').join('/');
 	let PATH;
 	
@@ -208,35 +207,31 @@ function htmlinclude(event){
 				.trim()
 				.split(',')
 				.map(el=>`${baseDir}/html/**/${el.trim()}`);
-			console.log(PATH)
+
 			const pathInStart = data.split('\n')[0].startsWith(`<!--`);
+
 			if(!pathInStart){
 				console.error(` ⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] --> `);
+
 				return
-			}				
-			const allFilesExist = PATH.every(el=>fs.existsSync(el));
-			if(!allFilesExist) {
-				console.error(` ⛔ В путях к файлам в 1й строке ошибка `);
-				// return
-			}
-			// console.log(				`path`, PATH			);
+			}		
+
 			return	src(PATH)
 				.pipe(fileinclude({
-				prefix: '@@',
-				basepath: '@file'
+					prefix: '@@',
+					basepath: '@file'
 				}))			
 				.pipe(dest('dist'));	
 		});
 	} else {
 		PATH = `${filePath}`;
-		// console.log(				`path`, [PATH]		, file	);
-		
+
 		return	src([PATH])
-		.pipe(fileinclude({
-		  prefix: '@@',
-		  basepath: '@file'
-		}))
-		.pipe(dest('dist'));		
+			.pipe(fileinclude({
+				prefix: '@@',
+				basepath: '@file'
+			}))
+			.pipe(dest('dist'));		
 	}
 
 }
@@ -347,8 +342,7 @@ function uploadFile(event, cb){
 	async function getFileContent(){
 		let filehandle = null;
 		let file = event;
-		let fileName = path.basename(file)
-		let fileExt =  path.extname(file);	
+		let fileName = path.basename(file);
 	
 		try {
 			filehandle = await fsPromises.open(`${file}`, 'r+');
