@@ -335,7 +335,9 @@ function uploadFile(event, cb) {
         body: params,
         timeout: 5000,
       })
-        .then((res) => res.json())
+        .then((res) => {
+          return res.json();
+        })
         .then((json) => {
           if (json.status === `ok`) {
             console.log(
