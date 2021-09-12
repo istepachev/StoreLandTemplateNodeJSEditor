@@ -1,10 +1,13 @@
+@import '_variables.scss';
 body {
-    font-size: inherit;
+    display: flex;
+    flex-direction: column;
 
     &.index {
-        background-color: pink;
+        background-color: $colorGreen;
+
         @media (max-width: 1200px){
-            // background-color: green;
+            background-color: $colorPink;
         }
     }
 }
