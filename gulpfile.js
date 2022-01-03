@@ -11,7 +11,7 @@ let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
 let paths = {
   baseDir: "src",
   distDir: "dist",
-  downloadDir: "files",
+  downloadDir: "downloaded-files",
   scripts: {
     src: [
       // 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
@@ -419,9 +419,36 @@ function downloadFiles(done) {
             }
           })
           .then((json) => {
+            const file = json["data"]["file_name"].value;
+            const fileContent = json["data"]["file_content"].value;
+            const fileExt = path.extname(file).replace(".", "");
+
+            const FILES_MAP = {
+              html: ["htm", "html"],
+              images: ["png", "jpg", "jpeg", "gif"],
+              fonts: ["eot", "ttf", "woff", "woff2"],
+              js: ["js"],
+              css: ["css"],
+              svg: ["svg"],
+            };
+
+            let fileDirName = "";
+
+            for (const key in FILES_MAP) {
+              if (Object.hasOwnProperty.call(FILES_MAP, key)) {
+                const extArr = FILES_MAP[key];
+                if (extArr.includes(fileExt)) {
+                  fileDirName = key;
+                }
+              }
+            }
+
+            const newDir = `${FILES_PATH}/${fileDirName}`;
+            !fs.existsSync(newDir) && fs.mkdirSync(newDir);
+
             fs.writeFile(
-              `${FILES_PATH}/${json["data"]["file_name"].value}`,
-              json["data"]["file_content"].value,
+              `${FILES_PATH}/${fileDirName}/${file}`,
+              fileContent,
               "base64",
               function (err) {
                 if (err) {
