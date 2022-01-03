@@ -32,5 +32,6 @@
 		"node-notifier": "^7.0.0",
 		"nodejs-base64": "^1.0.3",
 		"prettier": "2.4.0"
-	}
+	},
+	"dependencies": {}
 }
