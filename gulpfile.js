@@ -214,17 +214,14 @@ function htmlinclude(event) {
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
       if (err) throw err;
       PATH = data
-        .split("\n")[0]
-        .replace(/<!--/, "")
-        .replace("-->", "")
-        .replace("[", "")
-        .replace("]", "")
-        .replace("\r", "")
+        .split("\n")
+        .shift()
+        .match(/\[([^}]*)]/)[1]
         .trim()
         .split(",")
         .map((el) => `${baseDir}/html/**/${el.trim()}`);
 
-      const pathInStart = data.split("\n")[0].startsWith(`<!--`);
+      const pathInStart = data.split("\n").shift().trim().startsWith(`<!--`);
 
       if (!pathInStart) {
         console.error(
