@@ -115,13 +115,15 @@ function browsersync() {
 function scripts(event = {}) {
   let file = event;
 
-  const onlyTransfer = [
+  const ONLY_TRANSFER_FILES = [
     `!${baseDir}/js/forall.js`,
     `!${baseDir}/js/smart-search.js`,
   ];
-  src(onlyTransfer.map((el) => el.substr(1))).pipe(dest(paths.scripts.dest));
+  src(ONLY_TRANSFER_FILES.map((el) => el.substr(1))).pipe(
+    dest(paths.scripts.dest)
+  );
 
-  return src([`${baseDir}/**/*.js`, ...onlyTransfer])
+  return src([`${baseDir}/**/*.js`, ...ONLY_TRANSFER_FILES])
     .pipe(plumber())
     .pipe(
       babel({
@@ -134,7 +136,7 @@ function scripts(event = {}) {
 function styles(event = {}) {
   let file = event;
   let fileName = path.basename(file);
-  let fileNameOnly = path.basename(file, `.${preprocessor}`);
+  // let fileNameOnly = path.basename(file, `.${preprocessor}`);
 
   let PATH;
 
