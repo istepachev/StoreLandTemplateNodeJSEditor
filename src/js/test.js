@@ -10,13 +10,8 @@ $(() => {
     });
   });
 });
-// console.log(`hello`, `hello1`, 1111);
-// console.log(1, 2, 3);
-function foo(a) {
-  return a - 1;
+console.log(b("Ivan"));
+function foo(str) {
+  return `${str}.js`;
 }
-console.log(foo(5));
-
-const bar = (b) => b - 1;
-console.log(bar(11));
-const fooor = (c) => c;
+console.log(`hello from '${foo("test")}'`);

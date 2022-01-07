@@ -107,16 +107,15 @@ function browsersync() {
   });
 }
 
-function scripts(event = {}) {
-  const ONLY_TRANSFER_FILES = [
-    `!${baseDir}/js/forall.js`,
-    `!${baseDir}/js/smart-search.js`,
-  ];
-  src(ONLY_TRANSFER_FILES.map((el) => el.substr(1))).pipe(
-    dest(paths.scripts.dest)
-  );
+function scripts(filePath = "") {
+  const parentFileFolder = path.basename(path.dirname(filePath));
+  const DEFAULT_JS_PATH = `default`;
 
-  return src([`${baseDir}/**/*.js`, ...ONLY_TRANSFER_FILES])
+  if (parentFileFolder === DEFAULT_JS_PATH) {
+    return src([filePath]).pipe(dest(paths.scripts.dest));
+  }
+
+  return src([filePath])
     .pipe(plumber())
     .pipe(
       babel({
@@ -285,9 +284,13 @@ function startwatch() {
       uploadFile(event);
     });
   // Javascript
-  watch([baseDir + "/**/*.js"]).on("change", function (event) {
-    scripts(event);
-  });
+  watch([baseDir + "/**/*.js"])
+    .on("change", function (event) {
+      scripts(event);
+    })
+    .on("add", function (event) {
+      scripts(event);
+    });
   watch(distDir + "/**/*.js")
     .on("add", function (event) {
       uploadFile(event);

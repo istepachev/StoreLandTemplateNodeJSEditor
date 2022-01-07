@@ -1,4 +1,4 @@
 # Ignore artifacts:
 build
 coverage
-src/js/forall.js
+src/js/default
