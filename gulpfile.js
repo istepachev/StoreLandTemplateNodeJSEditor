@@ -5,8 +5,7 @@ let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   imageswatch = "jpg,jpeg,png,webp,svg", // List of images extensions for watching & compression (comma separated)
   baseDir = "src", // Base directory path without «/» at the end
   distDir = "dist", // Base directory path without «/» at the end
-  online = true, // If «false» - Browsersync will work offline without internet connection
-  WAIT_TIME = 0; // Время задержки перед обновлением страницы.
+  online = true; // If «false» - Browsersync will work offline without internet connection
 
 let paths = {
   baseDir: "src",
@@ -38,27 +37,24 @@ let paths = {
 
 // LOGIC
 const { src, dest, parallel, series, watch } = require("gulp");
-// const scss         = require('gulp-sass');
 const scss = require("gulp-dart-sass");
 const fileinclude = require("gulp-file-include");
 const cleancss = require("gulp-clean-css");
-const concat = require("gulp-concat");
+// const concat = require("gulp-concat");
 const babel = require("gulp-babel");
-const sourcemaps = require("gulp-sourcemaps");
+// const sourcemaps = require("gulp-sourcemaps");
 const browserSync = require("browser-sync").create();
 const uglify = require("gulp-uglify-es").default;
 const autoprefixer = require("gulp-autoprefixer");
 const imagemin = require("gulp-imagemin");
 const newer = require("gulp-newer");
 const del = require("del");
-const wait = require("gulp-wait");
 const plumber = require("gulp-plumber");
 
 // Dev depend
 const fetch = require("node-fetch");
 const fs = require("fs");
 const fsPromises = fs.promises;
-const { base64encode } = require("nodejs-base64");
 const { URLSearchParams } = require("url");
 const path = require("path");
 const chalk = require("chalk");
@@ -108,13 +104,10 @@ function browsersync() {
     injectChanges: true,
     open: "external",
     port: 8088,
-    // files: `${distDir}/*.css`
   });
 }
 
 function scripts(event = {}) {
-  let file = event;
-
   const ONLY_TRANSFER_FILES = [
     `!${baseDir}/js/forall.js`,
     `!${baseDir}/js/smart-search.js`,
@@ -145,7 +138,7 @@ function styles(event = {}) {
     src(PATH)
       .pipe(plumber())
       .pipe(
-        eval(preprocessor)({
+        scss({
           includePaths: [`${baseDir}/${preprocessor}/templates/`],
         })
       )
@@ -325,9 +318,9 @@ function uploadFile(event, cb) {
       params.append("secret_key", SECRET_KEY);
       params.append("form[file_name]", `${fileName}`);
       params.append("form[file_content]", `${data}`);
-      // if(fileName.includes('css')){
-      params.append("form[do_not_receive_file]", `1`);
-      // }
+      if (fileName.includes("css")) {
+        // params.append("form[do_not_receive_file]", `1`);
+      }
 
       fetch(URL_MAP.save, {
         method: "post",
