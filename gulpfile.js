@@ -62,7 +62,7 @@ const path = require("path");
 const chalk = require("chalk");
 const moment = require("moment"); // require
 
-const { CURRENT_SITE } = require("./storeland-uploader-config.json"); // Текущий url адрес сайта, с которым работаем
+const { CURRENT_SITE } = require("./current-site.json"); // Текущий url адрес сайта, с которым работаем
 const SECRET_KEYS = require("./secret-keys.json"); // JSON карта сайтов с секретными ключами
 const { SECRET_KEY } = SECRET_KEYS[CURRENT_SITE]; // Секретный ключ текущего сайта
 
