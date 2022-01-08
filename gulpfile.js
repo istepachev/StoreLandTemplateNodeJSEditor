@@ -1,4 +1,5 @@
 // VARIABLES & PATHS
+
 let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   preprocessorOn = true,
   fileswatch = "html,htm", // List of files extensions for watching & hard reload (comma separated)
@@ -36,6 +37,7 @@ let paths = {
 };
 
 // LOGIC
+const DEFAULT_TEMPLATE_VARIABLES = require("./src/html/_template-variables");
 const { src, dest, parallel, series, watch } = require("gulp");
 const scss = require("gulp-dart-sass");
 const fileinclude = require("gulp-file-include");
@@ -108,9 +110,14 @@ function browsersync() {
 }
 
 function scripts(filePath = "") {
+  const fileName = path.basename(filePath);
   const parentFileFolder = path.basename(path.dirname(filePath));
   const DEFAULT_JS_PATH = `default`;
 
+  if (fileName.startsWith(`_`)) {
+    console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
+    return;
+  }
   if (parentFileFolder === DEFAULT_JS_PATH) {
     return src([filePath]).pipe(dest(paths.scripts.dest));
   }
@@ -230,6 +237,7 @@ function htmlinclude(event) {
           fileinclude({
             prefix: "@@",
             basepath: "@file",
+            context: DEFAULT_TEMPLATE_VARIABLES,
           })
         )
         .pipe(dest("dist"));
@@ -242,6 +250,7 @@ function htmlinclude(event) {
         fileinclude({
           prefix: "@@",
           basepath: "@file",
+          context: DEFAULT_TEMPLATE_VARIABLES,
         })
       )
       .pipe(dest("dist"));
