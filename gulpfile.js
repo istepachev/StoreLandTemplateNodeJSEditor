@@ -239,6 +239,7 @@ function htmlinclude(event) {
       }
 
       return src(PATH)
+        .pipe(plumber())
         .pipe(
           fileinclude({
             prefix: "@@",
@@ -252,6 +253,7 @@ function htmlinclude(event) {
     PATH = `${filePath}`;
 
     return src([PATH])
+      .pipe(plumber())
       .pipe(
         fileinclude({
           prefix: "@@",
