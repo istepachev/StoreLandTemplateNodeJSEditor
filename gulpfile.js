@@ -63,15 +63,20 @@ const chalk = require("chalk");
 const moment = require("moment"); // require
 
 const { CURRENT_SITE } = require("./current-site.json"); // Текущий url адрес сайта, с которым работаем
-const SECRET_KEYS = require("./secret-keys.json"); // JSON карта сайтов с секретными ключами
-const { SECRET_KEY } = SECRET_KEYS[CURRENT_SITE]; // Секретный ключ текущего сайта
+const FILE_CONFIG_NAME = "secret-keys.json";
+try {
+  require(`./${FILE_CONFIG_NAME}`);
+} catch (error) {
+  createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
+}
+const { SECRET_KEY } = require(`./${FILE_CONFIG_NAME}`)[CURRENT_SITE]; // Секретный ключ текущего сайта
 
 function checkConfig(cb) {
   if (!CURRENT_SITE) {
     cb(
       new Error(
         `Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ` +
-          chalk.red(`storeland-uploader-config.json`)
+          chalk.red(`current-site.json`)
       )
     );
   }
@@ -79,10 +84,11 @@ function checkConfig(cb) {
     cb(
       new Error(
         `Не задан ${chalk.red(`SECRET_KEY`)} в файле ` +
-          chalk.red(`secret-key.json`)
+          chalk.red(FILE_CONFIG_NAME)
       )
     );
   }
+
   cb();
 }
 const URL_MAP = {
@@ -472,6 +478,17 @@ function downloadFiles(done) {
       getFile(array);
     });
 }
+function createSecretFile(siteUrl = "", fileName = "") {
+  const fileContent = `{
+    "${siteUrl}": {
+      "SECRET_KEY": ""
+    }
+  }
+  `;
+
+  fs.writeFileSync(fileName, fileContent);
+}
+
 exports.browsersync = browsersync;
 exports.download = series(checkConfig, downloadFiles);
 exports.assets = series(cleanimg, styles, scripts, images);
