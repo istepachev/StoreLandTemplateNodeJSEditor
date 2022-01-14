@@ -131,7 +131,7 @@
       {% IF GOODS_VIEW_TYPE=1 %}
         <!-- Вывод товаров ТАБЛИЦЕЙ -->
         <div class="products-grid">
-          @@include('./_templates/goods/_goods-catalog.html', {"goods_array_name": "goods"})
+          @@include('./_templates/goods/_goods.html', {"goods_array_name": "goods", "inCatalog": true})
           {% FOR goods %}
             {break}
             <div class="item {% IF goods.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF goods.COUNT_MODIFICATION > 1 %} _with-mod{% ENDIF %} col-lg-3 col-md-4 col-sm-6 col-sms-6 col-smb-12">

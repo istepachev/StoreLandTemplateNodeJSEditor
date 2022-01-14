@@ -1,4 +1,5 @@
 module.exports = {
+  inCatalog: false,
   designName: "techno2",
   tel1: {
     num: "{SETTINGS_STORE_PHONE_COUNTRY_CODE1}{SETTINGS_STORE_PHONE_CITY_CODE1}{SETTINGS_STORE_PHONE_NUMBER1}",

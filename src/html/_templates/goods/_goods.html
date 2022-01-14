@@ -1,7 +1,10 @@
 <!-- [html.htm, discount_data.htm, goods_list.htm, search.htm] -->
 {% FOR @@goods_array_name %}
-<div class="item {% IF @@goods_array_name.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF @@goods_array_name.COUNT_MODIFICATION > 1 %} _with-mod{% ENDIF %}">
+<div class="item {% IF @@goods_array_name.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF @@goods_array_name.COUNT_MODIFICATION > 1 %} 13131313 _with-mod{% ENDIF %} @@if (inCatalog) {col-lg-3 col-md-4 col-sm-6 col-sms-6 col-smb-12 222}">
   <div class="item-inner" itemscope itemtype="https://schema.org/Product">
+    @@if (inCatalog) {
+      <h1>hello</h1>
+    }
     <form action="{CART_ADD_GOODS_MODIFICATION_URL | url_amp}" method="post" class="product-form-{@@goods_array_name.MIN_PRICE_NOW_ID} goodsListForm">
       <input type="hidden" name="hash" value="{HASH}" />
       <input type="hidden" name="form[goods_from]" value="{@@goods_array_name.GOODS_FROM}" />

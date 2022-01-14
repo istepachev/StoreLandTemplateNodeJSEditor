@@ -247,7 +247,7 @@ function htmlinclude(event) {
             context: DEFAULT_TEMPLATE_VARIABLES,
           })
         )
-        .pipe(dest("dist"));
+        .pipe(dest("dist/"));
     });
   } else {
     PATH = `${filePath}`;
@@ -261,7 +261,7 @@ function htmlinclude(event) {
           context: DEFAULT_TEMPLATE_VARIABLES,
         })
       )
-      .pipe(dest("dist"));
+      .pipe(dest("dist/"));
   }
 }
 
