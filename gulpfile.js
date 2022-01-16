@@ -2,6 +2,7 @@
 
 let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   preprocessorOn = true,
+  fontswatch = "woff,woff2,eot,ttf",
   fileswatch = "html,htm", // List of files extensions for watching & hard reload (comma separated)
   imageswatch = "jpg,jpeg,png,webp,svg", // List of images extensions for watching & compression (comma separated)
   baseDir = "src", // Base directory path without «/» at the end
@@ -114,7 +115,27 @@ function browsersync() {
     port: 8088,
   });
 }
-
+function fonts(filePath) {
+  return src([filePath]).pipe(plumber()).pipe(dest("./dist/"));
+}
+function fontsBuild() {
+  return src([
+    "src/fonts/**/*.ttf",
+    "src/fonts/**/*.eot",
+    "src/fonts/**/*.woff",
+    "src/fonts/**/*.woff2",
+  ]).pipe(dest("./dist/"));
+}
+function scriptsBuild() {
+  return src(["src/js/**/*.js"])
+    .pipe(plumber())
+    .pipe(
+      babel({
+        presets: ["@babel/env"],
+      })
+    )
+    .pipe(dest(paths.scripts.dest));
+}
 function scripts(filePath = "") {
   const fileName = path.basename(filePath);
   const parentFileFolder = path.basename(path.dirname(filePath));
@@ -137,11 +158,11 @@ function scripts(filePath = "") {
     )
     .pipe(dest(paths.scripts.dest));
 }
-
-function styles(event = {}) {
-  let file = event;
+const cleanCssConfig = {};
+function stylesBuild() {}
+function styles(filePath = "") {
+  let file = filePath;
   let fileName = path.basename(file);
-  // let fileNameOnly = path.basename(file, `.${preprocessor}`);
 
   let PATH;
 
@@ -211,16 +232,13 @@ function images() {
 function cleanimg() {
   return del("" + paths.images.dest + "/**/*", { force: true });
 }
-function htmlinclude(event) {
-  let file = event;
-  let fileName = path.basename(file);
-  let filePath = file.split("\\").join("/");
-  let PATH;
+function htmlinclude(filePath = "") {
+  let fileName = filePath ? path.basename(filePath) : "";
 
   if (fileName.startsWith(`_`)) {
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
       if (err) throw err;
-      PATH = data
+      const filespath = data
         .split("\n")
         .shift()
         .match(/\[([^}]*)]/)[1]
@@ -238,7 +256,7 @@ function htmlinclude(event) {
         return;
       }
 
-      return src(PATH)
+      return src(filespath)
         .pipe(plumber())
         .pipe(
           fileinclude({
@@ -250,9 +268,7 @@ function htmlinclude(event) {
         .pipe(dest("dist/"));
     });
   } else {
-    PATH = `${filePath}`;
-
-    return src([PATH])
+    return src(filePath)
       .pipe(plumber())
       .pipe(
         fileinclude({
@@ -261,10 +277,25 @@ function htmlinclude(event) {
           context: DEFAULT_TEMPLATE_VARIABLES,
         })
       )
-      .pipe(dest("dist/"));
+      .pipe(dest("./dist"));
   }
 }
-
+function htmlBuild(cb) {
+  return src([
+    "src/html/**/*.htm",
+    "!src/html/_templates/**/*.html",
+    "!src/html/_templates/**/*.htm",
+  ])
+    .pipe(plumber())
+    .pipe(
+      fileinclude({
+        prefix: "@@",
+        basepath: "@file",
+        context: DEFAULT_TEMPLATE_VARIABLES,
+      })
+    )
+    .pipe(dest("./dist"));
+}
 function startwatch() {
   // Стили
   if (preprocessorOn) {
@@ -281,7 +312,6 @@ function startwatch() {
       uploadFile(event);
     });
   // Изображения
-  watch(distDir + "/**/*.{" + imageswatch + "}");
   watch(distDir + "/**/*.{" + imageswatch + "}")
     .on("add", function (event) {
       uploadFile(event);
@@ -289,6 +319,17 @@ function startwatch() {
     .on("change", function (event) {
       uploadFile(event);
     });
+  // Шрифт
+  watch(distDir + "/**/*.{" + fontswatch + "}")
+    .on("add", function (event) {
+      uploadFile(event);
+    })
+    .on("change", function (event) {
+      uploadFile(event);
+    });
+  watch(baseDir + "/**/*.{" + fontswatch + "}").on("change", function (event) {
+    fonts(event);
+  });
   // Html
   watch(baseDir + "/**/*.{" + fileswatch + "}").on("change", function (event) {
     htmlinclude(event);
@@ -491,6 +532,7 @@ function createSecretFile(siteUrl = "", fileName = "") {
   fs.writeFileSync(fileName, fileContent);
 }
 
+exports.build = parallel(htmlBuild, scriptsBuild, images, fontsBuild);
 exports.browsersync = browsersync;
 exports.download = series(checkConfig, downloadFiles);
 exports.assets = series(cleanimg, styles, scripts, images);
