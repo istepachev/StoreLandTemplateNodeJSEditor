@@ -15,7 +15,6 @@ let paths = {
   downloadDir: "downloaded-files",
   scripts: {
     src: [
-      // 'node_modules/jquery/dist/jquery.min.js', // npm vendor example (npm i --save-dev jquery)
       baseDir + "/js/main.js", // app.js. Always at the end
     ],
     dest: distDir + "/",
@@ -542,11 +541,11 @@ function createSecretFile(siteUrl = "", fileName = "") {
 
 exports.build = parallel(
   cleanDist,
-  // htmlinclude,
-  // scripts,
-  images
-  // fonts,
-  // styles
+  htmlinclude,
+  scripts,
+  images,
+  fonts,
+  styles
 );
 exports.download = series(checkConfig, downloadFiles);
 exports.default = parallel(checkConfig, browsersync, startwatch);
