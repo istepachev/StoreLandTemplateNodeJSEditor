@@ -116,40 +116,43 @@ function browsersync() {
   });
 }
 function fonts(filePath) {
-  return src([filePath]).pipe(plumber()).pipe(dest("./dist/"));
+  const isBuild = typeof filePath == "function";
+  if (isBuild) {
+    filePath = [
+      "src/fonts/**/*.ttf",
+      "src/fonts/**/*.eot",
+      "src/fonts/**/*.woff",
+      "src/fonts/**/*.woff2",
+    ];
+  }
+  return src(filePath).pipe(plumber()).pipe(dest("./dist/"));
 }
-function fontsBuild() {
-  return src([
-    "src/fonts/**/*.ttf",
-    "src/fonts/**/*.eot",
-    "src/fonts/**/*.woff",
-    "src/fonts/**/*.woff2",
-  ]).pipe(dest("./dist/"));
-}
-function scriptsBuild() {
-  return src(["src/js/**/*.js"])
-    .pipe(plumber())
-    .pipe(
-      babel({
-        presets: ["@babel/env"],
-      })
-    )
-    .pipe(dest(paths.scripts.dest));
-}
+
 function scripts(filePath = "") {
-  const fileName = path.basename(filePath);
-  const parentFileFolder = path.basename(path.dirname(filePath));
+  const isBuild = typeof filePath == "function";
+  const fileName = !isBuild ? path.basename(filePath) : "";
+  const parentFileFolder = !isBuild
+    ? path.basename(path.dirname(filePath))
+    : "";
   const DEFAULT_JS_PATH = `default`;
 
   if (fileName.startsWith(`_`)) {
     console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
     return;
   }
-  if (parentFileFolder === DEFAULT_JS_PATH) {
-    return src([filePath]).pipe(dest(paths.scripts.dest));
+  if (parentFileFolder === DEFAULT_JS_PATH || isBuild) {
+    if (isBuild) {
+      filePath = `src/js/${DEFAULT_JS_PATH}/**/*.js`;
+    }
+    src([filePath]).pipe(dest(paths.scripts.dest));
+    if (!isBuild) {
+      return;
+    }
   }
-
-  return src([filePath])
+  const PATH = !isBuild
+    ? filePath
+    : ["src/js/**/*.js", `!src/js/${DEFAULT_JS_PATH}/**/*.js`];
+  return src(PATH)
     .pipe(plumber())
     .pipe(
       babel({
@@ -158,16 +161,21 @@ function scripts(filePath = "") {
     )
     .pipe(dest(paths.scripts.dest));
 }
-const cleanCssConfig = {};
-function stylesBuild() {}
-function styles(filePath = "") {
-  let file = filePath;
-  let fileName = path.basename(file);
 
-  let PATH;
+function styles(filePath = "") {
+  const isBuild = typeof filePath == "function";
+  let file = filePath;
+  let fileName = !isBuild ? path.basename(file) : "";
 
   if (preprocessorOn) {
-    PATH = `${baseDir}/${preprocessor}/${fileName}`;
+    const PATH = !isBuild
+      ? `${baseDir}/${preprocessor}/${fileName}`
+      : `${baseDir}/${preprocessor}/**/*.${preprocessor}`;
+    if (isBuild) {
+      src([`${baseDir}/${preprocessor}/**/*.css`]).pipe(
+        dest(paths.styles.dest)
+      );
+    }
     src(PATH)
       .pipe(plumber())
       .pipe(
@@ -210,9 +218,6 @@ function styles(filePath = "") {
         })
       )
       .pipe(dest(paths.styles.dest));
-    // .pipe(browserSync.stream());
-    // .pipe(browserSync.stream({match: `${distDir}/*.css`}));
-    // browserSync.reload(`${distDir}/${fileNameOnly}.css`)
   } else {
     if (fileName) {
       return src(`${baseDir}/${fileName}`).pipe(browserSync.stream());
@@ -220,22 +225,34 @@ function styles(filePath = "") {
       return src(paths.styles.all).pipe(browserSync.stream());
     }
   }
+  isBuild && filePath();
 }
 
 function images() {
   return src(paths.images.src)
     .pipe(newer(paths.images.dest))
-    .pipe(imagemin())
+    .pipe(
+      imagemin([
+        imagemin.gifsicle({ interlaced: true }),
+        imagemin.mozjpeg({ quality: 95, progressive: true }),
+        imagemin.optipng({ optimizationLevel: 3 }),
+        imagemin.svgo({
+          plugins: [{ removeViewBox: true }, { cleanupIDs: false }],
+        }),
+      ])
+    )
     .pipe(dest(paths.images.dest));
 }
 
-function cleanimg() {
-  return del("" + paths.images.dest + "/**/*", { force: true });
+function cleanDist() {
+  return del("" + distDir + "/**/*", { force: true });
 }
-function htmlinclude(filePath = "") {
-  let fileName = filePath ? path.basename(filePath) : "";
 
-  if (fileName.startsWith(`_`)) {
+function htmlinclude(filePath = "") {
+  const isBuild = typeof filePath == "function";
+  let fileName = !isBuild ? path.basename(filePath) : "";
+
+  if (!isBuild && fileName.startsWith(`_`)) {
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
       if (err) throw err;
       const filespath = data
@@ -268,7 +285,14 @@ function htmlinclude(filePath = "") {
         .pipe(dest("dist/"));
     });
   } else {
-    return src(filePath)
+    const PATH = !isBuild
+      ? filePath
+      : [
+          "src/html/**/*.htm",
+          "!src/html/_templates/**/*.html",
+          "!src/html/_templates/**/*.htm",
+        ];
+    return src(PATH)
       .pipe(plumber())
       .pipe(
         fileinclude({
@@ -277,29 +301,13 @@ function htmlinclude(filePath = "") {
           context: DEFAULT_TEMPLATE_VARIABLES,
         })
       )
-      .pipe(dest("./dist"));
+      .pipe(dest(paths.distDir));
   }
 }
-function htmlBuild(cb) {
-  return src([
-    "src/html/**/*.htm",
-    "!src/html/_templates/**/*.html",
-    "!src/html/_templates/**/*.htm",
-  ])
-    .pipe(plumber())
-    .pipe(
-      fileinclude({
-        prefix: "@@",
-        basepath: "@file",
-        context: DEFAULT_TEMPLATE_VARIABLES,
-      })
-    )
-    .pipe(dest("./dist"));
-}
+
 function startwatch() {
   // Стили
   if (preprocessorOn) {
-    // watch(baseDir  + '/**/*.scss', { delay: 100 }, function (evt) {			styles(evt)		});
     watch(baseDir + "/**/*.scss").on("change", function (event) {
       styles(event);
     });
@@ -319,7 +327,7 @@ function startwatch() {
     .on("change", function (event) {
       uploadFile(event);
     });
-  // Шрифт
+  // Шрифты
   watch(distDir + "/**/*.{" + fontswatch + "}")
     .on("add", function (event) {
       uploadFile(event);
@@ -532,12 +540,13 @@ function createSecretFile(siteUrl = "", fileName = "") {
   fs.writeFileSync(fileName, fileContent);
 }
 
-exports.build = parallel(htmlBuild, scriptsBuild, images, fontsBuild);
-exports.browsersync = browsersync;
+exports.build = parallel(
+  cleanDist,
+  // htmlinclude,
+  // scripts,
+  images
+  // fonts,
+  // styles
+);
 exports.download = series(checkConfig, downloadFiles);
-exports.assets = series(cleanimg, styles, scripts, images);
-exports.styles = styles;
-exports.scripts = scripts;
-exports.images = images;
-exports.cleanimg = cleanimg;
 exports.default = parallel(checkConfig, browsersync, startwatch);
