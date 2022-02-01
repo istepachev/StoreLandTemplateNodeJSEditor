@@ -1,17 +1,20 @@
 {
-    "semi": true,
-    "overrides": [
-      {
-        "files": "src/js/*.js",
-        "options": {
-          "semi": true
-        }
-      },
-      {
-        "files": ["*.html", "*.htm"],
-        "options": {
-          "tabWidth": 4
-        }
+  "overrides": [
+    {
+      "files": "src/js/*.js",
+      "options": {
+        "bracketSpacing": true,
+
+        "printWidth": 70,
+        "semi": true,
+        "tabWidth": 2
       }
-    ]
-  }
+    },
+    {
+      "files": ["src/scss/**/*.scss", "src/scss/*.css"],
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
+}
