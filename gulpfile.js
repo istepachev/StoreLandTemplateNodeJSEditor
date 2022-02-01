@@ -32,6 +32,10 @@ let paths = {
     src: baseDir + "/images/**/*",
     dest: distDir + "/",
   },
+  icons: {
+    src: baseDir + "/icons/**/*.svg",
+    dest: distDir + "/",
+  },
   cssOutputName: "main.css",
   jsOutputName: "main.js",
 };
@@ -47,6 +51,7 @@ const babel = require("gulp-babel");
 // const sourcemaps = require("gulp-sourcemaps");
 const browserSync = require("browser-sync").create();
 const uglify = require("gulp-uglify-es").default;
+const svgSprite = require("gulp-svg-sprite");
 const autoprefixer = require("gulp-autoprefixer");
 const imagemin = require("gulp-imagemin");
 const newer = require("gulp-newer");
@@ -303,7 +308,20 @@ function htmlinclude(filePath = "") {
       .pipe(dest(paths.distDir));
   }
 }
-
+function icons() {
+  return src(paths.icons.src) // svg files for sprite
+    .pipe(
+      svgSprite({
+        mode: {
+          symbol: {
+            dest: ".",
+            sprite: "sprite.svg",
+          },
+        },
+      })
+    )
+    .pipe(dest(distDir));
+}
 function startwatch() {
   // Стили
   if (preprocessorOn) {
@@ -326,6 +344,10 @@ function startwatch() {
     .on("change", function (event) {
       uploadFile(event);
     });
+  // Svg иконки
+  watch(baseDir + "/icons/**/*.{" + "svg" + "}")
+    .on("add", icons)
+    .on("change", icons);
   // Шрифты
   watch(distDir + "/**/*.{" + fontswatch + "}")
     .on("add", function (event) {
@@ -547,5 +569,6 @@ exports.build = parallel(
   fonts,
   styles
 );
+exports.icons = parallel(icons);
 exports.download = series(checkConfig, downloadFiles);
 exports.default = parallel(checkConfig, browsersync, startwatch);

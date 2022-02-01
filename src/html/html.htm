@@ -6,6 +6,29 @@
 </head>
 
 <body class="{% IF index_page %}index {% ENDIF %}">
+  <style>
+    .icon {
+        width: 30px;
+        height: 30px;
+        margin: 0;
+        transition: fill .3s ease;
+    }    
+  </style>  
+  <div class="icons" style="display: flex;">
+    <svg class="icon">
+      <use xlink:href="/design/sprite.svg#accessibility-outline"></use>
+    </svg>
+    <svg class="icon">
+      <use xlink:href="/design/sprite.svg#car-outline"></use>
+    </svg>
+    <svg class="icon">
+      <use xlink:href="/design/sprite.svg#alarm-outline"></use>
+    </svg>
+    <svg class="icon">
+      <use xlink:href="/design/sprite.svg#wolf-vector"></use>
+    </svg>
+  </div>
+
   <!-- @@include('./_templates/_test.html', {"goods_array_name": "TEST_ARRR"}) -->
   <div class="wrapper {% IF index_page %}index{% ENDIF %} nojs">
     <!-- Сообщение для инвалидов -->

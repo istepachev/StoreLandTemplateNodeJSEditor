@@ -26,6 +26,7 @@
     "gulp-newer": "^1.4.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^1.5.0",
     "gulp-uglify-es": "^2.0.0",
     "moment": "^2.25.3",
     "node-fetch": "^2.6.1",
