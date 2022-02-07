@@ -254,9 +254,11 @@ function cleanDist() {
 
 function htmlinclude(filePath = "") {
   const isBuild = typeof filePath == "function";
-  let fileName = !isBuild ? path.basename(filePath) : "";
+  const file = !isBuild && filePath;
+  const fileName = !isBuild ? path.basename(filePath) : "";
 
-  if (!isBuild && fileName.startsWith(`_`)) {
+  if (!isBuild && file && fileName.startsWith(`_`)) {
+    console.log(file, fileName);
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
       if (err) throw err;
       const filespath = data
