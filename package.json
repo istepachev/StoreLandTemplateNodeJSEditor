@@ -1,6 +1,6 @@
 {
-  "name": "StoreLandTemplateNodeJSEditor",
-  "version": "1.0.0",
+  "name": "storeland-template-editor",
+  "version": "2.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
