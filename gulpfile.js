@@ -57,6 +57,7 @@ const imagemin = require("gulp-imagemin");
 const newer = require("gulp-newer");
 const del = require("del");
 const plumber = require("gulp-plumber");
+const replacePath = require("gulp-replace-path");
 
 // Dev depend
 const fetch = require("node-fetch");
@@ -258,27 +259,29 @@ function htmlinclude(filePath = "") {
   const fileName = !isBuild ? path.basename(filePath) : "";
 
   if (!isBuild && file && fileName.startsWith(`_`)) {
-    console.log(file, fileName);
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
       if (err) throw err;
-      const filespath = data
-        .split("\n")
-        .shift()
-        .match(/\[([^}]*)]/)[1]
-        .trim()
-        .split(",")
-        .map((el) => `${baseDir}/html/**/${el.trim()}`);
+      if (!data.length) {
+        console.error(`⛔ Файл пуст`);
 
-      const pathInStart = data.split("\n").shift().trim().startsWith(`<!--`);
-
-      if (!pathInStart) {
+        return;
+      }
+      const firstStrFile = data.split("\n").shift();
+      const isFirstComment = firstStrFile.match(/\[([^}]*)]/);
+      if (!isFirstComment) {
         console.error(
-          ` ⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] --> `
+          `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] --> `
         );
 
         return;
       }
 
+      const filespath = firstStrFile
+        .match(/\[([^}]*)]/)[1]
+        .trim()
+        .split(",")
+        .map((el) => `${baseDir}/html/${el.trim()}`);
+      console.log(filespath);
       return src(filespath)
         .pipe(plumber())
         .pipe(
@@ -288,6 +291,7 @@ function htmlinclude(filePath = "") {
             context: DEFAULT_TEMPLATE_VARIABLES,
           })
         )
+        .pipe(replacePath("/src/html/", ""))
         .pipe(dest("dist/"));
     });
   } else {
@@ -307,6 +311,7 @@ function htmlinclude(filePath = "") {
           context: DEFAULT_TEMPLATE_VARIABLES,
         })
       )
+      .pipe(replacePath("/src/html/", ""))
       .pipe(dest(paths.distDir));
   }
 }
@@ -455,7 +460,7 @@ function downloadFiles(done) {
   fetch(URL_MAP.get_list, {
     method: "post",
     body: params,
-    timeout: 5000,
+    timeout: 10000,
   })
     .then((res) => res.json())
     .then((json) => {
@@ -494,7 +499,7 @@ function downloadFiles(done) {
         fetch(`${URL_MAP.get_file}/${file_id}`, {
           method: "post",
           body: params,
-          timeout: 5000,
+          timeout: 10000,
         })
           .then((res) => res.json())
           .then((json) => {
