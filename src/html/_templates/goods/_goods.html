@@ -1,9 +1,9 @@
 <!-- [html.htm, discount_data.htm, goods_list.htm, search.htm] -->
 {% FOR @@goods_array_name %}
-<div class="item {% IF @@goods_array_name.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF @@goods_array_name.COUNT_MODIFICATION > 1 %} 13131313 _with-mod{% ENDIF %} @@if (inCatalog) {col-lg-3 col-md-4 col-sm-6 col-sms-6 col-smb-12 222}">
+<div class="item {% IF @@goods_array_name.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}{% IF @@goods_array_name.COUNT_MODIFICATION > 1 %}_with-mod{% ENDIF %} @@if (inCatalog) {col-lg-3 col-md-4 col-sm-6 col-sms-6 col-smb-12}">
   <div class="item-inner" itemscope itemtype="https://schema.org/Product">
     @@if (inCatalog) {
-      <h1>hello</h1>
+      <h6>hello</h6>
     }
     <form action="{CART_ADD_GOODS_MODIFICATION_URL | url_amp}" method="post" class="product-form-{@@goods_array_name.MIN_PRICE_NOW_ID} goodsListForm">
       <input type="hidden" name="hash" value="{HASH}" />
@@ -105,7 +105,7 @@
             <!-- /END Если в тарифном плане подключен модуль сравнения товаров и он не выключен в настройках магазина -->                          
         </div>
         <a href="{@@goods_array_name.URL_MIN_PRICE_NOW | url_amp}" title="{@@goods_array_name.NAME}" class="product-img">
-          <img class="goods-image-small owl-lazy" data-src="{% IF @@goods_array_name.IMAGE_EMPTY %}{ASSETS_IMAGES_PATH}no-photo-small.png?design=techno{% ELSE %}{@@goods_array_name.IMAGE_MEDIUM}{% ENDIF %}" alt="{@@goods_array_name.NAME}" title="{@@goods_array_name.NAME}"  itemprop="image">
+          <img class="goods-image-small lozad" data-src="{% IF @@goods_array_name.IMAGE_EMPTY %}{ASSETS_IMAGES_PATH}no-photo-small.png?design=techno{% ELSE %}{@@goods_array_name.IMAGE_MEDIUM}{% ENDIF %}" alt="{@@goods_array_name.NAME}" title="{@@goods_array_name.NAME}"  itemprop="image">
         </a>
         {% IF @@goods_array_name.IS_NEW %}
           <span class="ico-new">Новинка</span>
@@ -119,9 +119,9 @@
       <div class="product-shop">
         <meta itemprop="name" content="{@@goods_array_name.NAME}">
         <meta itemprop="description" content="{% IF @@goods_array_name.DESCRIPTION_SHORT %}{@@goods_array_name.DESCRIPTION_SHORT}{% ELSE %}Описание отсутствует{% ENDIF %}">
-        <div class="product-name" style="display: none;">
+        <div class="product-name">
           <a href="{@@goods_array_name.URL_MIN_PRICE_NOW | url_amp}" title="{@@goods_array_name.NAME}" itemprop="url">
-            {@@goods_array_name.NAME}
+            123 {@@goods_array_name.NAME} 
           </a>
         </div>
         <div class="ratings">

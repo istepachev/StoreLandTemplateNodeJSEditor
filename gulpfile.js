@@ -281,7 +281,7 @@ function htmlinclude(filePath = "") {
         .trim()
         .split(",")
         .map((el) => `${baseDir}/html/${el.trim()}`);
-      console.log(filespath);
+
       return src(filespath)
         .pipe(plumber())
         .pipe(
