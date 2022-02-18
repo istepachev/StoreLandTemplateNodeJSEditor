@@ -27,7 +27,10 @@ let paths = {
     dest: distDir + "/",
     all: distDir + "/**.css",
   },
-
+  html: {
+    src: baseDir + "/html",
+    dest: distDir + "/html",
+  },
   images: {
     src: baseDir + "/images/**/*",
     dest: distDir + "/",
@@ -38,6 +41,7 @@ let paths = {
   },
   cssOutputName: "main.css",
   jsOutputName: "main.js",
+  buildStatic: distDir + "/static",
 };
 
 // LOGIC
@@ -130,7 +134,7 @@ function fonts(filePath) {
       "src/fonts/**/*.woff2",
     ];
   }
-  return src(filePath).pipe(plumber()).pipe(dest("./dist/"));
+  return src(filePath).pipe(plumber()).pipe(dest(paths.buildStatic));
 }
 
 function scripts(filePath = "") {
@@ -149,7 +153,7 @@ function scripts(filePath = "") {
     if (isBuild) {
       filePath = `src/js/${DEFAULT_JS_PATH}/**/*.js`;
     }
-    src([filePath]).pipe(dest(paths.scripts.dest));
+    src([filePath]).pipe(dest(paths.buildStatic));
     if (!isBuild) {
       return;
     }
@@ -164,7 +168,7 @@ function scripts(filePath = "") {
         presets: ["@babel/env"],
       })
     )
-    .pipe(dest(paths.scripts.dest));
+    .pipe(dest(paths.buildStatic));
 }
 
 function styles(filePath = "") {
@@ -177,9 +181,12 @@ function styles(filePath = "") {
       ? `${baseDir}/${preprocessor}/${fileName}`
       : `${baseDir}/${preprocessor}/**/*.${preprocessor}`;
     if (isBuild) {
-      src([`${baseDir}/${preprocessor}/**/*.css`]).pipe(
-        dest(paths.styles.dest)
-      );
+      src([
+        `${baseDir}/${preprocessor}/*.css`,
+        `${baseDir}/${preprocessor}/default/**`,
+      ])
+        .pipe(replacePath(`/src/${preprocessor}/default`, ""))
+        .pipe(dest(paths.buildStatic));
     }
     src(PATH)
       .pipe(plumber())
@@ -222,19 +229,19 @@ function styles(filePath = "") {
           },
         })
       )
-      .pipe(dest(paths.styles.dest));
+      .pipe(dest(paths.buildStatic));
   } else {
     if (fileName) {
       return src(`${baseDir}/${fileName}`).pipe(browserSync.stream());
     } else {
-      return src(paths.styles.all).pipe(browserSync.stream());
+      return src(paths.buildStatic).pipe(browserSync.stream());
     }
   }
   isBuild && filePath();
 }
 
 function images() {
-  return src(paths.images.src)
+  return src([paths.images.src, `!${baseDir}/images/*.md`])
     .pipe(newer(paths.images.dest))
     .pipe(
       imagemin([
@@ -246,7 +253,7 @@ function images() {
         }),
       ])
     )
-    .pipe(dest(paths.images.dest));
+    .pipe(dest(paths.buildStatic));
 }
 
 function cleanDist() {
@@ -292,7 +299,7 @@ function htmlinclude(filePath = "") {
           })
         )
         .pipe(replacePath("/src/html/", ""))
-        .pipe(dest("dist/"));
+        .pipe(dest(paths.html.dest));
     });
   } else {
     const PATH = !isBuild
@@ -312,7 +319,7 @@ function htmlinclude(filePath = "") {
         })
       )
       .pipe(replacePath("/src/html/", ""))
-      .pipe(dest(paths.distDir));
+      .pipe(dest(paths.html.dest));
   }
 }
 function icons() {
