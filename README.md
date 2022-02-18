@@ -3,24 +3,27 @@
 
 #### Порядок работы
 
-* Устанавливаем <a target="_blank" href="//nodejs.org/en/"><strong>Node.js</strong></a> на компьютер (LTS версию)
-* Устанавливаем глобально <b>Gulp</b> `npm install -g gulp-cli gulp`
-* Устанавливаем зависимости командой `npm install`
-* Указываем адрес текущего рабочего сайта в файле `current-site.json`
-* Выполняем компанду `node createConfig.js` (создает файл с настройками)
-* Заполняем настройки в файле `secret-keys.json`
-* Скачиваем файлы шаблона командой: `gulp download`
-* Запускаем сборку командой: `gulp`
+- Устанавливаем <a target="_blank" href="//nodejs.org/en/"><strong>Node.js</strong></a> на компьютер (LTS версию)
+- Устанавливаем глобально <b>Gulp</b> `npm install -g gulp-cli gulp`
+- Устанавливаем зависимости командой `npm install`
+- Указываем адрес текущего рабочего сайта в файле `current-site.json`
+- Выполняем компанду `node createConfig.js` (создает файл с настройками)
+- Заполняем настройки в файле `secret-keys.json`
+- Скачиваем файлы шаблона командой: `gulp download`
+- Запускаем сборку командой: `gulp`
 
 #### Файл настроек
+
 Имя файла - **current-site.json**
+
 ```javascript
 {
   "CURRENT_SITE": "https://trialshop.storeland.ru"
 }
 
 ```
-Имя файла - **storeland-uploader-config.json**
+
+Имя файла - **secret-keys.json**
 
 ```javascript
 {
@@ -32,5 +35,5 @@
     },
 }
 ```
-#### Видеоинструкция 
 
+#### Видеоинструкция
