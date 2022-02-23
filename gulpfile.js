@@ -581,8 +581,8 @@ exports.build = parallel(
   scripts,
   images,
   fonts,
-  styles
+  styles,
+  icons
 );
-exports.icons = parallel(icons);
 exports.download = series(checkConfig, downloadFiles);
 exports.default = parallel(checkConfig, browsersync, startwatch);
