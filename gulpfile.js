@@ -48,11 +48,12 @@ let paths = {
 const DEFAULT_TEMPLATE_VARIABLES = require("./src/html/_template-variables");
 const { src, dest, parallel, series, watch } = require("gulp");
 const scss = require("gulp-dart-sass");
+const bulk = require("gulp-sass-bulk-importer");
 const fileinclude = require("gulp-file-include");
 const cleancss = require("gulp-clean-css");
 // const concat = require("gulp-concat");
 const babel = require("gulp-babel");
-// const sourcemaps = require("gulp-sourcemaps");
+const sourcemaps = require("gulp-sourcemaps");
 const browserSync = require("browser-sync").create();
 const uglify = require("gulp-uglify-es").default;
 const svgSprite = require("gulp-svg-sprite");
@@ -189,16 +190,27 @@ function styles(filePath = "") {
         .pipe(dest(paths.buildStatic));
     }
     src(PATH)
+      .pipe(sourcemaps.init())
+      .pipe(bulk())
       .pipe(plumber())
       .pipe(
         scss({
           includePaths: [`${baseDir}/${preprocessor}/templates/`],
-        })
+        }).on("error", scss.logError)
       )
       .pipe(
         autoprefixer({
-          overrideBrowserslist: ["last 2 versions"],
           grid: true,
+          overrideBrowserslist: ["last 8 versions"],
+          browsers: [
+            "Android >= 4",
+            "Chrome >= 20",
+            "Firefox >= 24",
+            "Explorer >= 11",
+            "iOS >= 6",
+            "Opera >= 12",
+            "Safari >= 6",
+          ],
         })
       )
       .pipe(
@@ -229,6 +241,7 @@ function styles(filePath = "") {
           },
         })
       )
+      .pipe(sourcemaps.write("../sourcemaps/"))
       .pipe(dest(paths.buildStatic));
   } else {
     if (fileName) {
