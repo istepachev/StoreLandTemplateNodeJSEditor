@@ -1,7 +1,7 @@
 // VARIABLES & PATHS
 
 let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
-  preprocessorOn = true,
+  preprocessorOn = false,
   fontswatch = "woff,woff2,eot,ttf",
   fileswatch = "html,htm", // List of files extensions for watching & hard reload (comma separated)
   imageswatch = "jpg,jpeg,png,webp,svg", // List of images extensions for watching & compression (comma separated)
@@ -12,7 +12,7 @@ let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
 let paths = {
   baseDir: "src",
   distDir: "dist",
-  downloadDir: "downloaded-files",
+  downloadDir: "src",
   scripts: {
     src: [
       baseDir + "/js/main.js", // app.js. Always at the end
@@ -179,8 +179,8 @@ function styles(filePath = "") {
 
   if (preprocessorOn) {
     const PATH = !isBuild
-      ? `${baseDir}/${preprocessor}/${fileName}`
-      : `${baseDir}/${preprocessor}/**/*.${preprocessor}`;
+      ? `${baseDir}/${preprocessor}/**/*.${preprocessor}`
+      : `${baseDir}/${preprocessor}/${fileName}`;
     if (isBuild) {
       src([
         `${baseDir}/${preprocessor}/*.css`,
@@ -190,7 +190,6 @@ function styles(filePath = "") {
         .pipe(dest(paths.buildStatic));
     }
     src(PATH)
-      .pipe(sourcemaps.init())
       .pipe(bulk())
       .pipe(plumber())
       .pipe(
@@ -241,9 +240,14 @@ function styles(filePath = "") {
           },
         })
       )
-      .pipe(sourcemaps.write("../sourcemaps/"))
       .pipe(dest(paths.buildStatic));
   } else {
+    const PATH = !isBuild ? `${baseDir}/css/**/*.css` : `${baseDir}/css/*.css`;
+    if (isBuild) {
+      src([`${baseDir}/css/*.css`, `${baseDir}/css/default/**`])
+        .pipe(replacePath(`/src/css/default`, ""))
+        .pipe(dest(paths.buildStatic));
+    }
     if (fileName) {
       return src(`${baseDir}/${fileName}`).pipe(browserSync.stream());
     } else {
@@ -353,6 +357,10 @@ function startwatch() {
   // Стили
   if (preprocessorOn) {
     watch(baseDir + "/**/*.scss").on("change", function (event) {
+      styles(event);
+    });
+  } else {
+    watch(baseDir + "/**/*.css").on("change", function (event) {
       styles(event);
     });
   }
@@ -538,7 +546,7 @@ function downloadFiles(done) {
               fonts: ["eot", "ttf", "woff", "woff2"],
               js: ["js"],
               css: ["css"],
-              svg: ["svg"],
+              svg: ["icons"],
             };
 
             let fileDirName = "";
