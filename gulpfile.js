@@ -52,10 +52,10 @@ const bulk = require("gulp-sass-bulk-importer");
 const fileinclude = require("gulp-file-include");
 const cleancss = require("gulp-clean-css");
 // const concat = require("gulp-concat");
-const babel = require("gulp-babel");
-const sourcemaps = require("gulp-sourcemaps");
+// const babel = require("gulp-babel");
+// const sourcemaps = require("gulp-sourcemaps");
 const browserSync = require("browser-sync").create();
-const uglify = require("gulp-uglify-es").default;
+// const uglify = require("gulp-uglify-es").default;
 const svgSprite = require("gulp-svg-sprite");
 const autoprefixer = require("gulp-autoprefixer");
 const imagemin = require("gulp-imagemin");
@@ -551,7 +551,7 @@ function downloadFiles(done) {
               fonts: ["eot", "ttf", "woff", "woff2"],
               js: ["js"],
               css: ["css"],
-              svg: ["icons"],
+              icons: ["svg"],
             };
 
             let fileDirName = "";
