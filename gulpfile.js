@@ -162,14 +162,17 @@ function scripts(filePath = "") {
   const PATH = !isBuild
     ? filePath
     : ["src/js/**/*.js", `!src/js/${DEFAULT_JS_PATH}/**/*.js`];
-  return src(PATH)
-    .pipe(plumber())
-    .pipe(
-      babel({
-        presets: ["@babel/env"],
-      })
-    )
-    .pipe(dest(paths.buildStatic));
+
+  return (
+    src(PATH)
+      .pipe(plumber())
+      // .pipe(
+      //   babel({
+      //     presets: ["@babel/env"],
+      //   })
+      // )
+      .pipe(dest(paths.buildStatic))
+  );
 }
 
 function styles(filePath = "") {
@@ -241,7 +244,8 @@ function styles(filePath = "") {
           },
         })
       )
-      .pipe(sourcemaps.write("../sourcemaps/"))
+      // .pipe(sourcemaps.write("/src/scss/sourcemaps/"))
+      .pipe(replacePath("/src/scss/", ""))
       .pipe(dest(paths.buildStatic));
   } else {
     if (fileName) {
