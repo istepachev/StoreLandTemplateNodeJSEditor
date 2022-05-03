@@ -12,7 +12,7 @@ let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
 let paths = {
   baseDir: "src",
   distDir: "dist",
-  downloadDir: "src",
+  downloadDir: "downloaded-files",
   scripts: {
     src: [
       baseDir + "/js/main.js", // app.js. Always at the end
@@ -243,11 +243,8 @@ function styles(filePath = "") {
           },
         })
       )
-<<<<<<< HEAD
       // .pipe(sourcemaps.write("/src/scss/sourcemaps/"))
       .pipe(replacePath("/src/scss/", ""))
-=======
->>>>>>> 36322aca9fe2966322a452ba8df13f077547833f
       .pipe(dest(paths.buildStatic));
   } else {
     const PATH = !isBuild ? `${baseDir}/css/**/*.css` : `${baseDir}/css/*.css`;
