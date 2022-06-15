@@ -12,7 +12,7 @@ let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
 let paths = {
   baseDir: "src",
   distDir: "dist",
-  downloadDir: "src",
+  downloadDir: "downloaded-files",
   scripts: {
     src: [
       baseDir + "/js/main.js", // app.js. Always at the end
@@ -52,10 +52,10 @@ const bulk = require("gulp-sass-bulk-importer");
 const fileinclude = require("gulp-file-include");
 const cleancss = require("gulp-clean-css");
 // const concat = require("gulp-concat");
-const babel = require("gulp-babel");
-const sourcemaps = require("gulp-sourcemaps");
+// const babel = require("gulp-babel");
+// const sourcemaps = require("gulp-sourcemaps");
 const browserSync = require("browser-sync").create();
-const uglify = require("gulp-uglify-es").default;
+// const uglify = require("gulp-uglify-es").default;
 const svgSprite = require("gulp-svg-sprite");
 const autoprefixer = require("gulp-autoprefixer");
 const imagemin = require("gulp-imagemin");
@@ -162,14 +162,17 @@ function scripts(filePath = "") {
   const PATH = !isBuild
     ? filePath
     : ["src/js/**/*.js", `!src/js/${DEFAULT_JS_PATH}/**/*.js`];
-  return src(PATH)
-    .pipe(plumber())
-    .pipe(
-      babel({
-        presets: ["@babel/env"],
-      })
-    )
-    .pipe(dest(paths.buildStatic));
+
+  return (
+    src(PATH)
+      .pipe(plumber())
+      // .pipe(
+      //   babel({
+      //     presets: ["@babel/env"],
+      //   })
+      // )
+      .pipe(dest(paths.buildStatic))
+  );
 }
 
 function styles(filePath = "") {
@@ -240,6 +243,8 @@ function styles(filePath = "") {
           },
         })
       )
+      // .pipe(sourcemaps.write("/src/scss/sourcemaps/"))
+      .pipe(replacePath("/src/scss/", ""))
       .pipe(dest(paths.buildStatic));
   } else {
     const PATH = !isBuild ? `${baseDir}/css/**/*.css` : `${baseDir}/css/*.css`;
@@ -546,7 +551,7 @@ function downloadFiles(done) {
               fonts: ["eot", "ttf", "woff", "woff2"],
               js: ["js"],
               css: ["css"],
-              svg: ["icons"],
+              icons: ["svg"],
             };
 
             let fileDirName = "";
