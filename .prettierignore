@@ -3,4 +3,5 @@ build
 coverage
 src/js/default
 src/scss/default
+src/css/default
 src/html/

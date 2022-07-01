@@ -254,7 +254,7 @@ function styles(filePath = "") {
         .pipe(dest(paths.buildStatic));
     }
     if (fileName) {
-      return src(`${baseDir}/${fileName}`).pipe(browserSync.stream());
+      return src(`${baseDir}/css/${fileName}`).pipe(browserSync.stream());
     } else {
       return src(paths.buildStatic).pipe(browserSync.stream());
     }

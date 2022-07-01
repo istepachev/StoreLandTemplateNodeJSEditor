@@ -11,7 +11,7 @@
       }
     },
     {
-      "files": ["src/scss/**/*.scss", "src/scss/*.css"],
+      "files": ["src/css/*.css"],
       "options": {
         "tabWidth": 2
       }
