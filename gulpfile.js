@@ -162,7 +162,7 @@ function scripts(filePath = "") {
   const PATH = !isBuild
     ? filePath
     : ["src/js/**/*.js", `!src/js/${DEFAULT_JS_PATH}/**/*.js`];
-
+  console.log(PATH);
   return (
     src(PATH)
       .pipe(plumber())

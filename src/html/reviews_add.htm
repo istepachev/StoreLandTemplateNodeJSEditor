@@ -1,0 +1,1511 @@
+<style>
+.n-review-form-shop__success {
+    display: none;
+    margin-top: 30px
+}
+
+.n-review-form-shop__advice {
+    padding: 5px 0 35px;
+    font-size: 13px;
+    line-height: 18px
+}
+
+.n-review-form-shop__small-motivation-message,
+.n-review-form-shop__small-saving-message {
+    display: flex;
+    margin-left: -24px;
+    padding-bottom: 5px;
+    color: #202020;
+    font-size: 15px
+}
+
+
+
+.n-review-form-shop__advice-message_hidden_yes,
+.n-review-form-shop__small-motivation-message_hidden_yes,
+.n-review-form-shop__small-saving-message_hidden_yes {
+    display: none
+}
+
+.n-review-form-shop__advice {
+    padding-top: 30px;
+    border-top: 1px solid #e5e5e5
+}
+
+.n-review-form-shop__second-step {
+    padding-top: 10px
+}
+
+.n-review-form.n-review-form_in-progress .n-review-form__spinner,
+.n-review-form.n-review-form_state_full {
+    display: block
+}
+
+.n-review-form .n-review-form__spinner,
+.n-review-form-shop__second-step,
+.n-review-form.n-review-form_in-progress .n-review-form__send {
+    display: none
+}
+
+.n-review-form-shop_state_full .n-review-form-shop__second-step {
+    display: block
+}
+
+.n-review-form-shop__fields-container {
+    display: table
+}
+
+.n-review-form-shop__left-column {
+    display: table-cell;
+    width: 80%;
+    margin-right: 60px;
+    vertical-align: top
+}
+
+.n-review-form-shop__right-column {
+    display: table-cell;
+    padding-top: 54px;
+    min-width: 280px
+}
+
+.n-review-form-shop__column-gutter {
+    display: table-cell;
+    min-width: 60px
+}
+
+.n-review-form-shop__left-column .n-review-form__textarea {
+    min-width: 500px
+}
+
+.n-review-form__label.n-review-form__label_type_recommendation {
+    padding-top: 1px
+}
+
+.n-review-form {
+    transition: opacity 1s;
+    opacity: 1;
+    -webkit-font-smoothing: antialiased
+}
+
+.n-review-form_state_hidden {
+    opacity: 0
+}
+
+.n-review-form .radio-button_size_l {
+    font-size: 15px
+}
+
+.n-review-form .radio-button__text {
+    padding: 0 1.6em
+}
+
+.n-review-form .layout__col_size_p30 {
+    padding-top: 50px;
+    padding-left: 16px
+}
+
+.n-review-form .text-gray {
+    color: #999
+}
+
+.n-review-form_success-text_rating .n-review-form__success,
+.n-review-form_success-text_rating .n-review-form__success-text-rating {
+    display: block
+}
+
+.n-review-form__success-text-rating,
+.n-review-form_success-text_rating .n-review-form__controls {
+    display: none
+}
+
+.n-review-form__action {
+    padding: 33px 0 14px
+}
+
+.n-review-form__elvis {
+    width: 190px;
+    height: 190px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    margin-left: -16px
+}
+
+
+.n-review-form__elvis_place_multi-step,
+.n-review-form__elvis_place_single-step {
+    padding-top: 0;
+    margin-top: 0;
+    margin-left: 0
+}
+
+.n-review-form__fields-item {
+    display: table;
+    width: 100%
+}
+
+.n-review-form__fields-item_focused_yes .n-review-form__counter_type_danger,
+.n-review-form__fields-item_focused_yes .n-review-form__counter_type_warning {
+    display: block
+}
+
+.n-review-form__fields-item .n-review-form__label {
+    display: table-cell;
+    padding: 8px 12px 0 0;
+    vertical-align: top
+}
+
+.n-review-form__fields-item .input {
+    line-height: 18px
+}
+
+.n-review-form__fields-item .input__clear {
+    position: absolute;
+    top: 0;
+    height: 34px
+}
+
+.n-review-form__footer {
+    padding: 30px 0 60px 145px;
+    border-top: 1px solid #e5e5e5
+}
+
+.n-review-form__input {
+    display: none
+}
+
+.n-review-form__label {
+    display: inline-block;
+    width: 135px;
+    min-width: 135px;
+    padding: 3px 10px 3px 0;
+    color: #202020;
+    font-size: 15px;
+    line-height: 20px
+}
+
+.n-review-form__line {
+    margin-bottom: 26px
+}
+
+.n-review-form__line_compact {
+    margin-bottom: 18px
+}
+
+.n-review-form__line_valign_center {
+    display: flex;
+    align-items: center
+}
+
+.n-review-form__line_valign_top {
+    display: flex;
+    align-items: flex-start
+}
+
+.n-review-form__line.n-review-form__line_place_delivery {
+    margin-bottom: 19px
+}
+
+.n-review-form__notice {
+    margin: 0 -20px 18px;
+    padding: 15px 20px;
+    color: #2b2b2b;
+    background: #cae0f5;
+    font-size: 18px;
+    line-height: 26px
+}
+
+.n-review-form__order {
+    display: inline-block;
+    padding-left: 30px
+}
+
+.n-review-form__order .input {
+    width: 170px;
+    margin-left: 15px
+}
+
+.n-review-form__publication-type,
+.n-review-form__rating {
+    display: inline-block
+}
+
+.n-review-form__rating .n-rating-stars {
+    margin-top: -6px
+}
+
+.n-review-form__rating .n-rating-chevrons_size_m .n-rating-chevrons__item {
+    width: 25px
+}
+
+.n-review-form__publication-type .text-gray:first-of-type {
+    margin-top: 8px
+}
+
+.n-review-form__publication-type .text-gray {
+    margin: 3px 0 0 25px
+}
+
+.n-review-form__success-title {
+    padding-bottom: 28px;
+    border-bottom: 1px solid #e5e5e5
+}
+
+.n-review-form__success-footer {
+    padding-top: 30px
+}
+
+.n-review-form__success-footer_place_rating {
+    padding-top: 16px
+}
+
+.n-review-form__success-basic-text {
+    font-size: 15px;
+    line-height: 20px
+}
+
+.n-review-form__success-basic-text_place_thanks {
+    margin-bottom: 9px
+}
+
+.n-review-form__success-basic-text_place_thanks-rating {
+    margin-bottom: 19px
+}
+
+.n-review-form__success-info {
+    padding-top: 35px
+}
+
+.n-review-form__success-info-list {
+    padding-left: 22px
+}
+
+.n-review-form__success-info-list-item {
+    padding: 5px 0;
+    font-size: 13px
+}
+
+.n-review-form__success-info-list-item .button {
+    margin-left: 10px
+}
+
+.n-review-form__success-info-list-item:before {
+    margin-right: 5px;
+    content: '\2022';
+    opacity: .5;
+    color: #000
+}
+
+.n-review-form__success .link,
+.n-review-form__success .link:visited {
+    color: #3757c5
+}
+
+.button.n-review-form__tell-more .button__text {
+    padding: 3px 21px
+}
+
+.n-review-form__text {
+    margin-top: 17px
+}
+
+.n-review-form__hint {
+    line-height: 20px;
+    padding: 8px
+}
+
+.n-review-form__textarea {
+    display: table-cell
+}
+
+.n-review-form__textarea .input__control {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 107px;
+    resize: none;
+    color: #2b2b2b;
+    outline: 0;
+    font-size: 15px;
+    line-height: 18px
+}
+
+.input_size_m.input_type_textarea.n-review-form__textarea .input__control {
+    min-width: 496px;
+    padding: 9px 15px 0 3px
+}
+
+.n-review-form__textarea_type_comment.input__control {
+    min-height: 90px
+}
+
+.radio-button_size_l {
+    font-size: 18px;
+    line-height: 38px
+}
+
+.radio-button_size_m {
+    font-size: 15px;
+    line-height: 32px
+}
+
+.text-gray,
+.text-gray:visited {
+    color: gray
+}
+
+.custom-ui input[type=checkbox],
+.custom-ui input[type=radio] {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    filter: alpha(opacity=0)
+}
+
+.tooltip_size_m .tooltip__content {
+    padding: 0 10px;
+    font-size: 15px;
+    line-height: 32px
+}
+
+.tooltip_size_m .popup2__tail {
+    width: 12px;
+    height: 12px
+}
+
+.tooltip_theme_error.popup2_theme_normal {
+    color: #fff;
+    border: 0;
+    background: rgba(255, 100, 100, .9)
+}
+
+.tooltip_theme_error.popup2_theme_normal:before,
+.tooltip_theme_success.popup2_theme_normal:before {
+    background: 0 0;
+    box-shadow: none
+}
+
+.tooltip_theme_error.popup2_theme_normal .popup2__tail:after {
+    background-image: linear-gradient(to top right, #fe7272 50%, transparent 50%)
+}
+
+.tooltip_theme_success.popup2_theme_normal {
+    border: 0;
+    background: rgba(108, 186, 104, .9);
+    color: #fff;
+    background-color: #35ba35
+}
+
+.tooltip_theme_success {
+    color: #fff;
+    background-color: #35ba35
+}
+
+.tooltip_theme_success .popup2__tail:after,
+.tooltip_theme_success.popup2_theme_normal .popup2__tail:after {
+    background-color: #35ba35;
+    background-image: linear-gradient(to top right, #35ba35 50%, transparent 50%)
+}
+
+.n-review-form-factor-group {
+    display: none
+}
+
+.n-review-form-factor-group_active_yes {
+    display: block
+}
+
+.n-review-form-factor__title {
+    padding-top: 4px;
+    color: #202020;
+    font-size: 15px;
+    line-height: 18px
+}
+
+.n-review-form-factor-group__factors .n-rating-stars {
+    margin-top: 8px
+}
+
+.n-review-form-factor__line {
+    padding-bottom: 18px;
+    min-width: 360px
+}
+
+.n-review-form-factor__line:last-child {
+    padding-bottom: 9px
+}
+
+.n-review-form-factor__line .n-hint-button {
+    display: none
+}
+
+.i-ua_platform_touch .n-review-form-factor__line .n-hint-button,
+.n-rating-chevrons,
+.n-review-form-factor__line:hover .n-hint-button {
+    display: inline-block
+}
+
+.n-rating-chevrons {
+    padding: 0
+}
+
+.n-rating-chevrons[data-rate='1'] .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='2'] .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(1) {
+    padding-left: 5px;
+    background: #f99f47
+}
+
+.n-rating-chevrons[data-rate='1'] .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='2'] .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(1):after {
+    border-left-color: #f99f47
+}
+
+.n-rating-chevrons[data-rate='2'] .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(2) {
+    background: #f6c000
+}
+
+.n-rating-chevrons[data-rate='2'] .n-rating-chevrons__item:nth-child(2):after,
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(2):after,
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(2):after,
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(2):after {
+    border-left-color: #f6c000
+}
+
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(3),
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(3),
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(3) {
+    background: #c1c710
+}
+
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(3):after,
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(3):after,
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(3):after {
+    border-left-color: #c1c710
+}
+
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(4),
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(4) {
+    background: #8cb400
+}
+
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(4):after,
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(4):after {
+    border-left-color: #8cb400
+}
+
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(5) {
+    background: #359e00
+}
+
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(5):after {
+    border-left-color: #359e00
+}
+
+.n-rating-chevrons[data-rate='1'] .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='2'] .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__item:nth-child(3),
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__item:nth-child(4),
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__item:nth-child(5) {
+    width: 25px;
+    text-indent: 0
+}
+
+.n-rating-chevrons__item {
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    margin-right: 0;
+    padding-left: 8px;
+    text-align: center;
+    text-indent: -9999px;
+    color: #fff;
+    background: #eeece8;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px
+}
+
+.n-rating-chevrons__item:after,
+.n-rating-chevrons__item:before {
+    position: absolute;
+    top: 0;
+    right: -5px;
+    z-index: 2;
+    display: block;
+    width: 0;
+    height: 0;
+    content: '';
+    border-width: 9px 0 9px 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #eeece8;
+    -moz-border-end-style: dotted
+}
+
+.n-rating-chevrons__item:before {
+    top: -3px;
+    right: -7px;
+    z-index: 1;
+    clip: rect(3px, 8px, 21px, 0);
+    border-width: 12px 0 12px 7px;
+    border-color: transparent transparent transparent #fff
+}
+
+.n-rating-chevrons__label {
+    display: inline-block;
+    padding-left: 25px;
+    vertical-align: middle;
+    color: #aaa;
+    font-weight: 700
+}
+
+.n-rating-chevrons_variable_yes {
+    cursor: pointer
+}
+
+.n-rating-chevrons_variable_yes[data-rate=''] .n-rating-chevrons__item {
+    text-indent: 0
+}
+
+.n-rating-chevrons_size_l .n-rating-chevrons__item {
+    width: 39px;
+    padding-left: 8px;
+    background-color: #e8e8e8;
+    font-size: 14px;
+    line-height: 28px
+}
+
+.n-rating-chevrons_size_l .n-rating-chevrons__item:after {
+    right: -8px;
+    border-width: 14px 0 14px 8px;
+    border-left-color: #e8e8e8
+}
+
+.n-rating-chevrons_size_l .n-rating-chevrons__item:before {
+    top: -4px;
+    right: -10px;
+    clip: rect(4px, 10px, 32px, 0);
+    border-width: 18px 0 18px 10px
+}
+
+.n-rating-chevrons[data-rate='1'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='2'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(3),
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(4),
+.n-rating-chevrons[data-rate='5'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(5) {
+    width: 39px
+}
+
+.n-rating-chevrons_size_l .n-rating-chevrons__label {
+    vertical-align: baseline;
+    font-size: 15px
+}
+
+.n-rating-chevrons[data-rate='1'] .n-rating-chevrons__label {
+    color: #fa6648
+}
+
+.n-rating-chevrons[data-rate='1'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1) {
+    background: #fa6648
+}
+
+.n-rating-chevrons[data-rate='1'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1):after {
+    border-left-color: #fa6648
+}
+
+.n-rating-chevrons[data-rate='2'] .n-rating-chevrons__label {
+    color: #ffae00
+}
+
+.n-rating-chevrons[data-rate='2'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='2'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2) {
+    background: #ffae00
+}
+
+.n-rating-chevrons[data-rate='2'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='2'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2):after {
+    border-left-color: #ffae00
+}
+
+.n-rating-chevrons[data-rate='3'] .n-rating-chevrons__label {
+    color: #c1c712
+}
+
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(3) {
+    background: #c1c712
+}
+
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2):after,
+.n-rating-chevrons[data-rate='3'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(3):after {
+    border-left-color: #c1c712
+}
+
+.n-rating-chevrons[data-rate='4'] .n-rating-chevrons__label {
+    color: #8bb600
+}
+
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1),
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2),
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(3),
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(4) {
+    background: #8bb600
+}
+
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(1):after,
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(2):after,
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(3):after,
+.n-rating-chevrons[data-rate='4'].n-rating-chevrons_size_l .n-rating-chevrons__item:nth-child(4):after {
+    border-left-color: #8bb600
+}
+
+.n-rating-chevrons[data-rate='5'] .n-rating-chevrons__label {
+    color: #359e00
+}
+
+.n-rating-chevrons[data-rate='5'].n-rating-chevrons_size_l .n-rating-chevrons__item {
+    background: #359e00
+}
+
+.n-rating-chevrons[data-rate='5'].n-rating-chevrons_size_l .n-rating-chevrons__item:after {
+    border-left-color: #359e00
+}
+
+.n-review-form .layout__col_size_p70 {
+    padding-right: 70px
+}
+
+.n-review-form__order-id {
+    width: 362px
+}
+
+.n-review-form__order-id .input__control {
+    padding: 1px 0 0
+}
+
+.n-review-form__publication-type .checkbox__label {
+    color: #202020
+}
+
+.n-review-form__label.n-review-form__label_type_delivery {
+    padding-top: 3px
+}
+
+.n-review-form-shop .n-review-form__label.n-review-form__label_type_order-id {
+    padding-top: 10px
+}
+
+.n-review-form__fields-item .n-review-form__order-id_type_tall .input__clear,
+.n-review-form__order-id_type_tall.input_size_m .input__control,
+.n-review-form__order-id_type_tall.input_size_m .input__hint {
+    height: 38px
+}
+
+.n-review-form-shop__footer {
+    padding: 29px 0 60px 135px;
+    border-top: 1px solid #e5e5e5
+}
+
+.n-review-form__send {
+    width: 164px;
+    height: 44px
+}
+
+.n-review-form-shop__full-save .n-review-form__send {
+    width: 204px;
+    text-align: center
+}
+
+.n-review-form-shop_state_full .n-review-form-shop__full-save {
+    display: block
+}
+
+.n-review-form-shop__full-save,
+.n-review-form-shop_state_full .n-review-form-shop__pre-save {
+    display: none
+}
+
+.n-review-form__send.n-review-form__link {
+    padding: 2px 6px 3px
+}
+
+.n-review-form-shop__rules {
+    margin-bottom: 12px;
+    padding-right: 10px;
+    padding-left: 18px;
+    line-height: 19px
+}
+
+.n-review-form-shop__title {
+    padding-bottom: 28px;
+    color: #202020;
+    border-bottom: 1px solid #e5e5e5
+}
+
+.n-rating-stars {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.n-rating-stars__hint {
+    line-height: 20px;
+    padding: 8px
+}
+
+.n-rating-stars__item {
+    position: relative;
+    display: inline-block;
+    box-sizing: content-box;
+    width: 13px;
+    height: 13px;
+    vertical-align: middle;
+    border-right: 1px solid transparent;
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMSIgaGVpZ2h0PSIzMSIgdmlld0JveD0iMCAwIDMxIDMxIj4gIDxwb2x5Z29uIGZpbGw9IiNDRkNGQ0YiIGZpbGwtcnVsZT0iZXZlbm9kZCIgcG9pbnRzPSI0OC41IDAgNTIgMTIgNjQgMTIgNTQuNSAxOS4wNzcgNTkgMzEgNDguNSAyNCAzOCAzMSA0Mi41IDE5LjA3NyAzMyAxMiA0NSAxMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTMzKSIvPjwvc3ZnPg==);
+    background-repeat: no-repeat
+}
+
+.n-rating-stars__item:last-of-type {
+    border-right-width: 0
+}
+
+.n-rating-stars__item:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    content: none;
+    background-size: cover
+}
+
+.n-rating-stars__item {
+    background-size: cover
+}
+
+.n-rating-stars[data-rate='1'] .n-rating-stars__item:nth-child(-n+1),
+.n-rating-stars[data-rate='2'] .n-rating-stars__item:nth-child(-n+2),
+.n-rating-stars[data-rate='3'] .n-rating-stars__item:nth-child(-n+3),
+.n-rating-stars[data-rate='4'] .n-rating-stars__item:nth-child(-n+4),
+.n-rating-stars[data-rate='5'] .n-rating-stars__item,
+.n-rating-stars__item:before {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMSIgaGVpZ2h0PSIzMSIgdmlld0JveD0iMCAwIDMxIDMxIj4gIDxwb2x5Z29uIGZpbGw9IiNGQUI2MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgcG9pbnRzPSIxNS41IDAgMTkgMTIgMzEgMTIgMjEuNSAxOS4wNzcgMjYgMzEgMTUuNSAyNCA1IDMxIDkuNSAxOS4wNzcgMCAxMiAxMiAxMiIvPjwvc3ZnPg==)
+}
+
+.n-rating-stars_color_gray .n-rating-stars__item:before,
+.n-rating-stars_color_gray[data-rate='1'] .n-rating-stars__item:nth-child(-n+1),
+.n-rating-stars_color_gray[data-rate='2'] .n-rating-stars__item:nth-child(-n+2),
+.n-rating-stars_color_gray[data-rate='3'] .n-rating-stars__item:nth-child(-n+3),
+.n-rating-stars_color_gray[data-rate='4'] .n-rating-stars__item:nth-child(-n+4),
+.n-rating-stars_color_gray[data-rate='5'] .n-rating-stars__item {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyI+PHBhdGggZmlsbD0iZ3JheSIgZD0iTTYuNDkxIDBsMS41MDkgNWg1bC00IDMgMiA1LTQuNS0zLTQuNSAzIDItNS00LTNoNXoiLz48L3N2Zz4=)
+}
+
+.n-rating-stars[data-half] .n-rating-stars__item:nth-child(1):before,
+.n-rating-stars[data-rate='1'][data-half] .n-rating-stars__item:nth-child(2):before,
+.n-rating-stars[data-rate='2'][data-half] .n-rating-stars__item:nth-child(3):before,
+.n-rating-stars[data-rate='3'][data-half] .n-rating-stars__item:nth-child(4):before,
+.n-rating-stars[data-rate='4'][data-half] .n-rating-stars__item:nth-child(5):before {
+    content: ''
+}
+
+.n-rating-stars__label {
+    vertical-align: middle;
+    color: #404040;
+    font-weight: 700
+}
+
+.n-rating-stars__label_position_bottom {
+    display: block;
+    padding: 0;
+    margin-top: 8px;
+    height: 18px;
+    width: 100%;
+    text-align: center
+}
+
+.n-rating-stars__label_position_right {
+    display: inline-block;
+    padding-left: 15px;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #999
+}
+
+.n-rating-stars_type_new {
+    margin-top: 0;
+    vertical-align: baseline
+}
+
+.n-rating-stars_variable_yes {
+    cursor: pointer
+}
+
+.n-rating-stars_disabled_yes {
+    pointer-events: none
+}
+
+.n-rating-stars_size_s .n-rating-stars__item {
+    width: 9px;
+    height: 9px
+}
+
+.n-rating-stars_size_l .n-rating-stars__item {
+    width: 18px;
+    height: 18px
+}
+
+.n-rating-stars_size_m .n-rating-stars__item {
+    width: 16px;
+    height: 16px
+}
+
+.n-rating-stars_size_xl .n-rating-stars__item {
+    width: 31px;
+    height: 31px;
+    border-right: 2px solid transparent
+}
+
+.n-rating-stars_size_xl .n-rating-stars__label.n-rating-stars__label_position_right {
+    margin-top: 2px;
+    padding-left: 11px;
+    font-size: 15px
+}
+
+.n-rating-stars_size_xxl .n-rating-stars__item {
+    width: 40px;
+    height: 40px;
+    border-right: 8px solid transparent
+}
+
+.n-rating-stars_size_xxl .n-rating-stars__label {
+    font-size: 13px;
+    font-weight: 400;
+    color: #363245
+}
+
+.n-rating-stars_size_xxl .n-rating-stars__label.n-rating-stars__label_position_right {
+    margin-top: 2px;
+    padding-left: 11px
+}
+
+.n-rating-stars_size_chubby-s .n-rating-stars__item {
+    width: 11px;
+    height: 11px
+}
+
+.n-rating-stars_size_chubby-m .n-rating-stars__item {
+    width: 15px;
+    height: 14px;
+    border-right: 3px solid transparent
+}
+
+.n-rating-stars_size_chubby-xl .n-rating-stars__item {
+    width: 30px;
+    height: 28px;
+    border-right: 3px solid transparent;
+    margin-right: 4px
+}
+
+.n-rating-stars_size_chubby-xxl .n-rating-stars__item {
+    width: 44px;
+    height: 42px;
+    border-right: 8px solid transparent
+}
+
+.n-rating-stars_size_chubby-xxl .n-rating-stars__item:last-of-type {
+    border-right-width: 0
+}
+
+.n-rating-stars_theme_gray .n-rating-stars__item:before,
+.n-rating-stars_theme_gray.n-rating-stars[data-rate='1'] .n-rating-stars__item:nth-child(-n+1),
+.n-rating-stars_theme_gray.n-rating-stars[data-rate='2'] .n-rating-stars__item:nth-child(-n+2),
+.n-rating-stars_theme_gray.n-rating-stars[data-rate='3'] .n-rating-stars__item:nth-child(-n+3),
+.n-rating-stars_theme_gray.n-rating-stars[data-rate='4'] .n-rating-stars__item:nth-child(-n+4),
+.n-rating-stars_theme_gray.n-rating-stars[data-rate='5'] .n-rating-stars__item {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+U2hhcGU8L3RpdGxlPjxwYXRoIGQ9Ik02LjQ5IDBMOCA1aDVMOSA4bDIgNS00LjUtM0wyIDEzbDItNS00LTNoNWwxLjQ5LTV6IiBmaWxsPSJncmF5IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=)
+}
+
+.n-rating-stars_theme_gray .n-rating-stars__item:last-of-type {
+    margin-right: 0
+}
+
+.n-rating-stars_theme_chubby.n-rating-stars .n-rating-stars__item {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiNkY2RjZGMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyIDE3Ljc2OEw1Ljg0OCAyMS42M2EuNi42IDAgMCAxLS45MDEtLjY1NWwxLjc3Mi03LjA0My01LjU3My00LjY1NmEuNi42IDAgMCAxIC4zNDQtMS4wNmw3LjI0NS0uNDkgMi43MDctNi43NGEuNi42IDAgMCAxIDEuMTEzIDBsMi43MDYgNi43NCA3LjI0Ni40OWEuNi42IDAgMCAxIC4zNDQgMS4wNmwtNS41NzMgNC42NTYgMS43NzIgNy4wNDNhLjYuNiAwIDAgMS0uOTAxLjY1NUwxMiAxNy43Njh6Ii8+Cjwvc3ZnPg==)
+}
+
+.n-rating-stars_theme_chubby .n-rating-stars__item:before,
+.n-rating-stars_theme_chubby.n-rating-stars[data-rate='1'] .n-rating-stars__item:nth-child(-n+1),
+.n-rating-stars_theme_chubby.n-rating-stars[data-rate='2'] .n-rating-stars__item:nth-child(-n+2),
+.n-rating-stars_theme_chubby.n-rating-stars[data-rate='3'] .n-rating-stars__item:nth-child(-n+3),
+.n-rating-stars_theme_chubby.n-rating-stars[data-rate='4'] .n-rating-stars__item:nth-child(-n+4),
+.n-rating-stars_theme_chubby.n-rating-stars[data-rate='5'] .n-rating-stars__item {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiNmZmEzMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyIDE3Ljc2OEw1Ljg0OCAyMS42M2EuNi42IDAgMCAxLS45MDEtLjY1NWwxLjc3Mi03LjA0My01LjU3My00LjY1NmEuNi42IDAgMCAxIC4zNDQtMS4wNmw3LjI0NS0uNDkgMi43MDctNi43NGEuNi42IDAgMCAxIDEuMTEzIDBsMi43MDYgNi43NCA3LjI0Ni40OWEuNi42IDAgMCAxIC4zNDQgMS4wNmwtNS41NzMgNC42NTYgMS43NzIgNy4wNDNhLjYuNiAwIDAgMS0uOTAxLjY1NUwxMiAxNy43Njh6Ii8+Cjwvc3ZnPg==)
+}
+
+.n-rating-stars_theme_chubby .n-rating-stars__item:last-of-type {
+    margin-right: 0
+}
+.radio-button {
+    display: inline-block;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family: inherit
+}
+
+.radio-button__radio {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    margin: 0 -6px 0 0;
+    user-select: none;
+    text-align: center;
+    outline: 0;
+    touch-action: manipulation
+}
+
+.radio-button__radio:after,
+.radio-button__radio:before {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: ''
+}
+
+.radio-button__radio:after {
+    z-index: -2;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px
+}
+
+.radio-button__radio_side_left,
+.radio-button__radio_side_left:before {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px
+}
+
+.radio-button__radio_side_right {
+    margin-right: 0
+}
+
+.radio-button__radio_side_right,
+.radio-button__radio_side_right:before {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px
+}
+
+.radio-button__radio_side_left:after {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px
+}
+
+.radio-button__radio_side_right:after {
+    right: 1px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px
+}
+
+.radio-button__radio_checked_yes:before {
+    right: 0
+}
+
+.radio-button__radio_checked_yes+.radio-button__radio:before {
+    left: 1px
+}
+
+.radio-button__radio_disabled_yes {
+    pointer-events: none
+}
+
+.radio-button__radio {
+    cursor: pointer
+}
+
+.radio-button__radio_disabled_yes {
+    cursor: default
+}
+
+.radio-button__control {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer
+}
+
+.radio-button__text {
+    position: relative;
+    z-index: 1;
+    padding: 0 1em;
+    pointer-events: none
+}
+
+.radio-button__radio_side_both {
+    border-radius: 3px
+}
+
+.radio-button__radio_side_both:before {
+    right: 0;
+    border-radius: 3px
+}
+
+.radio-button__radio_side_both:after {
+    border-radius: 2px
+}
+
+.radio-button_theme_normal {
+    color: #000
+}
+
+.radio-button_theme_normal .radio-button__radio_disabled_yes {
+    color: #999
+}
+    .radio-button_theme_normal .radio-button__radio:before {
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, .2) rgba(0, 0, 0, .1)
+    }
+    .radio-button_theme_normal .radio-button__radio_side_both:before,
+    .radio-button_theme_normal .radio-button__radio_side_left:before {
+        border-left-color: rgba(0, 0, 0, .2)
+    }
+    .radio-button_theme_normal .radio-button__radio_side_both:before,
+    .radio-button_theme_normal .radio-button__radio_side_right:before {
+        border-right-color: rgba(0, 0, 0, .2)
+    }
+    .radio-button_theme_normal .radio-button__radio_disabled_yes:before {
+        border-color: rgba(0, 0, 0, .08)
+    }
+    .radio-button_theme_normal .radio-button__radio:after {
+        background-color: #fff
+    }
+    .radio-button_theme_normal .radio-button__radio_checked_yes:before {
+        border-color: rgba(153, 122, 0, .5)
+    }
+    .radio-button_theme_normal .radio-button__radio_checked_yes:after {
+        background-color: #ffeca6
+    }
+    .radio-button_theme_normal .radio-button__radio_checked_yes+.radio-button__radio:before {
+        border-left-width: 0
+    }
+    .radio-button_theme_normal .radio-button__radio_disabled_yes:after {
+        background-color: rgba(0, 0, 0, .08)
+    }
+    html.utilityfocus .radio-button_theme_normal .radio-button__radio_focused_yes:before {
+        border-width: 2px;
+        border-color: #ffdb4d
+    }
+    .radio-button_theme_normal .radio-button__radio_pressed_yes.radio-button__radio_hovered_yes:after {
+        background-color: #f6f5f3
+    }
+    .radio-button_theme_normal .radio-button__radio_checked_yes.radio-button__radio_pressed_yes.radio-button__radio_hovered_yes:after {
+        background-color: #fee481
+    }
+    .radio-button_theme_normal .radio-button__radio_hovered_yes:before {
+        border-color: rgba(0, 0, 0, .3)
+    }
+    .radio-button_theme_normal .radio-button__radio_hovered_yes.radio-button__radio_checked_yes:before {
+        border-color: rgba(129, 103, 0, .6)
+    }
+  .radiobox_theme_normal .radiobox__box:before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 0;
+        content: '';
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 100px;
+        background-color: #fff;
+        background-clip: padding-box
+    }
+    html.utilityfocus .radiobox_theme_normal .radiobox__radio_focused_yes .radiobox__box:before {
+        border-width: 2px;
+        border-color: #ffdb4d
+    }
+    .radiobox_theme_normal .radiobox__radio_pressed_yes .radiobox__box:before {
+        background-color: #f3f1ed
+    }
+    .radiobox_theme_normal .radiobox__radio_checked_yes .radiobox__box:before {
+        border-color: rgba(153, 122, 0, .5);
+        background-color: #ffeba0
+    }
+    .radiobox_theme_normal .radiobox__radio_checked_yes .radiobox__box:after {
+        position: absolute;
+        content: '';
+        border-radius: 100px;
+        background-color: #000
+    }
+    .radiobox_theme_normal .radiobox__radio_checked_yes.radiobox__radio_pressed_yes .radiobox__box:before {
+        border-color: rgba(129, 103, 0, .6);
+        background-color: #fee481
+    }
+    .radiobox_theme_normal .radiobox__radio_disabled_yes .radiobox__text {
+        opacity: .5
+    }
+    .radiobox_theme_normal .radiobox__radio_disabled_yes .radiobox__box:before {
+        border-color: rgba(0, 0, 0, .08);
+        background-color: rgba(0, 0, 0, .08)
+    }
+    .radiobox_theme_normal .radiobox__radio_disabled_yes.radiobox__radio_checked_yes .radiobox__box:before {
+        border-color: rgba(0, 0, 0, .15);
+        background-color: rgba(0, 0, 0, .15)
+    }
+    .radiobox_theme_normal .radiobox__radio_disabled_yes .radiobox__box:after {
+        opacity: .4
+    }
+    .radiobox_theme_normal .radiobox__box:after,
+    .radiobox_theme_normal .radiobox__label {
+        transition: opacity .1s ease-out
+    }
+    .radiobox_theme_normal .radiobox__box:before {
+        transition: .1s ease-out;
+        transition-property: border-color, border-width, background-color
+    }
+    .radiobox_theme_normal .radiobox__radio_hovered_yes .radiobox__box:before {
+        border-color: rgba(0, 0, 0, .3)
+    }
+    .radiobox_theme_normal .radiobox__radio_hovered_yes.radiobox__radio_checked_yes .radiobox__box:before {
+        border-color: rgba(129, 103, 0, .6)
+    } 
+
+
+.input__box,
+.input__control {
+    position: relative;
+    box-sizing: border-box
+}
+
+.input__box {
+    display: block;
+    cursor: text
+}
+
+.input__box:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    content: '';
+    background-clip: padding-box
+}
+    
+.input__control {
+    z-index: 3;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    font-size: 100%;
+    color: #000;
+    border: 0 solid transparent;
+    outline: 0;
+    background: 0 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-appearance: none
+}
+
+.input_theme_normal .input__box:before {
+    border: 1px solid rgba(0, 0, 0, .2);
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: .1s ease-out;
+    transition-property: border-color, border-width
+}
+
+.input_theme_normal.input_type_textarea .input__box:before {
+    transition-property: border-color, border-width, top, left, right, bottom
+}    
+
+
+.input_size_m {
+    font-size: 15px;
+    line-height: 32px
+}
+
+.input_size_m .input__control,
+.input_size_m .input__hint {
+    height: 32px;
+    border-right-width: 10px;
+    border-left-width: 10px
+}
+
+</style>
+<script type="text/javascript">
+
+//дожидаемся полной загрузки страницы
+$(function () {
+  $(".n-rating-stars__item").on("mouseover click", function(){
+      
+    var main = $(this).closest(".n-rating-stars");
+    var id = $(this).attr("data-rate-id");
+    var name = $(this).attr("data-rate-name");
+    
+    main.find('.n-rating-stars__label').text(name);
+    main.attr('data-rate',id);
+        console.log('1');
+  });
+
+  $(".n-rating-stars__item").on("mouseout", function(){
+      
+    var main = $(this).closest(".n-rating-stars");
+
+    var value = main.find('.n-rating-stars__value').val();
+    var name ='';
+    if (value){
+      name = main.find('.n-rating-stars__item[data-rate-id="'+value+'"]').attr('data-rate-name');
+    }
+      main.find('.n-rating-stars__label').text(name);
+      main.attr('data-rate',value);
+      
+        console.log('=');
+        console.log(value);
+        console.log(name);
+  });
+
+  $(".n-rating-stars__item").on("click", function(){
+      
+    var main = $(this).closest(".n-rating-stars");
+    var id = $(this).attr("data-rate-id");
+    var name = $(this).attr("data-rate-name");
+    
+    main.find('.n-rating-stars__label').text(name);
+    main.find('.n-rating-stars__value').val(id);
+    main.attr('data-rate',id);
+        
+  });
+  
+  $(".radio-button__radio").on("mouseover", function(){
+    $(this).addClass('radio-button__radio_hovered_yes');
+  });
+  $(".radio-button__radio").on("mouseout", function(){
+    $(this).removeClass('radio-button__radio_hovered_yes');
+  });
+
+  $(".radio-button__radio").on("click", function(){
+    var main = $(this).closest(".radio-button");
+    
+    $(main).find('.radio-button__radio_checked_yes').removeClass('radio-button__radio_checked_yes');
+    $(this).addClass('radio-button__radio_checked_yes');
+  });
+  
+  $(".n-review-form__delivery .radio-button__radio").on("click", function(){
+    var delivery_id = $(this).find('input').val();
+             
+    $('.n-review-form-factor-group__factors').find('.n-review-form-factor__line').addClass('n-review-form-factor-group');
+    $('.n-review-form-factor-group__factors').find('.n-review-form-factor__line').removeClass('n-review-form-factor-group_active_yes');
+
+    $('.delivery'+delivery_id).removeClass('n-review-form-factor-group');
+    $('.delivery'+delivery_id).addClass('n-review-form-factor-group_active_yes');
+  });  
+  
+});
+</script>
+<div class="contact-info"> 
+  {% IF FORM_NOTICE %}
+    <div class="{% IF FORM_NOTICE_IS_GOOD %}success{% ELSE %}warning{% ENDIF %}">{FORM_NOTICE | nl2br}</div>
+  {% ENDIF %}
+    {% IFNOT FORM_SEND_OK %}
+    <div class="col-md-6 col-xs-12">
+      <h3 class="title">Новый отзыв о магазине «{SETTINGS_STORE_NAME}»</h3>
+      <form method="post" action="{REVIEWS_URL}/add/new" class="feedbackForm" enctype="multipart/form-data">
+        <input type="hidden" name="hash" value="{HASH}" />
+        <!-- Набор полей которые не видит пользователь, но видят боты. Когда они их заполняют мы точно знаем, что их прислал нам бот и мы не сохраняем подобный отзыв о товаре, а боту отправившему отзыв сообщаем, что отзыв добавлен успешно, но будет отображён здесь после прохождения модерации -->
+        {ANTISPAM_CODE}
+        <div class="n-review-form__line n-review-form__line_compact">
+            <div class="n-review-form__label">Общая оценка</div>
+            <div class="n-review-form__rating" >
+                <div class="n-rating-stars n-rating-stars_size_xl i-bem n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="5">
+                  {% FOR sites_review_average_grade %}
+                    <i class="n-rating-stars__item" data-rate-name="{sites_review_average_grade.NAME}" data-rate-id="{sites_review_average_grade.ID}"></i>
+                  {% ENDFOR %} 
+                    <input type="hidden" name="form[sites_review_average_grade]" class="n-rating-stars__value" value="5">
+                    <div class="n-rating-stars__label n-rating-stars__label_position_right">Отличный магазин</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="n-review-form__line n-review-form__line_compact n-review-form__line_valign_center n-review-form__line_place_delivery">
+            <div class="n-review-form__label n-review-form__label_type_delivery">Способ покупки</div>
+              <span class="n-review-form__delivery radio-button radio-button_size_l radio-button_theme_normal" >
+                  {% FOR sites_review_delivery %}
+                    <label class="radio-button__radio                     
+                    {% IF sites_review_delivery.ID = 1 %}
+                      radio-button__radio_checked_yes
+                    {% ENDIF %}" 
+                    for="sites_review_delivery{sites_review_delivery.ID}">
+                      <input class="radio-button__control" id="sites_review_delivery{sites_review_delivery.ID}" type="radio" name="form[sites_review_delivery]" value="{sites_review_delivery.ID}" {% IF sites_review_delivery.ID = 1 %}
+                      checked
+                    {% ENDIF %}>
+                      <span class="radio-button__text">{sites_review_delivery.NAME}</span>
+                    </label>
+                  {% ENDFOR %}               
+           </span>
+        </div>
+
+
+<div class="n-review-form__line n-review-form__line_compact  n-review-form__line_valign_top">
+    <div class="n-review-form__label">Оценки
+        <br>по&nbsp;параметрам</div>
+    <div class="n-review-form-factor-group__factors">
+        <div class="n-review-form-factor__line n-review-form-factor-group_active_yes delivery1 delivery2">
+            <div class="n-review-form-factor__title">Скорость обработки заказа</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_speed %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_speed.NAME}" data-rate-id="{sites_review_factor_speed.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="form[sites_review_factor_speed]" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div>
+
+        <div class="n-review-form-factor__line n-review-form-factor-group delivery3">
+            <div class="n-review-form-factor__title">Ассортимент</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_range %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_range.NAME}" data-rate-id="{sites_review_factor_range.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="form[sites_review_factor_range]" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div>
+
+        <div class="n-review-form-factor__line n-review-form-factor-group_active_yes delivery1">
+            <div class="n-review-form-factor__title">Скорость и качество доставки</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_quality %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_quality.NAME}" data-rate-id="{sites_review_factor_quality.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="form[sites_review_factor_quality]" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div>
+
+        <div class="n-review-form-factor__line n-review-form-factor-group delivery2">
+            <div class="n-review-form-factor__title">Удобство самовывоза</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_pickup %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_pickup.NAME}" data-rate-id="{sites_review_factor_pickup.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="sites_review_factor_pickup" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div>
+
+        <div class="n-review-form-factor__line n-review-form-factor-group delivery3">
+            <div class="n-review-form-factor__title">Расположение</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_place %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_place.NAME}" data-rate-id="{sites_review_factor_place.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="form[sites_review_factor_place]" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div>
+
+        <div class="n-review-form-factor__line n-review-form-factor-group_active_yes delivery1 delivery2 delivery3">
+            <div class="n-review-form-factor__title">Общение</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_communication %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_communication.NAME}" data-rate-id="{sites_review_factor_communication.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="form[sites_review_factor_communication]" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div> 
+
+        <div class="n-review-form-factor__line n-review-form-factor-group_active_yes  delivery1 delivery2 delivery3">
+            <div class="n-review-form-factor__title">Соответствие товара описанию</div>
+            <div class="n-rating-stars n-rating-stars_size_xl n-review-form-factor-group__stars n-rating-stars_variable_yes n-rating-stars_js_inited"  data-rate="">
+              {% FOR sites_review_factor_description %}
+                <i class="n-rating-stars__item" data-rate-name="{sites_review_factor_description.NAME}" data-rate-id="{sites_review_factor_description.ID}"></i>
+              {% ENDFOR %} 
+                <input type="hidden" name="form[sites_review_factor_description]" class="n-rating-stars__value" value="">
+                <div class="n-rating-stars__label n-rating-stars__label_position_right"></div>
+            </div>
+        </div>  
+ 
+    </div>
+</div>        
+
+<div class="n-review-form__line n-review-form__line_valign_center">
+    <div class="n-review-form__label n-review-form__label_type_recommendation">Купили бы здесь снова?</div>
+    <span class="n-review-form__recommendation radio-button radio-button_size_l radio-button_theme_normal ">
+      {% FOR sites_review_recommendation %}
+        <label class="radio-button__radio radio-button__radio_side_left" for="sites_review_recommendation{sites_review_recommendation.ID}">
+          <input class="radio-button__control" id="sites_review_recommendation{sites_review_recommendation.ID}" type="radio" name="form[sites_review_recommendation]" value="{sites_review_recommendation.ID}">
+          <span class="radio-button__text">{sites_review_recommendation.NAME}</span>
+        </label>
+      {% ENDFOR %}     
+
+</div>
+
+<div class="n-review-form-shop__fields-container">
+    <div class="n-review-form-shop__left-column">
+        <div class="n-review-form-shop__advice text-gray">
+          <span class="n-review-form-shop__advice-message">Будет здорово, если вы дополните отзыв — это поможет другим покупателям узнать о магазине больше</span></div>
+    </div>
+</div>
+
+<div class="n-review-form-shop__fields">
+    <h2 class="title title_size_22 n-review-form__line">Расскажите поподробнее</h2>
+    <div class="n-review-form__fields-item n-review-form__line">
+        <label class="n-review-form__label" for="field_positive">Достоинства</label>
+        <span class="n-limit-counter input input_type_limited input_type_textarea input_size_m input_theme_normal n-review-form__textarea n-review-form__textarea_type_positive input_js_inited n-limit-counter_js_inited">
+          <span class="input__box">
+            <textarea id="field_positive" name="form[sites_review_positive]" placeholder="Что вам понравилось" class="input__control textarea textarea_autosize_yes textarea_js_inited" ></textarea>
+          </span>
+        </span>
+    </div>
+    <div class="n-review-form__fields-item n-review-form__line">
+        <label class="n-review-form__label" for="field_negative">Недостатки</label>
+        <span class="n-limit-counter input input_type_limited input_type_textarea input_size_m input_theme_normal n-review-form__textarea n-review-form__textarea_type_negative input_js_inited n-limit-counter_js_inited" >
+        <span class="input__box">
+          <textarea id="field_negative" name="form[sites_review_negative]" placeholder="Что не оправдало ваших ожиданий" class="input__control textarea textarea_autosize_yes" ></textarea>
+        </span>
+        </span>
+    </div>
+    <div class="n-review-form__fields-item n-review-form__line">
+        <label class="n-review-form__label" for="field_comment">Комментарий</label><span class="n-limit-counter input input_type_limited input_type_textarea input_size_m input_theme_normal n-review-form__textarea n-review-form__textarea_type_comment input_js_inited n-limit-counter_js_inited" >
+        <span class="input__box">
+          <textarea id="field_comment" name="form[sites_review_comment]" placeholder="Другие впечатления о магазине" class="input__control textarea textarea_autosize_yes " ></textarea>
+        </span>
+        </span>
+    </div>
+</div>   
+<div class="n-review-form__fields-item n-review-form__line">
+  <div class="n-review-form__label n-review-form__label_type_order-id">Номер заказа</div>
+  <span class="n-review-form__order-id n-review-form__order-id_type_tall input input_size_m input_theme_normal i-bem input_js_inited" >
+    <span class="input__box">
+      <input class="input__control" name="form[order_id]" autocomplete="on" value="" placeholder="Если есть">
+    </span>
+  </span>
+</div>
+        
+        
+       
+        <div class="buttons">
+          <div class="pp">Нажимая на кнопку Отправить, Вы соглашаетесь с <a href="#">правилами обработки данных</a></div>
+          <button type="submit" title="Отправить" class="button"><span>Отправить</span></button>
+        </div>
+      </form>
+    </div>
+    {% ENDIF %}
+
+</div>
