@@ -161,6 +161,8 @@ function scripts(filePath = "") {
       //   })
       // )
       .pipe(replacePath("/src/js/", ""))
+      .pipe(replacePath("src/js/", ""))
+      .pipe(replacePath("src/js", ""))
       .pipe(dest(paths.buildStatic))
   );
 }
@@ -169,7 +171,6 @@ function styles(filePath = "") {
   const isBuild = typeof filePath === "function";
   const file = filePath;
   const fileName = !isBuild ? path.basename(file) : "";
-  console.log(fileName);
 
   if (preprocessorOn) {
     const PATH = !isBuild
@@ -238,24 +239,21 @@ function styles(filePath = "") {
       .pipe(replacePath("/src/scss/", ""))
       .pipe(dest(paths.buildStatic));
   } else {
-    const PATH = !isBuild ? `${baseDir}/css/**/*.css` : `${baseDir}/css/*.css`;
     if (isBuild) {
-      src([`${baseDir}/css/*.css`, `${baseDir}/css/default/**`])
+      src([`${baseDir}/css/**/*.css`])
         .pipe(replacePath(`/src/css/default`, ""))
         .pipe(dest(paths.buildStatic));
-    }
-    if (fileName) {
-      console.log(`${baseDir}/css/${fileName}`);
-      return src(`${baseDir}/css/${fileName}`).pipe(browserSync.stream());
     } else {
-      return src(paths.buildStatic).pipe(browserSync.stream());
+      return src(`${baseDir}/css/${fileName}`)
+        .pipe(dest(paths.buildStatic))
+        .pipe(browserSync.stream());
     }
   }
   isBuild && filePath();
 }
 
 function images() {
-  return src([paths.images.src, `!${baseDir}/images/*.md`])
+  return src([paths.images.src])
     .pipe(newer(paths.images.dest))
     .pipe(
       imagemin([
@@ -349,10 +347,9 @@ function icons() {
 function startwatch() {
   // Стили
   const pathStyleFiles = preprocessorOn
-    ? `${baseDir}/**/*.scss`
-    : `${baseDir}"/**/*.css"`;
-
-  watch(pathStyleFiles).on("change", styles);
+    ? `${baseDir}/${preprocessor}/**/*.${preprocessor}`
+    : `${baseDir}/css/**/*.css`;
+  watch(pathStyleFiles).on("add", styles).on("change", styles);
   watch(`${distDir}/**/*.css`).on("add", uploadFile).on("change", uploadFile);
   // Изображения
   watch(`${distDir}/**/*.{${imageswatch}}`)
@@ -372,7 +369,8 @@ function startwatch() {
     .on("add", uploadFile);
   // Javascript
   watch(`${baseDir}/**/*.js`).on("change", scripts).on("add", scripts);
-  watch(`${distDir}"/**/*.js`).on("add", uploadFile).on("change", uploadFile);
+  // watch(`${distDir}"/**/*.js`).on("change", uploadFile).on("add", uploadFile);
+  watch(`${distDir}/**/*.js`).on("change", uploadFile).on("add", uploadFile);
 }
 
 function uploadFile(event, cb = () => {}) {
