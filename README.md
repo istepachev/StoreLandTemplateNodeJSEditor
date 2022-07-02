@@ -69,6 +69,18 @@
 
 `<!-- [html.htm, discount_data.htm, goods_list.htm, search.htm] -->`
 
+Шаблоны импортируются в основной файл:
+
+`@@include('./_templates/goods/_goods.html', {"goods_array_name": "index_page_goods", "inCatalog": true})`
+
+Или так, если не передаются переменные
+
+```
+<head>
+  @@include('./_templates/_head.html')
+</head>
+```
+
 Внутри шаблона используются переменные в формате
 
 ```
@@ -88,18 +100,6 @@
     }
 
 {% ENDFOR %}`
-```
-
-Шаблоны импортируются в основной файл:
-
-`@@include('./\_templates/goods/\_goods.html', {"goods_array_name": "index_page_goods", "inCatalog": true})`
-
-Или так, если не передаются переменные
-
-```
-<head>
-  @@include('./_templates/_head.html')
-</head>
 ```
 
 Переменные можно задавать прямо в файле или через `_template-variables.js`
