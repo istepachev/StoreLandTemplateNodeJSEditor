@@ -1,6 +1,5 @@
 // VARIABLES & PATHS
-
-let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
+const preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   preprocessorOn = false,
   fontswatch = "woff,woff2,eot,ttf",
   fileswatch = "html,htm", // List of files extensions for watching & hard reload (comma separated)
@@ -9,7 +8,7 @@ let preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   distDir = "dist", // Base directory path without «/» at the end
   online = true; // If «false» - Browsersync will work offline without internet connection
 
-let paths = {
+const paths = {
   baseDir: "src",
   distDir: "dist",
   downloadDir: "downloaded-files",
@@ -114,7 +113,7 @@ function browsersync() {
     proxy: {
       target: `${CURRENT_SITE}`,
       proxyReq: [
-        function (proxyReq) {
+        (proxyReq) => {
           proxyReq.setHeader("x-nodejs-editor-version", "1.01");
         },
       ],
@@ -125,43 +124,33 @@ function browsersync() {
     port: 8088,
   });
 }
-function fonts(filePath) {
-  const isBuild = typeof filePath == "function";
-  if (isBuild) {
-    filePath = [
-      "src/fonts/**/*.ttf",
-      "src/fonts/**/*.eot",
-      "src/fonts/**/*.woff",
-      "src/fonts/**/*.woff2",
-    ];
-  }
-  return src(filePath).pipe(plumber()).pipe(dest(paths.buildStatic));
+function fonts(filePath = "") {
+  const isBuild = typeof filePath === "function";
+  return src(isBuild ? `src/fonts/**/*.{${fontswatch}}` : filePath)
+    .pipe(plumber())
+    .pipe(dest(paths.buildStatic));
 }
 
 function scripts(filePath = "") {
-  const isBuild = typeof filePath == "function";
+  const isBuild = typeof filePath === "function";
   const fileName = !isBuild ? path.basename(filePath) : "";
-  const parentFileFolder = !isBuild
+  const parentFileFolderName = !isBuild
     ? path.basename(path.dirname(filePath))
     : "";
-  const DEFAULT_JS_PATH = `default`;
+  const DEFAULT_JS_PATH_NAME = `default`;
 
   if (fileName.startsWith(`_`)) {
     console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
     return;
   }
-  if (parentFileFolder === DEFAULT_JS_PATH || isBuild) {
-    if (isBuild) {
-      filePath = `src/js/${DEFAULT_JS_PATH}/**/*.js`;
-    }
+  if (parentFileFolderName === DEFAULT_JS_PATH_NAME) {
     src([filePath]).pipe(dest(paths.buildStatic));
-    if (!isBuild) {
-      return;
-    }
+
+    return;
   }
   const PATH = !isBuild
     ? filePath
-    : ["src/js/**/*.js", `!src/js/${DEFAULT_JS_PATH}/**/*.js`];
+    : ["src/js/**/*.js", `src/js/${DEFAULT_JS_PATH_NAME}/**/*.js`];
   console.log(PATH);
   return (
     src(PATH)
@@ -171,14 +160,16 @@ function scripts(filePath = "") {
       //     presets: ["@babel/env"],
       //   })
       // )
+      .pipe(replacePath("/src/js/", ""))
       .pipe(dest(paths.buildStatic))
   );
 }
 
 function styles(filePath = "") {
-  const isBuild = typeof filePath == "function";
-  let file = filePath;
-  let fileName = !isBuild ? path.basename(file) : "";
+  const isBuild = typeof filePath === "function";
+  const file = filePath;
+  const fileName = !isBuild ? path.basename(file) : "";
+  console.log(fileName);
 
   if (preprocessorOn) {
     const PATH = !isBuild
@@ -254,6 +245,7 @@ function styles(filePath = "") {
         .pipe(dest(paths.buildStatic));
     }
     if (fileName) {
+      console.log(`${baseDir}/css/${fileName}`);
       return src(`${baseDir}/css/${fileName}`).pipe(browserSync.stream());
     } else {
       return src(paths.buildStatic).pipe(browserSync.stream());
@@ -279,11 +271,11 @@ function images() {
 }
 
 function cleanDist() {
-  return del("" + distDir + "/**/*", { force: true });
+  return del(`${distDir}/**/*`, { force: true });
 }
 
 function htmlinclude(filePath = "") {
-  const isBuild = typeof filePath == "function";
+  const isBuild = typeof filePath === "function";
   const file = !isBuild && filePath;
   const fileName = !isBuild ? path.basename(filePath) : "";
 
@@ -326,11 +318,7 @@ function htmlinclude(filePath = "") {
   } else {
     const PATH = !isBuild
       ? filePath
-      : [
-          "src/html/**/*.htm",
-          "!src/html/_templates/**/*.html",
-          "!src/html/_templates/**/*.htm",
-        ];
+      : ["src/html/**/*.htm", "!src/html/_templates/**/*.{html, htm}"];
     return src(PATH)
       .pipe(plumber())
       .pipe(
@@ -360,81 +348,40 @@ function icons() {
 }
 function startwatch() {
   // Стили
-  if (preprocessorOn) {
-    watch(baseDir + "/**/*.scss").on("change", function (event) {
-      styles(event);
-    });
-  } else {
-    watch(baseDir + "/**/*.css").on("change", function (event) {
-      styles(event);
-    });
-  }
-  watch(distDir + "/**/*.css")
-    .on("add", function (event) {
-      uploadFile(event);
-    })
-    .on("change", function (event) {
-      uploadFile(event);
-    });
+  const pathStyleFiles = preprocessorOn
+    ? `${baseDir}/**/*.scss`
+    : `${baseDir}"/**/*.css"`;
+
+  watch(pathStyleFiles).on("change", styles);
+  watch(`${distDir}/**/*.css`).on("add", uploadFile).on("change", uploadFile);
   // Изображения
-  watch(distDir + "/**/*.{" + imageswatch + "}")
-    .on("add", function (event) {
-      uploadFile(event);
-    })
-    .on("change", function (event) {
-      uploadFile(event);
-    });
+  watch(`${distDir}/**/*.{${imageswatch}}`)
+    .on("add", uploadFile)
+    .on("change", uploadFile);
   // Svg иконки
-  watch(baseDir + "/icons/**/*.{" + "svg" + "}")
-    .on("add", icons)
-    .on("change", icons);
+  watch(`${baseDir}/icons/**/*.svg`).on("add", icons).on("change", icons);
   // Шрифты
-  watch(distDir + "/**/*.{" + fontswatch + "}")
-    .on("add", function (event) {
-      uploadFile(event);
-    })
-    .on("change", function (event) {
-      uploadFile(event);
-    });
-  watch(baseDir + "/**/*.{" + fontswatch + "}").on("change", function (event) {
-    fonts(event);
-  });
+  watch(`${distDir}/**/*.{${fontswatch}}`)
+    .on("add", uploadFile)
+    .on("change", uploadFile);
+  watch(`${baseDir}/**/*.{${fontswatch}}`).on("change", fonts);
   // Html
-  watch(baseDir + "/**/*.{" + fileswatch + "}").on("change", function (event) {
-    htmlinclude(event);
-  });
-  watch(distDir + "/**/*.{" + fileswatch + "}")
-    .on("change", function (event) {
-      uploadFile(event);
-    })
-    .on("add", function (event) {
-      uploadFile(event);
-    });
+  watch(`${baseDir}/**/*.{${fileswatch}}`).on("change", htmlinclude);
+  watch(`${distDir}/**/*.{${fileswatch}}`)
+    .on("change", uploadFile)
+    .on("add", uploadFile);
   // Javascript
-  watch([baseDir + "/**/*.js"])
-    .on("change", function (event) {
-      scripts(event);
-    })
-    .on("add", function (event) {
-      scripts(event);
-    });
-  watch(distDir + "/**/*.js")
-    .on("add", function (event) {
-      uploadFile(event);
-    })
-    .on("change", function (event) {
-      uploadFile(event);
-    });
+  watch(`${baseDir}/**/*.js`).on("change", scripts).on("add", scripts);
+  watch(`${distDir}"/**/*.js`).on("add", uploadFile).on("change", uploadFile);
 }
 
-function uploadFile(event, cb) {
+function uploadFile(event, cb = () => {}) {
   async function getFileContent() {
-    let filehandle = null;
-    let file = event;
-    let fileName = path.basename(file);
+    const file = event;
+    const fileName = path.basename(file);
 
     try {
-      filehandle = await fsPromises.open(`${file}`, "r+");
+      const filehandle = await fsPromises.open(`${file}`, "r+");
       const data = await filehandle.readFile("base64");
       filehandle.close();
       return { data, fileName };
@@ -444,7 +391,7 @@ function uploadFile(event, cb) {
   }
   getFileContent()
     .then(({ data, fileName }) => {
-      let params = new URLSearchParams();
+      const params = new URLSearchParams();
       params.append("secret_key", SECRET_KEY);
       params.append("form[file_name]", `${fileName}`);
       params.append("form[file_content]", `${data}`);
@@ -457,9 +404,7 @@ function uploadFile(event, cb) {
         body: params,
         timeout: 5000,
       })
-        .then((res) => {
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((json) => {
           if (json.status === `ok`) {
             console.log(
@@ -473,10 +418,10 @@ function uploadFile(event, cb) {
             if (fileName.includes("css")) {
               browserSync.reload("*.css");
             }
-            if (cb) {
+            if (typeof cb === "function") {
               cb();
             }
-          } else if (json.status == `error`) {
+          } else if (json.status === `error`) {
             console.log(`Ошибка отправки ⛔ ${fileName}`);
             console.log(`${json.message}`);
           }
@@ -487,7 +432,7 @@ function uploadFile(event, cb) {
 
 function downloadFiles(done) {
   const FILES_PATH = `./${paths.downloadDir}`;
-  let params = new URLSearchParams();
+  const params = new URLSearchParams();
   params.append("secret_key", SECRET_KEY);
 
   fetch(URL_MAP.get_list, {
@@ -503,14 +448,11 @@ function downloadFiles(done) {
         if (!fs.existsSync(FILES_PATH)) {
           fs.mkdirSync(FILES_PATH);
         }
-        const filesArray = json.data.map((item) => {
-          return {
-            file_id: item["file_id"]["value"],
-            file_name: item["file_name"]["value"],
-          };
-        });
-        return filesArray;
-      } else if (json.status == `error`) {
+        return json.data.map((item) => ({
+          file_id: item["file_id"]["value"],
+          file_name: item["file_name"]["value"],
+        }));
+      } else if (json.status === `error`) {
         console.log(`Ошибка загрузки ⛔`);
       }
     })
@@ -525,8 +467,7 @@ function downloadFiles(done) {
           return;
         }
         const { file_id, file_name } = arr.shift();
-
-        let params = new URLSearchParams();
+        const params = new URLSearchParams();
         params.append("secret_key", SECRET_KEY);
 
         fetch(`${URL_MAP.get_file}/${file_id}`, {
@@ -537,53 +478,48 @@ function downloadFiles(done) {
           .then((res) => res.json())
           .then((json) => {
             if (json.status === `ok`) {
-              return json;
-            }
-          })
-          .then((json) => {
-            const file = json["data"]["file_name"].value;
-            const fileContent = json["data"]["file_content"].value;
-            const fileExt = path.extname(file).replace(".", "");
+              const file = json["data"]["file_name"].value;
+              const fileContent = json["data"]["file_content"].value;
+              const fileExt = path.extname(file).replace(".", "");
 
-            const FILES_MAP = {
-              html: ["htm", "html"],
-              images: ["png", "jpg", "jpeg", "gif"],
-              fonts: ["eot", "ttf", "woff", "woff2"],
-              js: ["js"],
-              css: ["css"],
-              icons: ["svg"],
-            };
+              const FILES_MAP = {
+                html: ["htm", "html"],
+                images: ["png", "jpg", "jpeg", "gif"],
+                fonts: ["eot", "ttf", "woff", "woff2"],
+                js: ["js"],
+                css: ["css"],
+                icons: ["svg"],
+              };
 
-            let fileDirName = "";
-
-            for (const key in FILES_MAP) {
-              if (Object.hasOwnProperty.call(FILES_MAP, key)) {
-                const extArr = FILES_MAP[key];
-                if (extArr.includes(fileExt)) {
-                  fileDirName = key;
+              let fileDirName = "";
+              Object.entries(FILES_MAP).forEach(([dirNameAlias, extArray]) => {
+                if (extArray.includes(fileExt)) {
+                  fileDirName = dirNameAlias;
                 }
-              }
-            }
+              });
 
-            const newDir = `${FILES_PATH}/${fileDirName}`;
-            !fs.existsSync(newDir) && fs.mkdirSync(newDir);
+              const newDir = `${FILES_PATH}/${fileDirName}`;
+              !fs.existsSync(newDir) && fs.mkdirSync(newDir);
 
-            fs.writeFile(
-              `${FILES_PATH}/${fileDirName}/${file}`,
-              fileContent,
-              "base64",
-              function (err) {
-                if (err) {
-                  console.log(err);
+              fs.writeFile(
+                `${FILES_PATH}/${fileDirName}/${file}`,
+                fileContent,
+                "base64",
+                (err) => {
+                  if (err) {
+                    console.log(err);
+                  }
+
+                  console.log(
+                    `Скачан файл ${file_name}. Всего ${count} из ${arrLength}`
+                  );
+                  getFile(array);
+                  count++;
                 }
-
-                console.log(
-                  `Скачан файл ${file_name}. Всего ${count} из ${arrLength}`
-                );
-                getFile(array);
-                count++;
-              }
-            );
+              );
+            } else if (json.status === `error`) {
+              console.log(`Ошибка ⛔: ${json.message}`);
+            }
           })
           .catch(console.log);
       };
