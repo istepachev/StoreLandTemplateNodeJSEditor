@@ -1,3 +1,5 @@
+const { URL_MAP } = require("./tasks/constants");
+
 // VARIABLES & PATHS
 const preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   preprocessorOn = false,
@@ -53,7 +55,7 @@ const cleancss = require("gulp-clean-css");
 // const concat = require("gulp-concat");
 // const babel = require("gulp-babel");
 // const sourcemaps = require("gulp-sourcemaps");
-const browserSync = require("browser-sync").create();
+
 // const uglify = require("gulp-uglify-es").default;
 const svgSprite = require("gulp-svg-sprite");
 const autoprefixer = require("gulp-autoprefixer");
@@ -72,64 +74,8 @@ const path = require("path");
 const chalk = require("chalk");
 const moment = require("moment"); // require
 
-const { CURRENT_SITE } = require("./current-site.json"); // Текущий url адрес сайта, с которым работаем
-const FILE_CONFIG_NAME = "secret-keys.json";
-try {
-  require(`./${FILE_CONFIG_NAME}`);
-} catch (error) {
-  createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
-}
-const { SECRET_KEY } = require(`./${FILE_CONFIG_NAME}`)[CURRENT_SITE]; // Секретный ключ текущего сайта
-
-function checkConfig(cb) {
-  if (!CURRENT_SITE) {
-    cb(
-      new Error(
-        `Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ` +
-          chalk.red(`current-site.json`)
-      )
-    );
-  }
-  if (!SECRET_KEY) {
-    cb(
-      new Error(
-        `Не задан ${chalk.red(`SECRET_KEY`)} в файле ` +
-          chalk.red(FILE_CONFIG_NAME)
-      )
-    );
-  }
-
-  cb();
-}
-const URL_MAP = {
-  save: `${CURRENT_SITE}/api/v1/site_files/save`,
-  get_list: `${CURRENT_SITE}/api/v1/site_files/get_list`,
-  get_file: `${CURRENT_SITE}/api/v1/site_files/get`,
-};
-
-function browsersync() {
-  browserSync.init({
-    notify: false,
-    proxy: {
-      target: `${CURRENT_SITE}`,
-      proxyReq: [
-        (proxyReq) => {
-          proxyReq.setHeader("x-nodejs-editor-version", "1.01");
-        },
-      ],
-    },
-    online,
-    injectChanges: true,
-    open: "external",
-    port: 8088,
-  });
-}
-function fonts(filePath = "") {
-  const isBuild = typeof filePath === "function";
-  return src(isBuild ? `src/fonts/**/*.{${fontswatch}}` : filePath)
-    .pipe(plumber())
-    .pipe(dest(paths.buildStatic));
-}
+exports.browserSync = require("./tasks/browsersync");
+exports.fonts = require("./tasks/fonts");
 
 function scripts(filePath = "") {
   const isBuild = typeof filePath === "function";
@@ -268,9 +214,7 @@ function images() {
     .pipe(dest(paths.buildStatic));
 }
 
-function cleanDist() {
-  return del(`${distDir}/**/*`, { force: true });
-}
+exports.cleanDist = require("./tasks/clean");
 
 function htmlinclude(filePath = "") {
   const isBuild = typeof filePath === "function";
@@ -289,7 +233,7 @@ function htmlinclude(filePath = "") {
       const isFirstComment = firstStrFile.match(/\[([^}]*)]/);
       if (!isFirstComment) {
         console.error(
-          `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] --> `
+          `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] -->`
         );
 
         return;
@@ -361,7 +305,7 @@ function startwatch() {
   watch(`${distDir}/**/*.{${fontswatch}}`)
     .on("add", uploadFile)
     .on("change", uploadFile);
-  watch(`${baseDir}/**/*.{${fontswatch}}`).on("change", fonts);
+  watch(`${baseDir}/**/*.{${fontswatch}}`).on("change", exports.fonts);
   // Html
   watch(`${baseDir}/**/*.{${fileswatch}}`).on("change", htmlinclude);
   watch(`${distDir}/**/*.{${fileswatch}}`)
@@ -389,10 +333,11 @@ function uploadFile(event, cb = () => {}) {
   }
   getFileContent()
     .then(({ data, fileName }) => {
-      const params = new URLSearchParams();
-      params.append("secret_key", SECRET_KEY);
-      params.append("form[file_name]", `${fileName}`);
-      params.append("form[file_content]", `${data}`);
+      const params = new URLSearchParams({
+        secret_key: SECRET_KEY,
+        "form[file_name]": `${fileName}`,
+        "form[file_content]": `${data}`,
+      });
       if (fileName.includes("css")) {
         // params.append("form[do_not_receive_file]", `1`);
       }
@@ -420,129 +365,31 @@ function uploadFile(event, cb = () => {}) {
               cb();
             }
           } else if (json.status === `error`) {
-            console.log(`Ошибка отправки ⛔ ${fileName}`);
-            console.log(`${json.message}`);
+            console.log(
+              chalk.redBright(`Ошибка отправки ⛔ ${chalk.gray(fileName)}`),
+              chalk.redBright(`${json.message}`)
+            );
           }
         });
     })
     .catch(console.error);
 }
-
-function downloadFiles(done) {
-  const FILES_PATH = `./${paths.downloadDir}`;
-  const params = new URLSearchParams();
-  params.append("secret_key", SECRET_KEY);
-
-  fetch(URL_MAP.get_list, {
-    method: "post",
-    body: params,
-    timeout: 10000,
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      if (json.status === `ok`) {
-        console.log(`Загружен список всех файлов ✔️`);
-
-        if (!fs.existsSync(FILES_PATH)) {
-          fs.mkdirSync(FILES_PATH);
-        }
-        return json.data.map((item) => ({
-          file_id: item["file_id"]["value"],
-          file_name: item["file_name"]["value"],
-        }));
-      } else if (json.status === `error`) {
-        console.log(`Ошибка загрузки ⛔`);
-      }
-    })
-    .then((array) => {
-      console.log(`Всего файлов ${array.length}`);
-      const arrLength = array.length;
-      let count = 1;
-      const getFile = (arr) => {
-        if (!arr.length) {
-          console.log(`Всего скачано файлов ${count} из ${arrLength}`);
-          done();
-          return;
-        }
-        const { file_id, file_name } = arr.shift();
-        const params = new URLSearchParams();
-        params.append("secret_key", SECRET_KEY);
-
-        fetch(`${URL_MAP.get_file}/${file_id}`, {
-          method: "post",
-          body: params,
-          timeout: 10000,
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            if (json.status === `ok`) {
-              const file = json["data"]["file_name"].value;
-              const fileContent = json["data"]["file_content"].value;
-              const fileExt = path.extname(file).replace(".", "");
-
-              const FILES_MAP = {
-                html: ["htm", "html"],
-                images: ["png", "jpg", "jpeg", "gif"],
-                fonts: ["eot", "ttf", "woff", "woff2"],
-                js: ["js"],
-                css: ["css"],
-                icons: ["svg"],
-              };
-
-              let fileDirName = "";
-              Object.entries(FILES_MAP).forEach(([dirNameAlias, extArray]) => {
-                if (extArray.includes(fileExt)) {
-                  fileDirName = dirNameAlias;
-                }
-              });
-
-              const newDir = `${FILES_PATH}/${fileDirName}`;
-              !fs.existsSync(newDir) && fs.mkdirSync(newDir);
-
-              fs.writeFile(
-                `${FILES_PATH}/${fileDirName}/${file}`,
-                fileContent,
-                "base64",
-                (err) => {
-                  if (err) {
-                    console.log(err);
-                  }
-
-                  console.log(
-                    `Скачан файл ${file_name}. Всего ${count} из ${arrLength}`
-                  );
-                  getFile(array);
-                  count++;
-                }
-              );
-            } else if (json.status === `error`) {
-              console.log(`Ошибка ⛔: ${json.message}`);
-            }
-          })
-          .catch(console.log);
-      };
-      getFile(array);
-    });
-}
-function createSecretFile(siteUrl = "", fileName = "") {
-  const fileContent = `{
-    "${siteUrl}": {
-      "SECRET_KEY": ""
-    }
-  }
-  `;
-
-  fs.writeFileSync(fileName, fileContent);
-}
+const { checkConfig } = require("./tasks/config-check");
+exports.checkConfig = checkConfig;
+exports.downloadFiles = require("./tasks/downloadFiles");
 
 exports.build = parallel(
-  cleanDist,
+  exports.cleanDist,
   htmlinclude,
   scripts,
   images,
-  fonts,
+  exports.fonts,
   styles,
   icons
 );
-exports.download = series(checkConfig, downloadFiles);
-exports.default = parallel(checkConfig, browsersync, startwatch);
+exports.download = series(exports.checkConfig, exports.downloadFiles);
+exports.default = parallel(
+  exports.checkConfig,
+  exports.browserSync,
+  startwatch
+);
