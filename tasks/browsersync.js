@@ -1,7 +1,7 @@
 const { CURRENT_SITE } = require("./constants");
 const browserSync = require("browser-sync").create();
 
-function browsersync() {
+const browsersyncTask = () => {
   browserSync.init({
     notify: false,
     proxy: {
@@ -17,6 +17,6 @@ function browsersync() {
     open: "external",
     port: 8088,
   });
-}
+};
 
-module.exports = browsersync;
+module.exports = { browsersyncTask, browserSync };
