@@ -34,42 +34,35 @@ const startwatch = () => {
     .on("add", parallel("uploadFile"))
     .on("change", parallel("uploadFile"));
   // Изображения
-  watch(`${Paths.distDir}/**/*.{${FilesMap.images.join()}}`)
+  watch(`${Paths.distDir}/**/*.{${FilesMap.getFilesStr("images")}}`)
     .on("add", parallel("uploadFile"))
     .on("change", parallel("uploadFile"));
   // Svg иконки
-  watch(`${Paths.baseDir}/icons/**/*.svg`)
+  watch(`${Paths.baseDir}/icons/**/*.${FilesMap.getFilesStr("icons")}`)
     .on("add", parallel("icons"))
     .on("change", parallel("icons"));
   // Шрифты
-  watch(`${Paths.distDir}/**/*.{${FilesMap.fonts.join()}}`)
+  watch(`${Paths.distDir}/**/*.{${FilesMap.getFilesStr("fonts")}}`)
     .on("add", parallel("uploadFile"))
     .on("change", parallel("uploadFile"));
-  watch(`${Paths.baseDir}/**/*.{${FilesMap.fonts.join()}}`).on(
+  watch(`${Paths.baseDir}/**/*.{${FilesMap.getFilesStr("fonts")}}`).on(
     "change",
     parallel("fonts")
   );
   // Html
-  watch(`${Paths.baseDir}/**/*.{${FilesMap.html.join()}}`).on(
+  watch(`${Paths.baseDir}/**/*.{${FilesMap.getFilesStr("html")}}`).on(
     "change",
-    (evt) => {
-      console.log(evt);
-      console.log(exports.html(evt));
-    }
-    // (evt) => {
-    //   console.log(evt);
-    //   console.log(parallel("html"));
-    // }
+    exports.html
   );
-  watch(`${Paths.distDir}/**/*.{${FilesMap.html.join()}}`)
-    .on("change", parallel("uploadFile"))
-    .on("add", parallel("uploadFile"));
+  watch(`${Paths.distDir}/**/*.{${FilesMap.getFilesStr("html")}}`)
+    .on("change", exports.uploadFile)
+    .on("add", exports.uploadFile);
   // Javascript
-  watch(`${Paths.baseDir}/**/*.${FilesMap.js.join()}`)
+  watch(`${Paths.baseDir}/**/*.${FilesMap.getFilesStr("js")}`)
     .on("change", parallel("scripts"))
     .on("add", parallel("scripts"));
   // watch(`${distDir}"/**/*.js`).on("change", uploadFile).on("add",  uploadFile);
-  watch(`${Paths.distDir}/**/*.${FilesMap.js.join()}`)
+  watch(`${Paths.distDir}/**/*.${FilesMap.getFilesStr("js")}`)
     .on("change", parallel("uploadFile"))
     .on("add", parallel("uploadFile"));
 };

@@ -12,7 +12,6 @@ const htmlinclude = (filePath = "") => {
   const isBuild = build(filePath);
   const file = !isBuild && filePath;
   const fileName = !isBuild ? path.basename(filePath) : "";
-  console.log(isBuild, filePath);
 
   if (!isBuild && file && fileName.startsWith(`_`)) {
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
@@ -36,7 +35,7 @@ const htmlinclude = (filePath = "") => {
         .match(/\[([^}]*)]/)[1]
         .trim()
         .split(",")
-        .map((el) => `${baseDir}/html/${el.trim()}`);
+        .map((el) => `${Paths.baseDir}/html/${el.trim()}`);
 
       return src(filesPath)
         .pipe(plumber())
@@ -54,7 +53,7 @@ const htmlinclude = (filePath = "") => {
     const PATH = !isBuild
       ? filePath
       : ["src/html/**/*.htm", "!src/html/_templates/**/*.{html, htm}"];
-    console.log("PATH", PATH);
+
     return src(PATH)
       .pipe(plumber())
       .pipe(

@@ -17,6 +17,7 @@ const FilesMap = {
   js: ["js"],
   css: ["css"],
   icons: ["svg"],
+  getFilesStr: (str) => FilesMap[str].join(),
 };
 
 const URL_MAP = {
