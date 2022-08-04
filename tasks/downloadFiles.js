@@ -9,8 +9,6 @@ const chalk = require("chalk");
 
 const downloadFiles = (done) => {
   const FILES_PATH = `${Paths.downloadDir}`;
-  console.log(FILES_PATH, fs.existsSync(FILES_PATH));
-  // return;
   const FETCH_PARAMS = {
     method: "post",
     body: new URLSearchParams({ secret_key: SECRET_KEY }),
