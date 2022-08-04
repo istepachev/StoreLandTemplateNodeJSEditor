@@ -1,3 +1,4 @@
+const { src, dest } = require("gulp");
 const { Paths, fontswatch } = require("./constants");
 const { isBuild } = require("./utils");
 

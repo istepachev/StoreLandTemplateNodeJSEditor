@@ -1,13 +1,14 @@
 const { Paths, FilesMap } = require("./constants");
 const { URL_MAP } = require("./constants");
 const { SECRET_KEY } = require("./config-check");
+const { URLSearchParams } = require("node:url");
 const fs = require("node:fs");
 const path = require("node:path");
 const fetch = require("node-fetch");
 const chalk = require("chalk");
 
 const downloadFiles = (done) => {
-  const FILES_PATH = `./../${Paths.downloadDir}`;
+  const FILES_PATH = `${Paths.downloadDir}`;
   console.log(FILES_PATH, fs.existsSync(FILES_PATH));
   // return;
   const FETCH_PARAMS = {
@@ -21,7 +22,7 @@ const downloadFiles = (done) => {
     .then((json) => {
       if (json.status === `ok`) {
         console.log(chalk.greenBright(`Загружен список всех файлов ✔️`));
-        if (fs.existsSync(FILES_PATH)) {
+        if (!fs.existsSync(FILES_PATH)) {
           fs.mkdirSync(FILES_PATH);
         }
         return json.data.map((item) => ({
@@ -37,14 +38,14 @@ const downloadFiles = (done) => {
       let count = 1;
       console.log(chalk.greenBright(`Всего файлов ${arrLength} шт.`));
 
-      const getFile = (arr) => {
-        if (!arr.length) {
+      const getFile = (filesArray) => {
+        if (!filesArray.length) {
           console.log(`Всего скачано файлов ${count} из ${arrLength}`);
           done();
 
           return;
         }
-        const { file_id, file_name } = arr.shift();
+        const { file_id, file_name } = filesArray.shift();
 
         fetch(`${URL_MAP.get_file}/${file_id}`, FETCH_PARAMS)
           .then((res) => res.json())
@@ -54,16 +55,16 @@ const downloadFiles = (done) => {
               const fileContent = json["data"]["file_content"].value;
               const fileExt = path.extname(file).replace(".", "");
 
-              const [fileDirName] =
+              const fileDirName =
                 Object.keys(FilesMap).find((key) =>
                   FilesMap[key].includes(fileExt)
                 ) || "";
-
               const newDir = `${FILES_PATH}/${fileDirName}`;
+
               !fs.existsSync(newDir) && fs.mkdirSync(newDir);
 
               fs.writeFile(
-                `${FILES_PATH}/${fileDirName}/${file}`,
+                `${newDir}/${file}`,
                 fileContent,
                 "base64",
                 (err) => {
@@ -76,8 +77,8 @@ const downloadFiles = (done) => {
                       file_name
                     )}. Всего ${count} из ${arrLength}`
                   );
-                  getFile(array);
                   count++;
+                  getFile(array);
                 }
               );
             } else if (json.status === `error`) {

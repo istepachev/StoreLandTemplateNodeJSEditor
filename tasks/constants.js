@@ -1,5 +1,5 @@
 const { CURRENT_SITE } = require("../current-site.json");
-
+const FILE_CONFIG_NAME = "secret-keys.json";
 // VARIABLES & PATHS
 const preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   preprocessorOn = false,
@@ -60,4 +60,4 @@ const Paths = {
   buildStatic: distDir + "/static",
 };
 
-module.exports = { Paths, FilesMap, CURRENT_SITE, URL_MAP };
+module.exports = { Paths, FilesMap, CURRENT_SITE, URL_MAP, FILE_CONFIG_NAME };

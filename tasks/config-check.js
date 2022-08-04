@@ -1,8 +1,19 @@
-const { CURRENT_SITE } = require("./constants");
-const FILE_CONFIG_NAME = "secret-keys.json";
+const { CURRENT_SITE, FILE_CONFIG_NAME } = require("./constants");
 const fs = require("fs");
 const chalk = require("chalk");
 
+const createSecretFile = (siteUrl = "", fileName = "") => {
+  const fileContent = `{
+  "${siteUrl}": {
+    "SECRET_KEY": ""
+  },
+  "": {
+    "SECRET_KEY": ""
+  }
+}`;
+
+  fs.writeFileSync(fileName, fileContent);
+};
 try {
   require(`../${FILE_CONFIG_NAME}`);
 } catch (error) {
@@ -11,7 +22,7 @@ try {
 
 const { SECRET_KEY } = require(`../${FILE_CONFIG_NAME}`)[CURRENT_SITE];
 
-function checkConfig(cb) {
+const checkConfig = (cb) => {
   if (!CURRENT_SITE) {
     cb(
       new Error(
@@ -26,22 +37,12 @@ function checkConfig(cb) {
       new Error(
         `Не задан ${chalk.red(`SECRET_KEY`)} в файле ${chalk.red(
           FILE_CONFIG_NAME
-        )}`
+        )} для ${chalk.gray(CURRENT_SITE)}`
       )
     );
   }
 
   cb();
-}
-function createSecretFile(siteUrl = "", fileName = "") {
-  const fileContent = `{
-      "${siteUrl}": {
-        "SECRET_KEY": ""
-      }
-    }
-    `;
-
-  fs.writeFileSync(fileName, fileContent);
-}
+};
 
 module.exports = { checkConfig, SECRET_KEY };
