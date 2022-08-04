@@ -1,4 +1,4 @@
-const { src, dest, parallel, series, watch } = require("gulp");
+const { parallel, series } = require("gulp");
 
 const { browsersyncTask } = require("./tasks/browsersync");
 exports.browserSync = browsersyncTask;
