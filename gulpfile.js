@@ -1,7 +1,6 @@
 const { parallel, series } = require("gulp");
 
-const { browsersyncTask } = require("./tasks/browsersync");
-exports.browserSync = browsersyncTask;
+exports.browserSync = require("./tasks/browsersync").browsersyncTask;
 exports.fonts = require("./tasks/fonts");
 exports.scripts = require("./tasks/scripts");
 exports.styles = require("./tasks/styles");
@@ -9,8 +8,7 @@ exports.cleanDist = require("./tasks/clean");
 exports.html = require("./tasks/html");
 exports.images = require("./tasks/images");
 exports.icons = require("./tasks/icons");
-const { checkConfig } = require("./tasks/config-check");
-exports.checkConfig = checkConfig;
+exports.checkConfig = require("./tasks/config-check").checkConfig;
 exports.downloadFiles = require("./tasks/downloadFiles");
 exports.uploadFile = require("./tasks/uploadFile");
 exports.startwatch = require("./tasks/watch");
