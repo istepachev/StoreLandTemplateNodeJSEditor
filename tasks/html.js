@@ -7,7 +7,14 @@ const path = require("node:path");
 const fs = require("node:fs");
 const { Paths } = require("./constants");
 const { isBuild: build } = require("./utils");
+const chalk = require("chalk");
+const del = require("del");
 
+const FILEINCLUDE_CONFIG = {
+  prefix: "@@",
+  basepath: "@file",
+  context: DEFAULT_TEMPLATE_VARIABLES,
+};
 const htmlinclude = (filePath = "") => {
   const isBuild = build(filePath);
   const file = !isBuild && filePath;
@@ -16,8 +23,9 @@ const htmlinclude = (filePath = "") => {
   if (!isBuild && file && fileName.startsWith(`_`)) {
     fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
       if (err) throw err;
+
       if (!data.length) {
-        console.error(`⛔ Файл пуст`);
+        console.error(chalk.redBright(`⛔ Файл ${fileName} пуст`));
 
         return;
       }
@@ -25,7 +33,9 @@ const htmlinclude = (filePath = "") => {
       const isFirstComment = firstStrFile.match(/\[([^}]*)]/);
       if (!isFirstComment) {
         console.error(
-          `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] -->`
+          chalk.redBright(
+            `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] -->`
+          )
         );
 
         return;
@@ -35,19 +45,17 @@ const htmlinclude = (filePath = "") => {
         .match(/\[([^}]*)]/)[1]
         .trim()
         .split(",")
-        .map((el) => `${Paths.baseDir}/html/${el.trim()}`);
+        .map((el) => `${Paths.html.src}/${el.trim()}`);
+      console.log(chalk.gray(`Сохранение файлов ${filesPath.join()}`));
+      // del.sync(Paths.html.dest, { force: true });
 
-      return src(filesPath)
-        .pipe(plumber())
-        .pipe(
-          fileinclude({
-            prefix: "@@",
-            basepath: "@file",
-            context: DEFAULT_TEMPLATE_VARIABLES,
-          })
-        )
-        .pipe(replacePath("/src/html/", ""))
-        .pipe(dest(Paths.html.dest));
+      return (
+        src(filesPath, { allowEmpty: true })
+          .pipe(plumber())
+          .pipe(fileinclude(FILEINCLUDE_CONFIG))
+          // .pipe(replacePath("/src/html/", ""))
+          .pipe(dest(Paths.html.dest))
+      );
     });
   } else {
     const PATH = !isBuild
@@ -56,13 +64,7 @@ const htmlinclude = (filePath = "") => {
 
     return src(PATH)
       .pipe(plumber())
-      .pipe(
-        fileinclude({
-          prefix: "@@",
-          basepath: "@file",
-          context: DEFAULT_TEMPLATE_VARIABLES,
-        })
-      )
+      .pipe(fileinclude(FILEINCLUDE_CONFIG))
       .pipe(replacePath("/src/html/", ""))
       .pipe(dest(Paths.html.dest));
   }

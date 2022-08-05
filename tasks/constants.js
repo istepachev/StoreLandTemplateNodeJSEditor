@@ -18,40 +18,58 @@ const URL_MAP = {
   get_list: `${CURRENT_SITE}/api/v1/site_files/get_list`,
   get_file: `${CURRENT_SITE}/api/v1/site_files/get`,
 };
-const baseDir = "src"; // Base directory path without «/» at the end
-const distDir = "dist"; // Base directory path without «/» at the end
+const BASE_DIR = "src"; // Base directory path without «/» at the end
+const DIST_DIR = "dist"; // Base directory path without «/» at the end
 
 const Paths = {
   downloadDir: "downloaded-files",
   scripts: {
     src: [
-      `${baseDir}/js/main.js`, // app.js. Always at the end
+      `${BASE_DIR}/js/main.js`, // app.js. Always at the end
     ],
-    dest: `${distDir}/`,
+    dest: `${DIST_DIR}/`,
   },
 
   styles: {
     src: preprocessorOn
-      ? `${baseDir}/${preprocessor}/**.scss`
-      : `${baseDir}/css/main.css`,
-    dest: `${distDir}/`,
-    all: `${distDir}/**.css`,
+      ? `${BASE_DIR}/${preprocessor}/**.scss`
+      : `${BASE_DIR}/css/main.css`,
+    dest: `${DIST_DIR}/`,
+    all: `${DIST_DIR}/**.css`,
   },
   html: {
-    src: `${baseDir}/html`,
-    dest: `${distDir}/html`,
+    src: `${BASE_DIR}/html`,
+    dest: `${DIST_DIR}/html`,
   },
   images: {
-    src: `${baseDir}/images/**/*`,
-    dest: `${distDir}/`,
+    src: `${BASE_DIR}/images/**/*`,
+    dest: `${DIST_DIR}/`,
   },
   icons: {
-    src: `${baseDir}/icons/**/*.svg`,
-    dest: `${distDir}/`,
+    src: `${BASE_DIR}/icons/**/*.svg`,
+    dest: `${DIST_DIR}/`,
   },
+  src: {
+    scripts: "",
+    styles: "",
+    html: "",
+    icons: "",
+    images: "",
+  },
+  watch: {},
+  build: {},
+  clean: `${DIST_DIR}/**/*`,
   cssOutputName: "main.css",
   jsOutputName: "main.js",
-  buildStatic: `${distDir}/static`,
+  buildStatic: `${DIST_DIR}/static`,
 };
 
-module.exports = { Paths, FilesMap, CURRENT_SITE, URL_MAP, FILE_CONFIG_NAME };
+module.exports = {
+  Paths,
+  FilesMap,
+  CURRENT_SITE,
+  URL_MAP,
+  FILE_CONFIG_NAME,
+  BASE_DIR,
+  DIST_DIR,
+};

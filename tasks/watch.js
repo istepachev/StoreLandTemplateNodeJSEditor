@@ -1,8 +1,9 @@
 const {
   FilesMap,
-  Paths,
   preprocessorOn,
   preprocessor,
+  BASE_DIR,
+  DIST_DIR,
 } = require("./constants");
 const { watch, parallel } = require("gulp");
 
@@ -22,45 +23,47 @@ exports.startwatch = require("./watch");
 const startwatch = () => {
   // Стили
   const pathStyleFiles = preprocessorOn
-    ? `${Paths.baseDir}/${preprocessor}/**/*.${preprocessor}`
-    : `${Paths.baseDir}/css/**/*.css`;
+    ? `${BASE_DIR}/${preprocessor}/**/*.${preprocessor}`
+    : `${BASE_DIR}/css/**/*.css`;
 
   watch(pathStyleFiles)
     .on("add", parallel("styles"))
     .on("change", parallel("styles"));
-  watch(`${Paths.distDir}/**/*.css`)
+  watch(`${DIST_DIR}/**/*.css`)
     .on("add", parallel("uploadFile"))
     .on("change", parallel("uploadFile"));
   // Изображения
-  watch(`${Paths.distDir}/**/*.{${FilesMap.getFilesStr("images")}}`)
+  watch(`${DIST_DIR}/**/*.{${FilesMap.getFilesStr("images")}}`)
     .on("add", parallel("uploadFile"))
     .on("change", parallel("uploadFile"));
   // Svg иконки
-  watch(`${Paths.baseDir}/icons/**/*.${FilesMap.getFilesStr("icons")}`)
+  watch(`${BASE_DIR}/icons/**/*.${FilesMap.getFilesStr("icons")}`)
     .on("add", parallel("icons"))
     .on("change", parallel("icons"));
   // Шрифты
-  watch(`${Paths.distDir}/**/*.{${FilesMap.getFilesStr("fonts")}}`)
+  watch(`${DIST_DIR}/**/*.{${FilesMap.getFilesStr("fonts")}}`)
     .on("add", parallel("uploadFile"))
     .on("change", parallel("uploadFile"));
-  watch(`${Paths.baseDir}/**/*.{${FilesMap.getFilesStr("fonts")}}`).on(
+  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("fonts")}}`).on(
     "change",
     parallel("fonts")
   );
   // Html
-  watch(`${Paths.baseDir}/**/*.{${FilesMap.getFilesStr("html")}}`).on(
+  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("html")}}`).on(
     "change",
     exports.html
   );
-  watch(`${Paths.distDir}/**/*.{${FilesMap.getFilesStr("html")}}`)
+
+  watch(`${DIST_DIR}/**/*.{${FilesMap.getFilesStr("html")}}`)
     .on("change", exports.uploadFile)
     .on("add", exports.uploadFile);
+  // .on("all", exports.uploadFile);
   // Javascript
-  watch(`${Paths.baseDir}/**/*.${FilesMap.getFilesStr("js")}`)
+  watch(`${BASE_DIR}/**/*.${FilesMap.getFilesStr("js")}`)
     .on("change", parallel("scripts"))
     .on("add", parallel("scripts"));
   // watch(`${distDir}"/**/*.js`).on("change", uploadFile).on("add",  uploadFile);
-  watch(`${Paths.distDir}/**/*.${FilesMap.getFilesStr("js")}`)
+  watch(`${DIST_DIR}/**/*.${FilesMap.getFilesStr("js")}`)
     .on("change", parallel("uploadFile"))
     .on("add", parallel("uploadFile"));
 };
