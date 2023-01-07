@@ -7,7 +7,7 @@ import autoprefixer from "gulp-autoprefixer";
 import cleancss from "gulp-clean-css";
 import scss from "gulp-dart-sass";
 import bulk from "gulp-sass-bulk-importer";
-import { Paths, BASE_DIR, preprocessor, preprocessorOn } from "./constants.js";
+import { Paths, BASE_DIR, preprocessor, preprocessorOn } from "../const.js";
 // import { browserSync } from "./browsersync.js";
 
 function styles(filePath = "") {

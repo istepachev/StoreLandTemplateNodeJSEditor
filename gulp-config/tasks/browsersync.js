@@ -1,4 +1,4 @@
-import { CURRENT_SITE } from "./constants.js";
+import { CURRENT_SITE } from "../const.js";
 import bs from "browser-sync";
 
 const browserSync = bs.create();

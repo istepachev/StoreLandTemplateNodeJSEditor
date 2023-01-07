@@ -1,7 +1,7 @@
 import gulp from "gulp";
 const { src, dest } = gulp;
-import { Paths } from "./constants.js";
-import { isBuild } from "./utils.js";
+import { Paths } from "../const.js";
+import { isBuild } from "../utils.js";
 
 function fonts(filePath = "") {
   return src(

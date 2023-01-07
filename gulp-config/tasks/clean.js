@@ -1,5 +1,5 @@
-import { Paths } from "./constants.js";
-import {deleteSync} from "del";
+import { Paths } from "../const.js";
+import { deleteSync } from "del";
 
 function cleanDist() {
   deleteSync(Paths.clean, { force: true });

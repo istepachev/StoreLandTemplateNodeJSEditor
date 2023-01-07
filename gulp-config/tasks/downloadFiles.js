@@ -1,4 +1,4 @@
-import { Paths, FilesMap, URL_MAP } from "./constants.js";
+import { Paths, FilesMap, URL_MAP } from "../const.js";
 import { SECRET_KEY } from "./config-check.js";
 import { URLSearchParams } from "node:url";
 import fs from "node:fs";

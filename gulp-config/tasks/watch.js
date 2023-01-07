@@ -4,7 +4,7 @@ import {
   preprocessor,
   BASE_DIR,
   DIST_DIR,
-} from "./constants.js";
+} from "../const.js";
 import gulp from "gulp";
 const { watch } = gulp;
 import {
@@ -15,7 +15,7 @@ import {
   images,
   icons,
   uploadFile,
-} from "../gulpfile.js";
+} from "../../gulpfile.js";
 
 function startwatch() {
   // Стили

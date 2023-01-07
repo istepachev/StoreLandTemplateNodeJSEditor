@@ -1,18 +1,18 @@
 import gulp from "gulp";
 const { parallel, series } = gulp;
 
-import { browsersyncTask } from "./tasks/browsersync.js";
-import fonts from "./tasks/fonts.js";
-import scripts from "./tasks/scripts.js";
-import styles from "./tasks/styles.js";
-import cleanDist from "./tasks/clean.js";
-import html from "./tasks/html.js";
-import images from "./tasks/images.js";
-import icons from "./tasks/icons.js";
-import { checkConfig } from "./tasks/config-check.js";
-import downloadFiles from "./tasks/downloadFiles.js";
-import uploadFile from "./tasks/uploadFile.js";
-import startwatch from "./tasks/watch.js";
+import { browsersyncTask } from "./gulp-config/tasks/browsersync.js";
+import fonts from "./gulp-config/tasks/fonts.js";
+import scripts from "./gulp-config/tasks/scripts.js";
+import styles from "./gulp-config/tasks/styles.js";
+import cleanDist from "./gulp-config/tasks/clean.js";
+import html from "./gulp-config/tasks/html.js";
+import images from "./gulp-config/tasks/images.js";
+import icons from "./gulp-config/tasks/icons.js";
+import { checkConfig } from "./gulp-config/tasks/config-check.js";
+import downloadFiles from "./gulp-config/tasks/downloadFiles.js";
+import uploadFile from "./gulp-config/tasks/uploadFile.js";
+import startwatch from "./gulp-config/tasks/watch.js";
 
 gulp.task(
   "build",

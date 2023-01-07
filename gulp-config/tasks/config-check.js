@@ -1,4 +1,4 @@
-import { CURRENT_SITE, FILE_CONFIG_NAME } from "./constants.js";
+import { CURRENT_SITE, FILE_CONFIG_NAME } from "../const.js";
 import { readFile, writeFile } from "node:fs/promises";
 import chalk from "chalk";
 
@@ -15,13 +15,13 @@ const createSecretFile = async (siteUrl = "", fileName = "") => {
   await writeFile(fileName, fileContent);
 };
 try {
-  await readFile(new URL(`../${FILE_CONFIG_NAME}`, import.meta.url));
+  await readFile(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url));
 } catch (error) {
   createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
 }
 
 const { SECRET_KEY } = JSON.parse(
-  await readFile(new URL(`../${FILE_CONFIG_NAME}`, import.meta.url))
+  await readFile(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url))
 )[CURRENT_SITE];
 
 const checkConfig = (cb) => {

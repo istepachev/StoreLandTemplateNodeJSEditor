@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import fetch from "node-fetch";
 import chalk from "chalk";
 import dayjs from "dayjs";
-import { URL_MAP } from "./constants.js";
+import { URL_MAP } from "../const.js";
 import { browserSync } from "./browsersync.js";
 import { SECRET_KEY } from "./config-check.js";
 

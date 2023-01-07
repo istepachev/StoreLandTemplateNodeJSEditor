@@ -1,8 +1,8 @@
 import gulp from "gulp";
 const { src, dest } = gulp;
 import path from "node:path";
-import { Paths } from "./constants.js";
-import { isBuild as build } from "./utils.js";
+import { Paths } from "../const.js";
+import { isBuild as build } from "../utils.js";
 import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 // import babel from "gulp-babel");

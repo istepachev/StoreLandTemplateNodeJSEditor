@@ -1,13 +1,13 @@
 import gulp from "gulp";
 const { src, dest } = gulp;
-import DEFAULT_TEMPLATE_VARIABLES from "../src/html/_template-variables.js";
+import DEFAULT_TEMPLATE_VARIABLES from "../../src/html/_template-variables.js";
 import fileinclude from "gulp-file-include";
 import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 import path from "node:path";
 import fs from "node:fs";
-import { Paths } from "./constants.js";
-import { isBuild as build } from "./utils.js";
+import { Paths } from "../const.js";
+import { isBuild as build } from "../utils.js";
 import chalk from "chalk";
 // import { deleteSync } from "del";
 

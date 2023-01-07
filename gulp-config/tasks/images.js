@@ -1,6 +1,6 @@
 import gulp from "gulp";
 const { src, dest } = gulp;
-import { Paths } from "./constants.js";
+import { Paths } from "../const.js";
 import newer from "gulp-newer";
 import imagemin from "gulp-imagemin";
 
