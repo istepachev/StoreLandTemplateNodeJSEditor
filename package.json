@@ -2,13 +2,14 @@
   "name": "storeland-template-editor",
   "version": "3.0.0",
   "description": "Template dev enviroment",
+  "main": "gulpfile.js",
   "type": "module",
   "scripts": {
     "start": "gulp",
     "build": "gulp build",
     "download": "gulp download"
   },
-  "author": "Dmitry Scheklein",
+  "author": "Dmitry Shcheklein",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.15.5",
