@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   inCatalog: false,
   DESIGN_NAME: "techno",
   tel1: {
