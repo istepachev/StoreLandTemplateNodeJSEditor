@@ -1,6 +1,8 @@
-const { Paths } = require("./constants");
-const del = require("del");
+import { Paths } from "./constants.js";
+import {deleteSync} from "del";
 
-const cleanDist = () => del(Paths.clean, { force: true });
+function cleanDist() {
+  deleteSync(Paths.clean, { force: true });
+}
 
-module.exports = cleanDist;
+export default cleanDist;

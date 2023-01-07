@@ -1,3 +1,5 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const { CURRENT_SITE } = require("../current-site.json");
 const FILE_CONFIG_NAME = "secret-keys.json";
 const preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
@@ -64,7 +66,9 @@ const Paths = {
   buildStatic: `${DIST_DIR}/static`,
 };
 
-module.exports = {
+export {
+  preprocessor,
+  preprocessorOn,
   Paths,
   FilesMap,
   CURRENT_SITE,

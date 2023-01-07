@@ -1,10 +1,13 @@
-const { src, dest } = require("gulp");
-const { isBuild: build } = require("./utils");
-const replacePath = require("gulp-replace-path");
-const plumber = require("gulp-plumber");
-// const babel = require("gulp-babel");
+import gulp from "gulp";
+const { src, dest } = gulp;
+import path from "node:path";
+import { Paths } from "./constants.js";
+import { isBuild as build } from "./utils.js";
+import replacePath from "gulp-replace-path";
+import plumber from "gulp-plumber";
+// import babel from "gulp-babel");
 
-const scripts = (filePath = "") => {
+function scripts(filePath = "") {
   const isBuild = build(filePath);
   const fileName = !isBuild ? path.basename(filePath) : "";
   const parentFileFolderName = !isBuild
@@ -39,6 +42,6 @@ const scripts = (filePath = "") => {
       .pipe(replacePath("src/js", ""))
       .pipe(dest(Paths.buildStatic))
   );
-};
+}
 
-module.exports = scripts;
+export default scripts;

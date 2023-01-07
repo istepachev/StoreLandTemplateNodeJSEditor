@@ -1,9 +1,10 @@
-const { src, dest } = require("gulp");
-const { Paths } = require("./constants");
-const svgSprite = require("gulp-svg-sprite");
+import gulp from "gulp";
+const { src, dest } = gulp;
+import { Paths } from "./constants.js";
+import svgSprite from "gulp-svg-sprite";
 
-const icons = () =>
-  src(Paths.icons.src)
+function icons() {
+  return src(Paths.icons.src)
     .pipe(
       svgSprite({
         mode: {
@@ -15,5 +16,6 @@ const icons = () =>
       })
     )
     .pipe(dest(distDir));
+}
 
-module.exports = icons;
+export default icons;

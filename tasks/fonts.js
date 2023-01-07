@@ -1,10 +1,16 @@
-const { src, dest } = require("gulp");
-const { Paths, fontswatch } = require("./constants");
-const { isBuild } = require("./utils");
+import gulp from "gulp";
+const { src, dest } = gulp;
+import { Paths } from "./constants.js";
+import { isBuild } from "./utils.js";
 
-const fonts = (filePath = "") =>
-  src(isBuild(filePath) ? `src/fonts/**/*.{${fontswatch}}` : filePath)
+function fonts(filePath = "") {
+  return src(
+    isBuild(filePath)
+      ? `src/fonts/**/*.{${Paths.getFilesStr("fonts")}}`
+      : filePath
+  )
     .pipe(plumber())
     .pipe(dest(Paths.buildStatic));
+}
 
-module.exports = fonts;
+export default fonts;

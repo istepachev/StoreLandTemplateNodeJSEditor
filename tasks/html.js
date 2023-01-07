@@ -1,21 +1,23 @@
-const { src, dest } = require("gulp");
-const DEFAULT_TEMPLATE_VARIABLES = require("../src/html/_template-variables");
-const fileinclude = require("gulp-file-include");
-const replacePath = require("gulp-replace-path");
-const plumber = require("gulp-plumber");
-const path = require("node:path");
-const fs = require("node:fs");
-const { Paths } = require("./constants");
-const { isBuild: build } = require("./utils");
-const chalk = require("chalk");
-const del = require("del");
+import gulp from "gulp";
+const { src, dest } = gulp;
+import DEFAULT_TEMPLATE_VARIABLES from "../src/html/_template-variables.js";
+import fileinclude from "gulp-file-include";
+import replacePath from "gulp-replace-path";
+import plumber from "gulp-plumber";
+import path from "node:path";
+import fs from "node:fs";
+import { Paths } from "./constants.js";
+import { isBuild as build } from "./utils.js";
+import chalk from "chalk";
+// import { deleteSync } from "del";
 
 const FILEINCLUDE_CONFIG = {
   prefix: "@@",
   basepath: "@file",
   context: DEFAULT_TEMPLATE_VARIABLES,
 };
-const htmlinclude = (filePath = "") => {
+
+function html(filePath = "") {
   const isBuild = build(filePath);
   const file = !isBuild && filePath;
   const fileName = !isBuild ? path.basename(filePath) : "";
@@ -47,7 +49,7 @@ const htmlinclude = (filePath = "") => {
         .split(",")
         .map((el) => `${Paths.html.src}/${el.trim()}`);
       console.log(chalk.gray(`Сохранение файлов ${filesPath.join()}`));
-      // del.sync(Paths.html.dest, { force: true });
+      // deleteSync.sync(Paths.html.dest, { force: true });
 
       return (
         src(filesPath, { allowEmpty: true })
@@ -68,6 +70,6 @@ const htmlinclude = (filePath = "") => {
       .pipe(replacePath("/src/html/", ""))
       .pipe(dest(Paths.html.dest));
   }
-};
+}
 
-module.exports = htmlinclude;
+export default html;

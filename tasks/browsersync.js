@@ -1,7 +1,9 @@
-const { CURRENT_SITE } = require("./constants");
-const browserSync = require("browser-sync").create();
+import { CURRENT_SITE } from "./constants.js";
+import bs from "browser-sync";
 
-const browsersyncTask = () => {
+const browserSync = bs.create();
+
+function browsersyncTask() {
   browserSync.init({
     notify: false,
     proxy: {
@@ -17,6 +19,6 @@ const browsersyncTask = () => {
     open: "external",
     port: 8088,
   });
-};
+}
 
-module.exports = { browsersyncTask, browserSync };
+export { browsersyncTask, browserSync };

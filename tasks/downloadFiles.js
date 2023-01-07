@@ -1,13 +1,12 @@
-const { Paths, FilesMap } = require("./constants");
-const { URL_MAP } = require("./constants");
-const { SECRET_KEY } = require("./config-check");
-const { URLSearchParams } = require("node:url");
-const fs = require("node:fs");
-const path = require("node:path");
-const fetch = require("node-fetch");
-const chalk = require("chalk");
+import { Paths, FilesMap, URL_MAP } from "./constants.js";
+import { SECRET_KEY } from "./config-check.js";
+import { URLSearchParams } from "node:url";
+import fs from "node:fs";
+import path from "node:path";
+import fetch from "node-fetch";
+import chalk from "chalk";
 
-const downloadFiles = (done) => {
+function downloadFiles(done) {
   const FILES_PATH = `${Paths.downloadDir}`;
   const FETCH_PARAMS = {
     method: "post",
@@ -75,7 +74,9 @@ const downloadFiles = (done) => {
                       file_name
                     )}. Всего ${count} из ${arrLength}`
                   );
-                  count++;
+                  if (filesArray.length) {
+                    count++;
+                  }
                   getFile(array);
                 }
               );
@@ -89,6 +90,6 @@ const downloadFiles = (done) => {
       };
       getFile(array);
     });
-};
+}
 
-module.exports = downloadFiles;
+export default downloadFiles;

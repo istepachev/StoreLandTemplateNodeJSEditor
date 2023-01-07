@@ -1,19 +1,18 @@
-const { URLSearchParams } = require("node:url");
-const { browserSync } = require("./browsersync");
-const path = require("node:path");
-const { URL_MAP } = require("./constants");
-const fs = require("node:fs");
-const fsPromises = fs.promises;
-const { SECRET_KEY } = require("./config-check");
-const fetch = require("node-fetch");
-const chalk = require("chalk");
-const dayjs = require("dayjs");
+import { URLSearchParams } from "node:url";
+import path from "node:path";
+import fs from "node:fs/promises";
+import fetch from "node-fetch";
+import chalk from "chalk";
+import dayjs from "dayjs";
+import { URL_MAP } from "./constants.js";
+import { browserSync } from "./browsersync.js";
+import { SECRET_KEY } from "./config-check.js";
 
 async function getFileContent(file) {
   const fileName = path.basename(file);
 
   try {
-    const filehandle = await fsPromises.open(`${file}`, "r+");
+    const filehandle = await fs.open(`${file}`, "r+");
     const data = await filehandle.readFile("base64");
     filehandle.close();
     return { data, fileName };
@@ -21,7 +20,7 @@ async function getFileContent(file) {
     console.log("Error", e);
   }
 }
-const uploadFile = (event, cb = () => {}) => {
+function uploadFile(event, cb = () => {}) {
   getFileContent(event)
     .then(({ data, fileName }) => {
       const params = new URLSearchParams({
@@ -63,6 +62,6 @@ const uploadFile = (event, cb = () => {}) => {
         });
     })
     .catch(console.error);
-};
+}
 
-module.exports = uploadFile;
+export default uploadFile;

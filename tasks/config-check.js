@@ -1,8 +1,8 @@
-const { CURRENT_SITE, FILE_CONFIG_NAME } = require("./constants");
-const fs = require("fs");
-const chalk = require("chalk");
+import { CURRENT_SITE, FILE_CONFIG_NAME } from "./constants.js";
+import { readFile, writeFile } from "node:fs/promises";
+import chalk from "chalk";
 
-const createSecretFile = (siteUrl = "", fileName = "") => {
+const createSecretFile = async (siteUrl = "", fileName = "") => {
   const fileContent = `{
   "${siteUrl}": {
     "SECRET_KEY": ""
@@ -12,15 +12,17 @@ const createSecretFile = (siteUrl = "", fileName = "") => {
   }
 }`;
 
-  fs.writeFileSync(fileName, fileContent);
+  await writeFile(fileName, fileContent);
 };
 try {
-  require(`../${FILE_CONFIG_NAME}`);
+  await readFile(new URL(`../${FILE_CONFIG_NAME}`, import.meta.url));
 } catch (error) {
   createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
 }
 
-const { SECRET_KEY } = require(`../${FILE_CONFIG_NAME}`)[CURRENT_SITE];
+const { SECRET_KEY } = JSON.parse(
+  await readFile(new URL(`../${FILE_CONFIG_NAME}`, import.meta.url))
+)[CURRENT_SITE];
 
 const checkConfig = (cb) => {
   if (!CURRENT_SITE) {
@@ -45,4 +47,4 @@ const checkConfig = (cb) => {
   cb();
 };
 
-module.exports = { checkConfig, SECRET_KEY };
+export { checkConfig, SECRET_KEY };

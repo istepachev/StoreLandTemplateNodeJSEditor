@@ -1,10 +1,11 @@
-const { src, dest } = require("gulp");
-const { Paths } = require("./constants");
-const newer = require("gulp-newer");
-const imagemin = require("gulp-imagemin");
+import gulp from "gulp";
+const { src, dest } = gulp;
+import { Paths } from "./constants.js";
+import newer from "gulp-newer";
+import imagemin from "gulp-imagemin";
 
-const images = () =>
-  src([Paths.images.src])
+function images() {
+  return src([Paths.images.src])
     .pipe(newer(Paths.images.dest))
     .pipe(
       imagemin([
@@ -17,5 +18,6 @@ const images = () =>
       ])
     )
     .pipe(dest(Paths.buildStatic));
+}
 
-module.exports = images;
+export default images;

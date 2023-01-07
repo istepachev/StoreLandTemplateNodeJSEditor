@@ -1,31 +1,24 @@
-const { parallel, series } = require("gulp");
+import gulp from "gulp";
+const { parallel, series } = gulp;
 
-exports.browserSync = require("./tasks/browsersync").browsersyncTask;
-exports.fonts = require("./tasks/fonts");
-exports.scripts = require("./tasks/scripts");
-exports.styles = require("./tasks/styles");
-exports.cleanDist = require("./tasks/clean");
-exports.html = require("./tasks/html");
-exports.images = require("./tasks/images");
-exports.icons = require("./tasks/icons");
-exports.checkConfig = require("./tasks/config-check").checkConfig;
-exports.downloadFiles = require("./tasks/downloadFiles");
-exports.uploadFile = require("./tasks/uploadFile");
-exports.startwatch = require("./tasks/watch");
+import { browsersyncTask } from "./tasks/browsersync.js";
+import fonts from "./tasks/fonts.js";
+import scripts from "./tasks/scripts.js";
+import styles from "./tasks/styles.js";
+import cleanDist from "./tasks/clean.js";
+import html from "./tasks/html.js";
+import images from "./tasks/images.js";
+import icons from "./tasks/icons.js";
+import { checkConfig } from "./tasks/config-check.js";
+import downloadFiles from "./tasks/downloadFiles.js";
+import uploadFile from "./tasks/uploadFile.js";
+import startwatch from "./tasks/watch.js";
 
-exports.build = parallel(
-  exports.cleanDist,
-  exports.html,
-  exports.scripts,
-  exports.images,
-  exports.fonts,
-  exports.styles,
-  exports.icons
+gulp.task(
+  "build",
+  parallel(cleanDist, html, scripts, images, fonts, styles, icons)
 );
-exports.download = series(exports.checkConfig, exports.downloadFiles);
+gulp.task("download", series(checkConfig, downloadFiles));
+gulp.task("default", parallel(checkConfig, browsersyncTask, startwatch));
 
-exports.default = parallel(
-  exports.checkConfig,
-  exports.browserSync,
-  exports.startwatch
-);
+export { fonts, scripts, styles, html, images, icons, uploadFile };

@@ -1,27 +1,28 @@
-const { src, dest } = require("gulp");
-const plumber = require("gulp-plumber");
-const replacePath = require("gulp-replace-path");
-const autoprefixer = require("gulp-autoprefixer");
-const cleancss = require("gulp-clean-css");
-const scss = require("gulp-dart-sass");
-const bulk = require("gulp-sass-bulk-importer");
-const { Paths, baseDir, preprocessor } = require("./constants");
-const { browserSync } = require("./browsersync");
-// const sourcemaps = require("gulp-sourcemaps");
+import gulp from "gulp";
+const { src, dest } = gulp;
+import path from "node:path";
+import plumber from "gulp-plumber";
+import replacePath from "gulp-replace-path";
+import autoprefixer from "gulp-autoprefixer";
+import cleancss from "gulp-clean-css";
+import scss from "gulp-dart-sass";
+import bulk from "gulp-sass-bulk-importer";
+import { Paths, BASE_DIR, preprocessor, preprocessorOn } from "./constants.js";
+// import { browserSync } from "./browsersync.js";
 
-const styles = (filePath = "") => {
+function styles(filePath = "") {
   const isBuild = typeof filePath === "function";
   const file = filePath;
   const fileName = !isBuild ? path.basename(file) : "";
 
   if (preprocessorOn) {
     const PATH = !isBuild
-      ? `${baseDir}/${preprocessor}/**/*.${preprocessor}`
-      : `${baseDir}/${preprocessor}/${fileName}`;
+      ? `${BASE_DIR}/${preprocessor}/**/*.${preprocessor}`
+      : `${BASE_DIR}/${preprocessor}/${fileName}`;
     if (isBuild) {
       src([
-        `${baseDir}/${preprocessor}/*.css`,
-        `${baseDir}/${preprocessor}/default/**`,
+        `${BASE_DIR}/${preprocessor}/*.css`,
+        `${BASE_DIR}/${preprocessor}/default/**`,
       ])
         .pipe(replacePath(`/src/${preprocessor}/default`, ""))
         .pipe(dest(Paths.buildStatic));
@@ -31,7 +32,7 @@ const styles = (filePath = "") => {
       .pipe(plumber())
       .pipe(
         scss({
-          includePaths: [`${baseDir}/${preprocessor}/templates/`],
+          includePaths: [`${BASE_DIR}/${preprocessor}/templates/`],
         }).on("error", scss.logError)
       )
       .pipe(
@@ -82,16 +83,20 @@ const styles = (filePath = "") => {
       .pipe(dest(Paths.buildStatic));
   } else {
     if (isBuild) {
-      src([`${baseDir}/css/**/*.css`])
+      return src([`${BASE_DIR}/css/**/*.css`])
         .pipe(replacePath(`/src/css/default`, ""))
         .pipe(dest(Paths.buildStatic));
     } else {
-      return src(`${baseDir}/css/${fileName}`)
-        .pipe(dest(Paths.buildStatic))
-        .pipe(browserSync.stream());
+      return (
+        src(`${BASE_DIR}/css/${fileName}`)
+          // .pipe(browserSync.stream())
+          // .pipe(browserSync.reload("*.css"))
+          // .pipe(browserSync.stream({ match: "**/*.css" }))
+          .pipe(dest(Paths.buildStatic))
+      );
     }
   }
   isBuild && filePath();
-};
+}
 
-module.exports = styles;
+export default styles;
