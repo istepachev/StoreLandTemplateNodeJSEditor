@@ -16,7 +16,7 @@ async function downloadFiles(done) {
   }
 
   const formData = new FormData();
-  formData.set("secret_key", SECRET_KEY);
+  formData.append("secret_key", SECRET_KEY);
 
   const OPTIONS = {
     body: formData,
