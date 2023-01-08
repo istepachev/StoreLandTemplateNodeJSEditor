@@ -1,8 +1,12 @@
-import { CURRENT_SITE, FILE_CONFIG_NAME } from "../const.js";
-import { readFile, writeFile } from "node:fs/promises";
+import {
+  CURRENT_SITE,
+  FILE_CONFIG_NAME,
+  FILE_CURRENT_SITE_NAME,
+} from "../const.js";
+import { readFileSync, writeFileSync } from "node:fs";
 import chalk from "chalk";
 
-const createSecretFile = async (siteUrl = "", fileName = "") => {
+const createSecretFile = (siteUrl = "", fileName = "") => {
   const fileContent = `{
   "${siteUrl}": {
     "SECRET_KEY": ""
@@ -12,39 +16,38 @@ const createSecretFile = async (siteUrl = "", fileName = "") => {
   }
 }`;
 
-  await writeFile(fileName, fileContent);
+  writeFileSync(fileName, fileContent);
 };
-try {
-  await readFile(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url));
-} catch (error) {
-  createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
-}
 
-const { SECRET_KEY } = JSON.parse(
-  await readFile(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url))
-)[CURRENT_SITE];
+let SECRET_KEY;
 
-const checkConfig = (cb) => {
+async function checkConfig() {
   if (!CURRENT_SITE) {
-    cb(
-      new Error(
-        `Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ${chalk.red(
-          `current-site.json`
-        )}`
-      )
+    console.error(
+      `⛔ Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ${chalk.red(
+        FILE_CURRENT_SITE_NAME
+      )}`
     );
+  }
+  try {
+    const data = JSON.parse(
+      readFileSync(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url))
+    )[CURRENT_SITE];
+    SECRET_KEY = data.SECRET_KEY;
+  } catch (error) {
+    createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
   }
   if (!SECRET_KEY) {
-    cb(
-      new Error(
-        `Не задан ${chalk.red(`SECRET_KEY`)} в файле ${chalk.red(
-          FILE_CONFIG_NAME
-        )} для ${chalk.gray(CURRENT_SITE)}`
-      )
+    console.error(
+      `⛔ Не задан ${chalk.red(`SECRET_KEY`)} в файле ${chalk.red(
+        FILE_CONFIG_NAME
+      )} для ${chalk.gray(CURRENT_SITE)}`
     );
   }
 
-  cb();
-};
+  if (SECRET_KEY && CURRENT_SITE) {
+    console.log(chalk.greenBright(`✔️  Конфиг задан верно.`));
+  }
+}
 
 export { checkConfig, SECRET_KEY };

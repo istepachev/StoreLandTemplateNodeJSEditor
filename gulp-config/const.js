@@ -1,6 +1,7 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const { CURRENT_SITE } = require("../current-site.json");
+const FILE_CURRENT_SITE_NAME = "current-site.json";
+const { CURRENT_SITE } = require(`../${FILE_CURRENT_SITE_NAME}`);
 const FILE_CONFIG_NAME = "secret-keys.json";
 const preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
   preprocessorOn = false;
@@ -74,6 +75,7 @@ export {
   CURRENT_SITE,
   URL_MAP,
   FILE_CONFIG_NAME,
+  FILE_CURRENT_SITE_NAME,
   BASE_DIR,
   DIST_DIR,
 };

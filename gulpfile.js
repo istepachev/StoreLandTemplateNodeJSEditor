@@ -19,6 +19,10 @@ gulp.task(
   parallel(cleanDist, html, scripts, images, fonts, styles, icons)
 );
 gulp.task("download", series(checkConfig, downloadFiles));
-gulp.task("default", parallel(checkConfig, browsersyncTask, startwatch));
+gulp.task(
+  "default",
+  parallel(checkConfig, parallel(browsersyncTask, startwatch))
+);
+gulp.task("init", checkConfig);
 
 export { fonts, scripts, styles, html, images, icons, uploadFile };
