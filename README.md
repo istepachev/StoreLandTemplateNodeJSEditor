@@ -34,7 +34,7 @@
     },
     "https://trialshop-2.storeland.ru": {
         "SECRET_KEY": "bfec8c1eb1ddsvad355fed9f3vdddvsv3"
-    },
+    }
 }
 ```
 
