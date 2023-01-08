@@ -1,7 +1,5 @@
-import { URLSearchParams } from "node:url";
 import path from "node:path";
 import fs from "node:fs/promises";
-import fetch from "node-fetch";
 import chalk from "chalk";
 import dayjs from "dayjs";
 import { URL_MAP } from "../const.js";
