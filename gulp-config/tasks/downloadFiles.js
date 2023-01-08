@@ -7,7 +7,7 @@ import got from "got";
 import { FormData } from "formdata-node";
 import { deleteSync } from "del";
 
-async function downloadFiles(done) {
+async function downloadFiles() {
   const FILES_PATH = `${Paths.downloadDir}`;
   deleteSync(FILES_PATH);
 
@@ -48,7 +48,6 @@ async function downloadFiles(done) {
   async function getFile(filesArray, count = 1) {
     if (!filesArray.length) {
       console.log(`Всего скачано файлов ${count} из ${filesLength}`);
-      done();
 
       return;
     }
