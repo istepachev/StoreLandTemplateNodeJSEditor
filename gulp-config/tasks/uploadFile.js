@@ -7,61 +7,51 @@ import dayjs from "dayjs";
 import { URL_MAP } from "../const.js";
 import { browserSync } from "./browsersync.js";
 import { SECRET_KEY } from "./config-check.js";
+import got from "got";
+import { FormData } from "formdata-node";
 
-async function getFileContent(file) {
-  const fileName = path.basename(file);
-
+async function uploadFile(file) {
   try {
+    const fileName = path.basename(file);
     const filehandle = await fs.open(`${file}`, "r+");
-    const data = await filehandle.readFile("base64");
+    const fileData = await filehandle.readFile("base64");
     filehandle.close();
-    return { data, fileName };
-  } catch (e) {
-    console.log("Error", e);
-  }
-}
-function uploadFile(event, cb = () => {}) {
-  getFileContent(event)
-    .then(({ data, fileName }) => {
-      const params = new URLSearchParams({
-        secret_key: SECRET_KEY,
-        "form[file_name]": `${fileName}`,
-        "form[file_content]": `${data}`,
-      });
-      if (fileName.includes("css")) {
-        // params.append("form[do_not_receive_file]", `1`);
-      }
 
-      fetch(URL_MAP.save, {
-        method: "post",
-        body: params,
-        timeout: 5000,
+    const formData = new FormData();
+    formData.append("secret_key", SECRET_KEY);
+    formData.append("form[file_name]", fileName);
+    formData.append("form[file_content]", fileData);
+
+    const json = await got
+      .post(URL_MAP.save, {
+        body: formData,
+        timeout: {
+          send: 5000,
+        },
       })
-        .then((res) => res.json())
-        .then((json) => {
-          if (json.status === `ok`) {
-            console.log(
-              `[${dayjs().format("HH:mm:ss")}] Файл ${chalk.red(
-                fileName
-              )} успешно отправлен ${chalk.greenBright("✔️")}`
-            );
-            if (!fileName.includes("css")) {
-              browserSync.reload();
-            }
-            if (fileName.includes("css")) {
-              browserSync.reload("*.css");
-            }
-            if (typeof cb === "function") {
-              cb();
-            }
-          } else if (json.status === `error`) {
-            console.log(
-              `Ошибка отправки ⛔ ${fileName}: ${chalk.redBright(json.message)}`
-            );
-          }
-        });
-    })
-    .catch(console.error);
+      .json();
+
+    if (json.status === `ok`) {
+      console.log(
+        `[${dayjs().format("HH:mm:ss")}] Файл ${chalk.red(
+          fileName
+        )} успешно отправлен ${chalk.greenBright("✔️")}`
+      );
+
+      if (fileName.includes("css")) {
+        browserSync.reload("*.css");
+
+        return;
+      }
+      browserSync.reload();
+    } else if (json.status === `error`) {
+      console.log(
+        `Ошибка отправки ⛔ ${fileName}: ${chalk.redBright(json.message)}`
+      );
+    }
+  } catch (e) {
+    console.error("Error", e);
+  }
 }
 
 export default uploadFile;
