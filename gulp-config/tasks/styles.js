@@ -1,5 +1,4 @@
-import gulp from "gulp";
-const { src, dest } = gulp;
+import { src, dest } from "../../gulpfile.js";
 import path from "node:path";
 import plumber from "gulp-plumber";
 import replacePath from "gulp-replace-path";

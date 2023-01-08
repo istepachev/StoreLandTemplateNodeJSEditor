@@ -1,5 +1,4 @@
-import gulp from "gulp";
-const { src, dest } = gulp;
+import { src, dest } from "../../gulpfile.js";
 import DEFAULT_TEMPLATE_VARIABLES from "../../src/html/_template-variables.js";
 import fileinclude from "gulp-file-include";
 import replacePath from "gulp-replace-path";

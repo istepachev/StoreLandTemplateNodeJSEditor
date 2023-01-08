@@ -5,8 +5,7 @@ import {
   BASE_DIR,
   DIST_DIR,
 } from "../const.js";
-import gulp from "gulp";
-const { watch } = gulp;
+
 import {
   fonts,
   scripts,
@@ -15,6 +14,7 @@ import {
   images,
   icons,
   uploadFile,
+  watch,
 } from "../../gulpfile.js";
 
 function startwatch() {

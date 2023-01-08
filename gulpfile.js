@@ -1,5 +1,5 @@
 import gulp from "gulp";
-const { parallel, series } = gulp;
+const { parallel, series, src, dest, watch } = gulp;
 
 import { browsersyncTask } from "./gulp-config/tasks/browsersync.js";
 import fonts from "./gulp-config/tasks/fonts.js";
@@ -25,4 +25,5 @@ gulp.task(
 );
 gulp.task("init", checkConfig);
 
+export { src, dest, watch };
 export { fonts, scripts, styles, html, images, icons, uploadFile };

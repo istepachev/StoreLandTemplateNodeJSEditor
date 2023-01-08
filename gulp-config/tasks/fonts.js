@@ -1,5 +1,4 @@
-import gulp from "gulp";
-const { src, dest } = gulp;
+import { src, dest } from "../../gulpfile.js";
 import { Paths } from "../const.js";
 import { isBuild } from "../utils.js";
 
