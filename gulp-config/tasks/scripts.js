@@ -6,13 +6,14 @@ import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 // import babel from "gulp-babel");
 
+const DEFAULT_JS_PATH_NAME = `default`;
+
 function scripts(filePath = "") {
   const isBuild = build(filePath);
   const fileName = !isBuild ? path.basename(filePath) : "";
   const parentFileFolderName = !isBuild
     ? path.basename(path.dirname(filePath))
     : "";
-  const DEFAULT_JS_PATH_NAME = `default`;
 
   if (fileName.startsWith(`_`)) {
     console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
