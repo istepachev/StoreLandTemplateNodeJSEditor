@@ -25,7 +25,7 @@ const BASE_DIR = "src"; // Base directory path without «/» at the end
 const DIST_DIR = "dist"; // Base directory path without «/» at the end
 
 const Paths = {
-  downloadDir: "downloaded-files",
+  downloadDir: "downloads",
   scripts: {
     src: [
       `${BASE_DIR}/js/main.js`, // app.js. Always at the end
@@ -62,8 +62,6 @@ const Paths = {
   watch: {},
   build: {},
   clean: `${DIST_DIR}/**/*`,
-  cssOutputName: "main.css",
-  jsOutputName: "main.js",
   buildStatic: `${DIST_DIR}/static`,
 };
 
