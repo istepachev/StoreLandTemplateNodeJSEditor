@@ -16,12 +16,12 @@ const FILEINCLUDE_CONFIG = {
   context: DEFAULT_TEMPLATE_VARIABLES,
 };
 
-async function html(evt, filePath = "") {
+async function html(evt, filePath) {
   const isBuild = checkBuild(evt);
   const fileName = !isBuild ? path.basename(filePath) : "";
   let filesPath = [];
 
-  if (!isBuild && filePath && fileName.startsWith(`_`)) {
+  if (fileName.startsWith(`_`)) {
     try {
       const data = await readFile(path.resolve(filePath), {
         encoding: "utf8",
@@ -67,7 +67,7 @@ async function html(evt, filePath = "") {
   } else {
     currentPath = filePath;
   }
-  
+
   return src(currentPath, { allowEmpty: true })
     .pipe(plumber())
     .pipe(fileinclude(FILEINCLUDE_CONFIG))
