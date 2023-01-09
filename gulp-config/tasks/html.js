@@ -19,7 +19,7 @@ const FILEINCLUDE_CONFIG = {
 async function html(evt, filePath) {
   const isBuild = checkBuild(evt);
   const fileName = !isBuild ? path.basename(filePath) : "";
-  let filesPath = [];
+  let templateParentsPaths = [];
 
   if (fileName.startsWith(`_`)) {
     try {
@@ -44,34 +44,34 @@ async function html(evt, filePath) {
         return;
       }
 
-      filesPath = firstStrFile
+      templateParentsPaths = firstStrFile
         .match(/\[([^}]*)]/)[1]
         .trim()
         .split(",")
         .map((el) => `${Paths.html.src}/${el.trim()}`);
-      console.log(chalk.gray(`Сохранение файлов ${filesPath.join()}`));
+      console.log(
+        chalk.gray(`Сохранение файлов\n${templateParentsPaths.join("\n")}`)
+      );
     } catch (err) {
       console.error(err.message);
     }
   }
+  const getCurrentPath = () => {
+    if (templateParentsPaths.length) {
+      return templateParentsPaths;
+    }
 
-  let currentPath;
+    if (isBuild) {
+      return Paths.html.build;
+    }
 
-  if (isBuild) {
-    currentPath = [
-      "src/html/**/*.htm",
-      "!src/html/_templates/**/*.{html, htm}",
-    ];
-  } else if (filesPath.length) {
-    currentPath = filesPath;
-  } else {
-    currentPath = filePath;
-  }
+    return filePath;
+  };
 
-  return src(currentPath, { allowEmpty: true })
+  return src(getCurrentPath(), { allowEmpty: true })
     .pipe(plumber())
     .pipe(fileinclude(FILEINCLUDE_CONFIG))
-    .pipe(replacePath("/src/html/", ""))
+    .pipe(replacePath(`${Paths.html.src}`, ""))
     .pipe(dest(Paths.html.dest));
 }
 

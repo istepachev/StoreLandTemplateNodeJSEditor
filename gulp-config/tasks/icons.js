@@ -3,7 +3,7 @@ import { Paths } from "../const.js";
 import svgSprite from "gulp-svg-sprite";
 
 async function icons() {
-  return src(Paths.icons.src)
+  return src(Paths.icons.watch)
     .pipe(
       svgSprite({
         mode: {
@@ -14,7 +14,7 @@ async function icons() {
         },
       })
     )
-    .pipe(dest(Paths.buildStatic));
+    .pipe(dest(Paths.icons.dest));
 }
 
 export default icons;

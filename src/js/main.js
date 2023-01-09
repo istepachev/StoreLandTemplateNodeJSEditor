@@ -1,5 +1,3 @@
-console.log(123);
-alert(555);
 /*
  * lazy loads elements with default selector as '.lozad'
  */

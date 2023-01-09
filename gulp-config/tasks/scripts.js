@@ -1,12 +1,10 @@
 import { src, dest } from "../../gulpfile.js";
 import path from "node:path";
-import { Paths } from "../const.js";
+import { Paths, DEFAULT_FOLDER_NAME } from "../const.js";
 import { checkBuild } from "../utils.js";
 import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 // import babel from "gulp-babel");
-
-const DEFAULT_JS_PATH_NAME = `default`;
 
 async function scripts(evt, filePath) {
   const isBuild = checkBuild(evt);
@@ -19,14 +17,12 @@ async function scripts(evt, filePath) {
     console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
     return;
   }
-  if (parentFileFolderName === DEFAULT_JS_PATH_NAME) {
-    src([filePath]).pipe(dest(Paths.buildStatic));
+  if (parentFileFolderName === DEFAULT_FOLDER_NAME) {
+    src([filePath]).pipe(dest(Paths.scripts.dest));
 
     return;
   }
-  const PATH = !isBuild
-    ? filePath
-    : ["src/js/**/*.js", `src/js/${DEFAULT_JS_PATH_NAME}/**/*.js`];
+  const PATH = isBuild ? Paths.scripts.build : filePath;
   console.log(PATH);
 
   return (
@@ -40,7 +36,7 @@ async function scripts(evt, filePath) {
       .pipe(replacePath("/src/js/", ""))
       .pipe(replacePath("src/js/", ""))
       .pipe(replacePath("src/js", ""))
-      .pipe(dest(Paths.buildStatic))
+      .pipe(dest(Paths.scripts.dest))
   );
 }
 

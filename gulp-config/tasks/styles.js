@@ -6,7 +6,7 @@ import autoprefixer from "gulp-autoprefixer";
 import cleancss from "gulp-clean-css";
 import scss from "gulp-dart-sass";
 import bulk from "gulp-sass-bulk-importer";
-import { Paths, BASE_DIR, preprocessor, preprocessorOn } from "../const.js";
+import { Paths, DEFAULT_FOLDER_NAME, PREPROCESSOR_ON } from "../const.js";
 import { checkBuild } from "../utils.js";
 // import { browserSync } from "./browsersync.js";
 
@@ -14,44 +14,38 @@ async function styles(evt, filePath) {
   const isBuild = checkBuild(evt);
   const fileName = !isBuild ? path.basename(filePath) : "";
 
-  if (preprocessorOn) {
-    const PATH = !isBuild
-      ? `${BASE_DIR}/${preprocessor}/**/*.${preprocessor}`
-      : `${BASE_DIR}/${preprocessor}/${fileName}`;
-    if (isBuild) {
-      src([
-        `${BASE_DIR}/${preprocessor}/*.css`,
-        `${BASE_DIR}/${preprocessor}/default/**`,
-      ])
-        .pipe(replacePath(`/src/${preprocessor}/default`, ""))
-        .pipe(dest(Paths.buildStatic));
-    }
+  if (PREPROCESSOR_ON) {
+    const PATH = isBuild
+      ? Paths.styles.build
+      : `${Paths.styles.src}/${fileName}`;
+
     src(PATH)
       .pipe(bulk())
       .pipe(plumber())
       .pipe(
         scss({
-          includePaths: [`${BASE_DIR}/${preprocessor}/templates/`],
+          includePaths: [`${Paths.styles.src}/_templates/`],
         }).on("error", scss.logError)
       )
       .pipe(autoprefixer(getAutoprefixerConfig()))
       .pipe(cleancss(getCleanCssConfig()))
       // .pipe(sourcemaps.write("/src/scss/sourcemaps/"))
       .pipe(replacePath("/src/scss/", ""))
-      .pipe(dest(Paths.buildStatic));
+      .pipe(replacePath(`${Paths.styles.src}/${DEFAULT_FOLDER_NAME}`, ""))
+      .pipe(dest(Paths.styles.dest));
   } else {
     if (isBuild) {
-      return src([`${BASE_DIR}/css/**/*.css`])
+      return src(Paths.styles.watch)
         .pipe(replacePath(`/src/css/default`, ""))
         .pipe(replacePath(`/css/default`, ""))
-        .pipe(dest(Paths.buildStatic));
+        .pipe(dest(Paths.styles.dest));
     } else {
       return (
-        src(`${BASE_DIR}/css/${fileName}`)
+        src(`${Paths.styles.src}/${fileName}`)
           // .pipe(browserSync.stream())
           // .pipe(browserSync.reload("*.css"))
           // .pipe(browserSync.stream({ match: "**/*.css" }))
-          .pipe(dest(Paths.buildStatic))
+          .pipe(dest(Paths.styles.dest))
       );
     }
   }

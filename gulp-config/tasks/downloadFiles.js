@@ -1,4 +1,4 @@
-import { Paths, FilesMap, URL_MAP } from "../const.js";
+import { DOWNLOAD_DIR, Files, URL_MAP } from "../const.js";
 import { SECRET_KEY } from "./config-check.js";
 import * as fs from "node:fs";
 import path from "node:path";
@@ -8,12 +8,9 @@ import { FormData } from "formdata-node";
 import { deleteSync } from "del";
 
 async function downloadFiles() {
-  const FILES_PATH = `${Paths.downloadDir}`;
-  deleteSync(FILES_PATH);
+  deleteSync(DOWNLOAD_DIR);
 
-  if (!fs.existsSync(FILES_PATH)) {
-    fs.mkdirSync(FILES_PATH);
-  }
+  !fs.existsSync(DOWNLOAD_DIR) && fs.mkdirSync(DOWNLOAD_DIR);
 
   const formData = new FormData();
   formData.append("secret_key", SECRET_KEY);
@@ -68,9 +65,8 @@ async function downloadFiles() {
       const fileExt = path.extname(file).replace(".", "");
 
       const fileDirName =
-        Object.keys(FilesMap).find((key) => FilesMap[key].includes(fileExt)) ||
-        "";
-      const newDir = `${FILES_PATH}/${fileDirName}`;
+        Object.values(Files).find((value) => value.includes(fileExt)) || "";
+      const newDir = `${DOWNLOAD_DIR}/${fileDirName}`;
 
       !fs.existsSync(newDir) && fs.mkdirSync(newDir);
 

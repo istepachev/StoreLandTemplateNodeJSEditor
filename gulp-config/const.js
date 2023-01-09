@@ -3,17 +3,25 @@ const require = createRequire(import.meta.url);
 const FILE_CURRENT_SITE_NAME = "current-site.json";
 const { CURRENT_SITE } = require(`../${FILE_CURRENT_SITE_NAME}`);
 const FILE_CONFIG_NAME = "secret-keys.json";
-const preprocessor = "scss", // Preprocessor (sass, scss, less, styl),
-  preprocessorOn = false;
+const PREPROCESSOR = "scss";
+const PREPROCESSOR_ON = false;
 
-const FilesMap = {
-  html: ["htm", "html"],
-  images: ["png", "jpg", "jpeg", "gif"],
-  fonts: ["eot", "ttf", "woff", "woff2"],
-  js: ["js"],
-  css: ["css"],
-  icons: ["svg"],
-  getFilesStr: (str) => FilesMap[str].join(),
+const Folders = {
+  Html: "html",
+  Images: "images",
+  Fonts: "fonts",
+  Js: "js",
+  Css: "css",
+  Icons: "icons",
+};
+
+const Files = {
+  Html: "htm, html",
+  Images: "png, jpg, jpeg, gif",
+  Fonts: "eot, ttf, woff, woff2",
+  Js: "js",
+  Css: "css",
+  Icons: "svg",
 };
 
 const URL_MAP = {
@@ -21,59 +29,67 @@ const URL_MAP = {
   get_list: `${CURRENT_SITE}/api/v1/site_files/get_list`,
   get_file: `${CURRENT_SITE}/api/v1/site_files/get`,
 };
-const BASE_DIR = "src"; // Base directory path without «/» at the end
-const DIST_DIR = "dist"; // Base directory path without «/» at the end
+const BASE_DIR = "src";
+const DIST_DIR = "dist";
+const STATIC_DIR = `${DIST_DIR}/static`;
+const DOWNLOAD_DIR = "downloads";
+const DEFAULT_FOLDER_NAME = `default`;
 
 const Paths = {
-  downloadDir: "downloads",
   scripts: {
-    src: [
-      `${BASE_DIR}/js/main.js`, // app.js. Always at the end
-    ],
-    dest: `${DIST_DIR}/`,
+    watch: `${BASE_DIR}/**/*.${Files.Js}`,
+    dest: STATIC_DIR,
+    build: [`${BASE_DIR}/${Folders.Js}/**/*.${Files.Js}`],
   },
-
   styles: {
-    src: preprocessorOn
-      ? `${BASE_DIR}/${preprocessor}/**.${preprocessor}`
-      : `${BASE_DIR}/css/main.css`,
-    dest: `${DIST_DIR}/`,
-    all: `${DIST_DIR}/**.css`,
+    src: PREPROCESSOR_ON
+      ? `${BASE_DIR}/${PREPROCESSOR}`
+      : `${BASE_DIR}/${Folders.Css}`,
+    watch: PREPROCESSOR_ON
+      ? `${BASE_DIR}/${PREPROCESSOR}/**.${PREPROCESSOR}`
+      : `${BASE_DIR}/${Folders.Css}/**/.${Files.Css}`,
+    dest: STATIC_DIR,
+    build: PREPROCESSOR_ON
+      ? [
+          `${BASE_DIR}/${PREPROCESSOR}/.${Files.Css}`,
+          `${BASE_DIR}/${PREPROCESSOR}/${DEFAULT_FOLDER_NAME}/**`,
+        ]
+      : [`${BASE_DIR}/${Folders.Css}/**/.${Files.Css}`],
   },
   html: {
-    src: `${BASE_DIR}/html`,
-    dest: `${DIST_DIR}/html`,
+    src: `${BASE_DIR}/${Folders.Html}`,
+    watch: `${BASE_DIR}/**/*.{${Files.Html}}`,
+    dest: `${DIST_DIR}/${Folders.Html}`,
+    build: [
+      `${BASE_DIR}/${Folders.Html}/**/*.${Files.Html}`,
+      `!${BASE_DIR}/${Folders.Html}/_templates/**/*.{${Files.Html}}`,
+    ],
+  },
+  fonts: {
+    watch: `${BASE_DIR}/${Folders.Fonts}/**/*.{${Files.Fonts}}`,
+    dest: STATIC_DIR,
   },
   images: {
-    src: `${BASE_DIR}/images/**/*`,
-    dest: `${DIST_DIR}/`,
+    watch: `${BASE_DIR}/${Folders.Images}/**/*.{${Files.Images}}`,
+    dest: STATIC_DIR,
   },
   icons: {
-    src: `${BASE_DIR}/icons/**/*.svg`,
-    dest: `${DIST_DIR}/`,
+    watch: `${BASE_DIR}/${Folders.Icons}/**/*.{${Files.Icons}}`,
+    dest: STATIC_DIR,
   },
-  src: {
-    scripts: "",
-    styles: "",
-    html: "",
-    icons: "",
-    images: "",
-  },
-  watch: {},
-  build: {},
-  clean: `${DIST_DIR}/**/*`,
-  buildStatic: `${DIST_DIR}/static`,
 };
 
 export {
-  preprocessor,
-  preprocessorOn,
+  PREPROCESSOR,
+  PREPROCESSOR_ON,
   Paths,
-  FilesMap,
+  Files,
   CURRENT_SITE,
   URL_MAP,
   FILE_CONFIG_NAME,
   FILE_CURRENT_SITE_NAME,
   BASE_DIR,
   DIST_DIR,
+  DEFAULT_FOLDER_NAME,
+  DOWNLOAD_DIR,
 };

@@ -4,8 +4,8 @@ import newer from "gulp-newer";
 import imagemin, { gifsicle, mozjpeg, optipng, svgo } from "gulp-imagemin";
 
 async function images() {
-  return src([Paths.images.src])
-    .pipe(newer(Paths.buildStatic))
+  return src([Paths.images.watch])
+    .pipe(newer(Paths.images.dest))
     .pipe(
       imagemin([
         gifsicle({ interlaced: true }),
@@ -16,7 +16,7 @@ async function images() {
         }),
       ])
     )
-    .pipe(dest(Paths.buildStatic));
+    .pipe(dest(Paths.images.dest));
 }
 
 export default images;

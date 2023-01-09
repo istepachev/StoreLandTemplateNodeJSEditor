@@ -1,4 +1,4 @@
-import { FilesMap, Paths, BASE_DIR, DIST_DIR } from "../const.js";
+import { Paths, DIST_DIR } from "../const.js";
 
 import {
   fonts,
@@ -12,18 +12,12 @@ import {
 } from "../../gulpfile.js";
 
 function startwatch() {
-  watch(Paths.styles.src).on("all", styles);
-  watch(`${BASE_DIR}/images/**/*.${FilesMap.getFilesStr("images")}`).on(
-    "all",
-    images
-  );
-  watch(`${BASE_DIR}/icons/**/*.${FilesMap.getFilesStr("icons")}`).on(
-    "all",
-    icons
-  );
-  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("fonts")}}`).on("all", fonts);
-  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("html")}}`).on("all", html);
-  watch(`${BASE_DIR}/**/*.${FilesMap.getFilesStr("js")}`).on("all", scripts);
+  watch(Paths.styles.watch).on("all", styles);
+  watch(Paths.images.watch).on("all", images);
+  watch(Paths.icons.watch).on("all", icons);
+  watch(Paths.fonts.watch).on("all", fonts);
+  watch(Paths.html.watch).on("all", html);
+  watch(Paths.scripts.watch).on("all", scripts);
 
   watch(`${DIST_DIR}/**/*.*`).on("all", uploadFile);
 }

@@ -1,8 +1,8 @@
-import { Paths } from "../const.js";
+import { DIST_DIR } from "../const.js";
 import { deleteSync } from "del";
 
 async function cleanDist() {
-  deleteSync(Paths.clean, { force: true });
+  deleteSync(DIST_DIR, { force: true });
 }
 
 export default cleanDist;
