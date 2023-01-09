@@ -14,7 +14,7 @@ async function icons() {
         },
       })
     )
-    .pipe(dest(distDir));
+    .pipe(dest(Paths.buildStatic));
 }
 
 export default icons;
