@@ -5,7 +5,7 @@ import imagemin from "gulp-imagemin";
 
 function images() {
   return src([Paths.images.src])
-    .pipe(newer(Paths.images.dest))
+    .pipe(newer(Paths.buildStatic))
     .pipe(
       imagemin([
         imagemin.gifsicle({ interlaced: true }),
