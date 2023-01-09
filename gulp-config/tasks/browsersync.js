@@ -7,7 +7,7 @@ function browsersyncTask() {
   browserSync.init({
     notify: false,
     proxy: {
-      target: `${CURRENT_SITE}`,
+      target: CURRENT_SITE,
       proxyReq: [
         (proxyReq) => {
           proxyReq.setHeader("x-nodejs-editor-version", "1.01");
