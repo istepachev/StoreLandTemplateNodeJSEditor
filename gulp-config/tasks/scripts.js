@@ -8,8 +8,8 @@ import plumber from "gulp-plumber";
 
 const DEFAULT_JS_PATH_NAME = `default`;
 
-async function scripts(_, filePath = _) {
-  const isBuild = checkBuild(filePath);
+async function scripts(evt, filePath) {
+  const isBuild = checkBuild(evt);
   const fileName = !isBuild ? path.basename(filePath) : "";
   const parentFileFolderName = !isBuild
     ? path.basename(path.dirname(filePath))
