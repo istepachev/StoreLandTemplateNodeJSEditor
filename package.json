@@ -34,7 +34,6 @@
     "gulp-plumber": "^1.2.1",
     "gulp-replace-path": "^0.4.0",
     "gulp-sass-bulk-importer": "3.0.2",
-    "gulp-sourcemaps": "^3.0.0",
     "gulp-svg-sprite": "^2.0.1",
     "gulp-uglify-es": "^3.0.0",
     "node-fetch": "^3.3.0",
