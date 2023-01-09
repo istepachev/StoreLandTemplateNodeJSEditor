@@ -8,7 +8,7 @@ import { SECRET_KEY } from "./config-check.js";
 import got from "got";
 import { FormData } from "formdata-node";
 
-async function uploadFile(_, filePath) {
+async function uploadFile(evt, filePath) {
   try {
     const fileName = path.basename(filePath);
     const filehandle = await fs.open(`${filePath}`, "r+");
@@ -31,7 +31,7 @@ async function uploadFile(_, filePath) {
 
     if (json.status === `ok`) {
       console.log(
-        `[${dayjs().format("HH:mm:ss")}] Файл ${chalk.red(
+        `[${dayjs().format("HH:mm:ss")}][${evt}] Файл ${chalk.red(
           fileName
         )} успешно отправлен ${chalk.greenBright("✔️")}`
       );
