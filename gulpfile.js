@@ -24,6 +24,7 @@ gulp.task(
   parallel(checkConfig, parallel(browsersyncTask, startwatch))
 );
 gulp.task("init", checkConfig);
+gulp.task("cleanDist", cleanDist);
 
 export { src, dest, watch };
 export { fonts, scripts, styles, html, images, icons, uploadFile };
