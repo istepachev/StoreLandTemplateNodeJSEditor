@@ -1,17 +1,17 @@
 import { src, dest } from "../../gulpfile.js";
 import { Paths } from "../const.js";
 import newer from "gulp-newer";
-import imagemin from "gulp-imagemin";
+import imagemin, { gifsicle, mozjpeg, optipng, svgo } from "gulp-imagemin";
 
 async function images() {
   return src([Paths.images.src])
     .pipe(newer(Paths.buildStatic))
     .pipe(
       imagemin([
-        imagemin.gifsicle({ interlaced: true }),
-        imagemin.mozjpeg({ quality: 95, progressive: true }),
-        imagemin.optipng({ optimizationLevel: 3 }),
-        imagemin.svgo({
+        gifsicle({ interlaced: true }),
+        mozjpeg({ quality: 95, progressive: true }),
+        optipng({ optimizationLevel: 3 }),
+        svgo({
           plugins: [{ removeViewBox: true }, { cleanupIDs: false }],
         }),
       ])
