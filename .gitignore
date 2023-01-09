@@ -63,5 +63,6 @@ typings/
 files
 dist
 downloaded-files
+downloads
 # Карта с ключами сайтов
 secret-keys.json
