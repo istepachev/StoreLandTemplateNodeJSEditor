@@ -4,9 +4,9 @@ import fileinclude from "gulp-file-include";
 import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 import path from "node:path";
-import fs from "node:fs";
+import { readFile } from "node:fs/promises";
 import { Paths } from "../const.js";
-import { isBuild as build } from "../utils.js";
+import { checkBuild } from "../utils.js";
 import chalk from "chalk";
 // import { deleteSync } from "del";
 
@@ -16,14 +16,16 @@ const FILEINCLUDE_CONFIG = {
   context: DEFAULT_TEMPLATE_VARIABLES,
 };
 
-function html(_, filePath) {
-  const isBuild = build(filePath);
-  const file = !isBuild && filePath;
+async function html(evt, filePath = "") {
+  const isBuild = checkBuild(evt);
   const fileName = !isBuild ? path.basename(filePath) : "";
+  let filesPath = [];
 
-  if (!isBuild && file && fileName.startsWith(`_`)) {
-    fs.readFile(`${file}`, { encoding: "utf8" }, (err, data) => {
-      if (err) throw err;
+  if (!isBuild && filePath && fileName.startsWith(`_`)) {
+    try {
+      const data = await readFile(path.resolve(filePath), {
+        encoding: "utf8",
+      });
 
       if (!data.length) {
         console.error(chalk.redBright(`⛔ Файл ${fileName} пуст`));
@@ -42,33 +44,35 @@ function html(_, filePath) {
         return;
       }
 
-      const filesPath = firstStrFile
+      filesPath = firstStrFile
         .match(/\[([^}]*)]/)[1]
         .trim()
         .split(",")
         .map((el) => `${Paths.html.src}/${el.trim()}`);
       console.log(chalk.gray(`Сохранение файлов ${filesPath.join()}`));
-      // deleteSync.sync(Paths.html.dest, { force: true });
-
-      return (
-        src(filesPath, { allowEmpty: true })
-          .pipe(plumber())
-          .pipe(fileinclude(FILEINCLUDE_CONFIG))
-          // .pipe(replacePath("/src/html/", ""))
-          .pipe(dest(Paths.html.dest))
-      );
-    });
-  } else {
-    const PATH = !isBuild
-      ? filePath
-      : ["src/html/**/*.htm", "!src/html/_templates/**/*.{html, htm}"];
-
-    return src(PATH)
-      .pipe(plumber())
-      .pipe(fileinclude(FILEINCLUDE_CONFIG))
-      .pipe(replacePath("/src/html/", ""))
-      .pipe(dest(Paths.html.dest));
+    } catch (err) {
+      console.error(err.message);
+    }
   }
+
+  let currentPath;
+
+  if (isBuild) {
+    currentPath = [
+      "src/html/**/*.htm",
+      "!src/html/_templates/**/*.{html, htm}",
+    ];
+  } else if (filesPath.length) {
+    currentPath = filesPath;
+  } else {
+    currentPath = filePath;
+  }
+  
+  return src(currentPath, { allowEmpty: true })
+    .pipe(plumber())
+    .pipe(fileinclude(FILEINCLUDE_CONFIG))
+    .pipe(replacePath("/src/html/", ""))
+    .pipe(dest(Paths.html.dest));
 }
 
 export default html;
