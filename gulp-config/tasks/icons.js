@@ -2,7 +2,7 @@ import { src, dest } from "../../gulpfile.js";
 import { Paths } from "../const.js";
 import svgSprite from "gulp-svg-sprite";
 
-function icons() {
+async function icons() {
   return src(Paths.icons.src)
     .pipe(
       svgSprite({
