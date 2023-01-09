@@ -7,10 +7,11 @@ import cleancss from "gulp-clean-css";
 import scss from "gulp-dart-sass";
 import bulk from "gulp-sass-bulk-importer";
 import { Paths, BASE_DIR, preprocessor, preprocessorOn } from "../const.js";
+import { checkBuild } from "../utils.js";
 // import { browserSync } from "./browsersync.js";
 
-function styles(_, filePath) {
-  const isBuild = typeof filePath === "function";
+async function styles(_, filePath) {
+  const isBuild = checkBuild(filePath);
   const file = filePath;
   const fileName = !isBuild ? path.basename(file) : "";
 

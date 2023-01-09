@@ -1,15 +1,15 @@
 import { src, dest } from "../../gulpfile.js";
 import path from "node:path";
 import { Paths } from "../const.js";
-import { isBuild as build } from "../utils.js";
+import { checkBuild } from "../utils.js";
 import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 // import babel from "gulp-babel");
 
 const DEFAULT_JS_PATH_NAME = `default`;
 
-function scripts(_, filePath) {
-  const isBuild = build(filePath);
+async function scripts(_, filePath = _) {
+  const isBuild = checkBuild(filePath);
   const fileName = !isBuild ? path.basename(filePath) : "";
   const parentFileFolderName = !isBuild
     ? path.basename(path.dirname(filePath))

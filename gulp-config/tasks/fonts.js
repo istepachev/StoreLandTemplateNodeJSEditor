@@ -1,10 +1,10 @@
 import { src, dest } from "../../gulpfile.js";
 import { Paths } from "../const.js";
-import { isBuild } from "../utils.js";
+import { checkBuild } from "../utils.js";
 
-function fonts(filePath = "") {
+async function fonts(filePath = "") {
   return src(
-    isBuild(filePath)
+    checkBuild(filePath)
       ? `src/fonts/**/*.{${Paths.getFilesStr("fonts")}}`
       : filePath
   )

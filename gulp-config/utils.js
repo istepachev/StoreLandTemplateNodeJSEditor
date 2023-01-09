@@ -1,3 +1,3 @@
-const isBuild = (filePath) => typeof filePath === "function";
+const checkBuild = (filePath) => typeof filePath === "function";
 
-export { isBuild };
+export { checkBuild };
