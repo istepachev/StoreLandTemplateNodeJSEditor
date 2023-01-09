@@ -35,7 +35,7 @@ const Paths = {
 
   styles: {
     src: preprocessorOn
-      ? `${BASE_DIR}/${preprocessor}/**.scss`
+      ? `${BASE_DIR}/${preprocessor}/**.${preprocessor}`
       : `${BASE_DIR}/css/main.css`,
     dest: `${DIST_DIR}/`,
     all: `${DIST_DIR}/**.css`,
