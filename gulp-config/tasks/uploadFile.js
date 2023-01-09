@@ -8,10 +8,10 @@ import { SECRET_KEY } from "./config-check.js";
 import got from "got";
 import { FormData } from "formdata-node";
 
-async function uploadFile(file) {
+async function uploadFile(_, filePath) {
   try {
-    const fileName = path.basename(file);
-    const filehandle = await fs.open(`${file}`, "r+");
+    const fileName = path.basename(filePath);
+    const filehandle = await fs.open(`${filePath}`, "r+");
     const fileData = await filehandle.readFile("base64");
     filehandle.close();
 

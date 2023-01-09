@@ -16,7 +16,7 @@ const FILEINCLUDE_CONFIG = {
   context: DEFAULT_TEMPLATE_VARIABLES,
 };
 
-function html(filePath = "") {
+function html(_, filePath) {
   const isBuild = build(filePath);
   const file = !isBuild && filePath;
   const fileName = !isBuild ? path.basename(filePath) : "";

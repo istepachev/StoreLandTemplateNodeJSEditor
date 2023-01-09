@@ -1,10 +1,4 @@
-import {
-  FilesMap,
-  preprocessorOn,
-  preprocessor,
-  BASE_DIR,
-  DIST_DIR,
-} from "../const.js";
+import { FilesMap, Paths, BASE_DIR, DIST_DIR } from "../const.js";
 
 import {
   fonts,
@@ -18,47 +12,20 @@ import {
 } from "../../gulpfile.js";
 
 function startwatch() {
-  // Стили
-  const pathStyleFiles = preprocessorOn
-    ? `${BASE_DIR}/${preprocessor}/**/*.${preprocessor}`
-    : `${BASE_DIR}/css/**/*.css`;
-
-  watch(pathStyleFiles).on("add", styles).on("change", styles);
-  watch(`${DIST_DIR}/**/*.css`).on("add", uploadFile).on("change", uploadFile);
-  // Изображения
-  watch(`${DIST_DIR}/**/*.{${FilesMap.getFilesStr("images")}}`)
-    .on("add", uploadFile)
-    .on("change", uploadFile);
-  // Svg иконки
-  watch(`${BASE_DIR}/icons/**/*.${FilesMap.getFilesStr("icons")}`)
-    .on("add", icons)
-    .on("change", icons);
-  // Шрифты
-  watch(`${DIST_DIR}/**/*.{${FilesMap.getFilesStr("fonts")}}`)
-    .on("add", uploadFile)
-    .on("change", uploadFile);
-  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("fonts")}}`).on(
-    "change",
-    fonts
+  watch(Paths.styles.src).on("all", styles);
+  watch(`${BASE_DIR}/images/**/*.${FilesMap.getFilesStr("images")}`).on(
+    "all",
+    images
   );
-  // Html
-  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("html")}}`).on(
-    "change",
-    html
+  watch(`${BASE_DIR}/icons/**/*.${FilesMap.getFilesStr("icons")}`).on(
+    "all",
+    icons
   );
+  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("fonts")}}`).on("all", fonts);
+  watch(`${BASE_DIR}/**/*.{${FilesMap.getFilesStr("html")}}`).on("all", html);
+  watch(`${BASE_DIR}/**/*.${FilesMap.getFilesStr("js")}`).on("all", scripts);
 
-  watch(`${DIST_DIR}/**/*.{${FilesMap.getFilesStr("html")}}`)
-    .on("change", uploadFile)
-    .on("add", uploadFile);
-
-  // Javascript
-  watch(`${BASE_DIR}/**/*.${FilesMap.getFilesStr("js")}`)
-    .on("change", scripts)
-    .on("add", scripts);
-
-  watch(`${DIST_DIR}/**/*.${FilesMap.getFilesStr("js")}`)
-    .on("change", uploadFile)
-    .on("add", uploadFile);
+  watch(`${DIST_DIR}/**/*.*`).on("all", uploadFile);
 }
 
 export default startwatch;
