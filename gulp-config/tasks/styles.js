@@ -1,7 +1,6 @@
 import { src, dest } from "../../gulpfile.js";
 import path from "node:path";
 import plumber from "gulp-plumber";
-import replacePath from "gulp-replace-path";
 import autoprefixer from "gulp-autoprefixer";
 import cleancss from "gulp-clean-css";
 import scss from "gulp-dart-sass";
@@ -30,24 +29,16 @@ async function styles(evt, filePath) {
       .pipe(autoprefixer(getAutoprefixerConfig()))
       .pipe(cleancss(getCleanCssConfig()))
       // .pipe(sourcemaps.write("/src/scss/sourcemaps/"))
-      .pipe(replacePath("/src/scss/", ""))
-      .pipe(replacePath(`${Paths.styles.src}/${DEFAULT_FOLDER_NAME}`, ""))
+
       .pipe(dest(Paths.styles.dest));
   } else {
-    if (isBuild) {
-      return src(Paths.styles.watch)
-        .pipe(replacePath(`/src/css/default`, ""))
-        .pipe(replacePath(`/css/default`, ""))
-        .pipe(dest(Paths.styles.dest));
-    } else {
-      return (
-        src(`${Paths.styles.src}/${fileName}`)
-          // .pipe(browserSync.stream())
-          // .pipe(browserSync.reload("*.css"))
-          // .pipe(browserSync.stream({ match: "**/*.css" }))
-          .pipe(dest(Paths.styles.dest))
-      );
-    }
+    const PATH = !isBuild ? fileName : Paths.styles.build;
+
+    src(PATH)
+      // .pipe(browserSync.stream())
+      // .pipe(browserSync.reload("*.css"))
+      // .pipe(browserSync.stream({ match: "**/*.css" }))
+      .pipe(dest(Paths.scripts.dest));
   }
 }
 

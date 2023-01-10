@@ -2,7 +2,6 @@ import { src, dest } from "../../gulpfile.js";
 import path from "node:path";
 import { Paths, DEFAULT_FOLDER_NAME } from "../const.js";
 import { checkBuild } from "../utils.js";
-import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 // import babel from "gulp-babel");
 
@@ -18,26 +17,21 @@ async function scripts(evt, filePath) {
     return;
   }
   if (parentFileFolderName === DEFAULT_FOLDER_NAME) {
-    src([filePath]).pipe(dest(Paths.scripts.dest));
+    src(filePath).pipe(dest(Paths.scripts.dest));
 
     return;
   }
   const PATH = isBuild ? Paths.scripts.build : filePath;
-  console.log(PATH);
 
-  return (
-    src(PATH)
-      .pipe(plumber())
-      // .pipe(
-      //   babel({
-      //     presets: ["@babel/env"],
-      //   })
-      // )
-      .pipe(replacePath("/src/js/", ""))
-      .pipe(replacePath("src/js/", ""))
-      .pipe(replacePath("src/js", ""))
-      .pipe(dest(Paths.scripts.dest))
-  );
+  src(PATH)
+    .pipe(plumber())
+    // .pipe(
+    //   babel({
+    //     presets: ["@babel/env"],
+    //   })
+    // )
+
+    .pipe(dest(Paths.scripts.dest));
 }
 
 export default scripts;

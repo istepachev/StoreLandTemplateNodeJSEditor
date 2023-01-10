@@ -1,7 +1,6 @@
 import { src, dest } from "../../gulpfile.js";
 import DEFAULT_TEMPLATE_VARIABLES from "../../src/html/_template-variables.js";
 import fileinclude from "gulp-file-include";
-import replacePath from "gulp-replace-path";
 import plumber from "gulp-plumber";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
@@ -71,7 +70,6 @@ async function html(evt, filePath) {
   return src(getCurrentPath(), { allowEmpty: true })
     .pipe(plumber())
     .pipe(fileinclude(FILEINCLUDE_CONFIG))
-    .pipe(replacePath(`${Paths.html.src}`, ""))
     .pipe(dest(Paths.html.dest));
 }
 
