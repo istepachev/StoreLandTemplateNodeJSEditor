@@ -47,14 +47,14 @@ const Paths = {
       : `${BASE_DIR}/${Folders.Css}`,
     watch: PREPROCESSOR_ON
       ? `${BASE_DIR}/${PREPROCESSOR}/**.${PREPROCESSOR}`
-      : `${BASE_DIR}/${Folders.Css}/**/.${Files.Css}`,
+      : `${BASE_DIR}/${Folders.Css}/**/*.${Files.Css}`,
     dest: STATIC_DIR,
     build: PREPROCESSOR_ON
       ? [
           `${BASE_DIR}/${PREPROCESSOR}/.${Files.Css}`,
           `${BASE_DIR}/${PREPROCESSOR}/${DEFAULT_FOLDER_NAME}/**`,
         ]
-      : [`${BASE_DIR}/${Folders.Css}/**/.${Files.Css}`],
+      : [`${BASE_DIR}/${Folders.Css}/**/*.${Files.Css}`],
   },
   html: {
     src: `${BASE_DIR}/${Folders.Html}`,
