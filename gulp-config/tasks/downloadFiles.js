@@ -65,7 +65,9 @@ async function downloadFiles() {
       const fileExt = path.extname(file).replace(".", "");
 
       const fileDirName =
-        Object.values(Files).find((value) => value.includes(fileExt)) || "";
+        Object.keys(Files)
+          .find((key) => Files[key].includes(fileExt))
+          ?.toLowerCase() || "";
       const newDir = `${DOWNLOAD_DIR}/${fileDirName}`;
 
       !fs.existsSync(newDir) && fs.mkdirSync(newDir);
