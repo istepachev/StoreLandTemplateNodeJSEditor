@@ -61,7 +61,7 @@ const Paths = {
     watch: `${BASE_DIR}/**/*.{${Files.Html}}`,
     dest: `${DIST_DIR}/${Folders.Html}`,
     build: [
-      `${BASE_DIR}/${Folders.Html}/**/*.${Files.Html}`,
+      `${BASE_DIR}/${Folders.Html}/**/*.{${Files.Html}}`,
       `!${BASE_DIR}/${Folders.Html}/_templates/**/*.{${Files.Html}}`,
     ],
   },
