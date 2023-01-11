@@ -123,8 +123,18 @@
   <!-- /END Обратный звонок в шапке -->  
 </head>
 <body>
+  <h1>@@DESIGN_NAME</h1>
+  <h1>@@tel1.num</h1>
+  <h1>@@tel2.num</h1>
   <h1>hello from got 3</h1>
   <h2>lololo</h2>
+  <ul>
+    @@for (var i = 0; i < social.length; i++) {
+      <li>`+social[i].name+`  <a href="`+social[i].link+`" target="_blank">`+social[i].title+`</a></li>
+    }
+    </ul>
+    @@loop("loop-article.html", "data.json")
+    @@loop("loop-article.html", "./_templates/data2.json")
   <div class="wrapper {% IF index_page %}index{% ENDIF %} nojs">
     <!-- Сообщение для инвалидов -->
     <noscript>

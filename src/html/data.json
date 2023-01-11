@@ -1,0 +1,8 @@
+[
+    { "title": "My post title 1", "text": "<p>lorem ipsum 1...</p>" },
+    { "title": "Another post 2", "text": "<p>lorem ipsum 2...</p>" },
+    { "title": "One more post 3", "text": "<p>lorem ipsum 3...</p>" },
+    { "title": "One more post 4", "text": "<p>lorem ipsum 4...</p>" },
+    { "title": "One more post 5", "text": "<p>lorem ipsum 5...</p>" },
+    { "title": "One more post 6", "text": "<p>lorem ipsum 6...</p>" }
+]
