@@ -3,6 +3,7 @@ const require = createRequire(import.meta.url);
 const FILE_CURRENT_SITE_NAME = "current-site.json";
 const { CURRENT_SITE } = require(`../${FILE_CURRENT_SITE_NAME}`);
 const FILE_CONFIG_NAME = "secret-keys.json";
+const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
 const PREPROCESSOR = "scss";
 const PREPROCESSOR_ON = false;
 
@@ -29,6 +30,7 @@ const URL_MAP = {
   get_list: `${CURRENT_SITE}/api/v1/site_files/get_list`,
   get_file: `${CURRENT_SITE}/api/v1/site_files/get`,
 };
+
 const BASE_DIR = "src";
 const DIST_DIR = "dist";
 const STATIC_DIR = `${DIST_DIR}/static`;
@@ -36,6 +38,9 @@ const DOWNLOAD_DIR = "downloads";
 const DEFAULT_FOLDER_NAME = `default`;
 
 const Paths = {
+  htmlTemplateJsonDefault: `${BASE_DIR}/${Folders.Html}/${FILE_HTML_TEMPLATE_NAME}`,
+  htmlTemplateJsons: `${BASE_DIR}/${Folders.Html}/**/*.json`,
+  dist: `${DIST_DIR}/**/*.*`,
   scripts: {
     watch: `${BASE_DIR}/**/*.${Files.Js}`,
     dest: STATIC_DIR,
@@ -57,6 +62,7 @@ const Paths = {
       : [`${BASE_DIR}/${Folders.Css}/**/*.${Files.Css}`],
   },
   html: {
+    default: `${BASE_DIR}/${Folders.Html}/html.htm`,
     src: `${BASE_DIR}/${Folders.Html}`,
     watch: `${BASE_DIR}/**/*.{${Files.Html}}`,
     dest: `${DIST_DIR}/${Folders.Html}`,

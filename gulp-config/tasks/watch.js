@@ -1,4 +1,4 @@
-import { Paths, DIST_DIR } from "../const.js";
+import { Paths } from "../const.js";
 
 import {
   fonts,
@@ -17,9 +17,10 @@ function startwatch() {
   watch(Paths.icons.watch).on("all", icons);
   watch(Paths.fonts.watch).on("all", fonts);
   watch(Paths.html.watch).on("all", html);
+  watch(Paths.htmlTemplateJsons).on("change", () => html());
   watch(Paths.scripts.watch).on("all", scripts);
 
-  watch(`${DIST_DIR}/**/*.*`).on("all", uploadFile);
+  watch(Paths.dist).on("all", uploadFile);
 }
 
 export default startwatch;

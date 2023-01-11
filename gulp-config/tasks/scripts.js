@@ -7,14 +7,8 @@ import plumber from "gulp-plumber";
 
 async function scripts(evt, filePath = "") {
   const isBuild = checkBuild(evt);
-  const fileName = path.basename(filePath);
   const parentFileFolderName = path.basename(path.dirname(filePath));
 
-  //TODO добавить живую перезагрузку при изменении конфига
-  if (fileName.startsWith(`_`)) {
-    console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
-    return;
-  }
   if (parentFileFolderName === DEFAULT_FOLDER_NAME) {
     src(filePath).pipe(dest(Paths.scripts.dest));
 

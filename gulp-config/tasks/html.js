@@ -1,5 +1,4 @@
 import { src, dest } from "../../gulpfile.js";
-import DEFAULT_TEMPLATE_VARIABLES from "../../src/html/_template-variables.js";
 import fileinclude from "gulp-file-include";
 import plumber from "gulp-plumber";
 import path from "node:path";
@@ -7,15 +6,21 @@ import { readFile } from "node:fs/promises";
 import { Paths } from "../const.js";
 import { checkBuild } from "../utils.js";
 import chalk from "chalk";
-// import { deleteSync } from "del";
 
-const FILEINCLUDE_CONFIG = {
-  prefix: "@@",
-  basepath: "@file",
-  context: DEFAULT_TEMPLATE_VARIABLES,
-};
+async function html(evt, filePath = Paths.html.default) {
+  const jsonData = await readFile(
+    new URL(`../../${Paths.htmlTemplateJsonDefault}`, import.meta.url),
+    {
+      encoding: "utf-8",
+    }
+  );
+  const DEFAULT_TEMPLATE_VARIABLES = JSON.parse(jsonData);
 
-async function html(evt, filePath = "") {
+  const FILEINCLUDE_CONFIG = {
+    prefix: "@@",
+    basepath: "@file",
+    context: DEFAULT_TEMPLATE_VARIABLES,
+  };
   const isBuild = checkBuild(evt);
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
