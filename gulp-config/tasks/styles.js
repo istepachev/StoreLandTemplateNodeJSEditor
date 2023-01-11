@@ -38,7 +38,7 @@ async function styles(evt, filePath) {
       // .pipe(browserSync.stream())
       // .pipe(browserSync.reload("*.css"))
       // .pipe(browserSync.stream({ match: "**/*.css" }))
-      .pipe(dest(Paths.scripts.dest));
+      .pipe(dest(Paths.styles.dest));
   }
 }
 
