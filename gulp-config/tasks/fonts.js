@@ -1,6 +1,7 @@
 import { src, dest } from "../../gulpfile.js";
 import { Paths } from "../const.js";
 import plumber from "gulp-plumber";
+import newer from "gulp-newer";
 
 async function fonts() {
   return src(Paths.fonts.watch)
