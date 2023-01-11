@@ -11,7 +11,7 @@ async function scripts(evt, filePath) {
   const parentFileFolderName = !isBuild
     ? path.basename(path.dirname(filePath))
     : "";
-
+  //TODO добавить живую перезагрузку при изменении конфига
   if (fileName.startsWith(`_`)) {
     console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
     return;
