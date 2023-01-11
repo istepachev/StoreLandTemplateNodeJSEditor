@@ -5,7 +5,7 @@ import autoprefixer from "gulp-autoprefixer";
 import cleancss from "gulp-clean-css";
 import scss from "gulp-dart-sass";
 import bulk from "gulp-sass-bulk-importer";
-import { Paths, DEFAULT_FOLDER_NAME, PREPROCESSOR_ON } from "../const.js";
+import { Paths, PREPROCESSOR_ON } from "../const.js";
 import { checkBuild } from "../utils.js";
 // import { browserSync } from "./browsersync.js";
 
