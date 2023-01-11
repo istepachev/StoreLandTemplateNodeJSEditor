@@ -15,7 +15,7 @@ const FILEINCLUDE_CONFIG = {
   context: DEFAULT_TEMPLATE_VARIABLES,
 };
 
-async function html(evt, filePath) {
+async function html(evt, filePath = "") {
   const isBuild = checkBuild(evt);
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
