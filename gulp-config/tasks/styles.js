@@ -12,11 +12,10 @@ import { checkBuild } from "../utils.js";
 async function styles(evt, filePath) {
   const isBuild = checkBuild(evt);
   const fileName = !isBuild ? path.basename(filePath) : "";
+  const cssPath = `${Paths.styles.src}/${fileName}`;
 
   if (PREPROCESSOR_ON) {
-    const PATH = isBuild
-      ? Paths.styles.build
-      : `${Paths.styles.src}/${fileName}`;
+    const PATH = isBuild ? Paths.styles.build : cssPath;
 
     src(PATH)
       .pipe(bulk())
@@ -32,7 +31,7 @@ async function styles(evt, filePath) {
 
       .pipe(dest(Paths.styles.dest));
   } else {
-    const PATH = !isBuild ? fileName : Paths.styles.build;
+    const PATH = !isBuild ? cssPath : Paths.styles.build;
 
     src(PATH)
       // .pipe(browserSync.stream())
