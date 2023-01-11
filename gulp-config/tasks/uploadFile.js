@@ -8,6 +8,7 @@ import { SECRET_KEY } from "./config-check.js";
 import got from "got";
 import { FormData } from "formdata-node";
 
+//TODO добавить debounce на двойное сохранение
 async function uploadFile(evt, filePath) {
   try {
     const fileName = path.basename(filePath);
