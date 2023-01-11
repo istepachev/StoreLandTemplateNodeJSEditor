@@ -9,9 +9,9 @@ import { Paths, PREPROCESSOR_ON } from "../const.js";
 import { checkBuild } from "../utils.js";
 // import { browserSync } from "./browsersync.js";
 
-async function styles(evt, filePath) {
+async function styles(evt, filePath = "") {
   const isBuild = checkBuild(evt);
-  const fileName = !isBuild ? path.basename(filePath) : "";
+  const fileName = path.basename(filePath);
   const cssPath = `${Paths.styles.src}/${fileName}`;
 
   if (PREPROCESSOR_ON) {
@@ -31,7 +31,7 @@ async function styles(evt, filePath) {
 
       .pipe(dest(Paths.styles.dest));
   } else {
-    const PATH = !isBuild ? cssPath : Paths.styles.build;
+    const PATH = isBuild ? Paths.styles.build : cssPath;
 
     src(PATH)
       // .pipe(browserSync.stream())

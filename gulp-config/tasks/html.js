@@ -17,7 +17,7 @@ const FILEINCLUDE_CONFIG = {
 
 async function html(evt, filePath) {
   const isBuild = checkBuild(evt);
-  const fileName = !isBuild ? path.basename(filePath) : "";
+  const fileName = path.basename(filePath);
   let templateParentsPaths = [];
 
   if (fileName.startsWith(`_`)) {

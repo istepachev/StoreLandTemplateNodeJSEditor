@@ -5,12 +5,11 @@ import { checkBuild } from "../utils.js";
 import plumber from "gulp-plumber";
 // import babel from "gulp-babel");
 
-async function scripts(evt, filePath) {
+async function scripts(evt, filePath = "") {
   const isBuild = checkBuild(evt);
-  const fileName = !isBuild ? path.basename(filePath) : "";
-  const parentFileFolderName = !isBuild
-    ? path.basename(path.dirname(filePath))
-    : "";
+  const fileName = path.basename(filePath);
+  const parentFileFolderName = path.basename(path.dirname(filePath));
+
   //TODO добавить живую перезагрузку при изменении конфига
   if (fileName.startsWith(`_`)) {
     console.log(`Файл ${fileName} сохранен, перезагрузи сборку`);
