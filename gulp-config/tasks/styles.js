@@ -34,6 +34,7 @@ async function styles(evt, filePath = "") {
     const PATH = isBuild ? Paths.styles.build : cssPath;
 
     src(PATH)
+      //TODO добавить inject прямо в браузер 
       // .pipe(browserSync.stream())
       // .pipe(browserSync.reload("*.css"))
       // .pipe(browserSync.stream({ match: "**/*.css" }))
