@@ -8,19 +8,6 @@ import { checkBuild } from "../utils.js";
 import chalk from "chalk";
 
 async function html(evt, filePath = Paths.html.default) {
-  const jsonData = await readFile(
-    new URL(`../../${Paths.htmlTemplateJsonDefault}`, import.meta.url),
-    {
-      encoding: "utf-8",
-    }
-  );
-  const DEFAULT_TEMPLATE_VARIABLES = JSON.parse(jsonData);
-
-  const FILEINCLUDE_CONFIG = {
-    prefix: "@@",
-    basepath: "@file",
-    context: DEFAULT_TEMPLATE_VARIABLES,
-  };
   const isBuild = checkBuild(evt);
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
@@ -71,11 +58,32 @@ async function html(evt, filePath = Paths.html.default) {
 
     return filePath;
   };
+  const config = await getFileIncludeConfig();
 
   return src(getCurrentPath(), { allowEmpty: true })
     .pipe(plumber())
-    .pipe(fileinclude(FILEINCLUDE_CONFIG))
+    .pipe(fileinclude(config))
     .pipe(dest(Paths.html.dest));
+}
+
+async function getFileIncludeConfig() {
+  try {
+    const jsonData = await readFile(
+      new URL(`../../${Paths.htmlTemplateJsonDefault}`, import.meta.url),
+      {
+        encoding: "utf-8",
+      }
+    );
+    const DEFAULT_TEMPLATE_VARIABLES = JSON.parse(jsonData);
+
+    return {
+      prefix: "@@",
+      basepath: "@file",
+      context: DEFAULT_TEMPLATE_VARIABLES,
+    };
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export default html;
