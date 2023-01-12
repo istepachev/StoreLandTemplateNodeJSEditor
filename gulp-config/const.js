@@ -68,7 +68,7 @@ const Paths = {
     dest: `${DIST_DIR}/${Folders.Html}`,
     build: [
       `${BASE_DIR}/${Folders.Html}/**/*.{${Files.Html}}`,
-      `!${BASE_DIR}/${Folders.Html}/_templates/**/*.{${Files.Html}}`,
+      //`!${BASE_DIR}/${Folders.Html}/**/[_].{${Files.Html}}`, //TODO поддержка любой вложенности
     ],
   },
   fonts: {
@@ -98,4 +98,5 @@ export {
   DIST_DIR,
   DEFAULT_FOLDER_NAME,
   DOWNLOAD_DIR,
+  STATIC_DIR,
 };

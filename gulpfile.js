@@ -13,7 +13,9 @@ import { checkConfig } from "./gulp-config/tasks/config-check.js";
 import downloadFiles from "./gulp-config/tasks/downloadFiles.js";
 import uploadFile from "./gulp-config/tasks/uploadFile.js";
 import startwatch from "./gulp-config/tasks/watch.js";
+import buildProject from "./gulp-config/tasks/buildProject.js";
 
+gulp.task("move", buildProject);
 gulp.task(
   "build",
   parallel(cleanDist, html, scripts, images, fonts, styles, icons)

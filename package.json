@@ -9,7 +9,8 @@
     "build": "gulp build",
     "download": "gulp download",
     "init": "gulp init",
-    "cleanDist": "gulp cleanDist"
+    "cleanDist": "gulp cleanDist",
+    "move": "gulp move"
   },
   "author": "Dmitry Shcheklein",
   "license": "ISC",
