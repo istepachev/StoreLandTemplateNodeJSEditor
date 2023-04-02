@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "gulp",
-    "build": "gulp build",
+    "build": "cross-env NODE_ENV=production gulp build ",
     "download": "gulp download",
     "init": "gulp init",
     "cleanDist": "gulp cleanDist",
@@ -19,6 +19,7 @@
     "@babel/preset-env": "^7.15.4",
     "browser-sync": "^2.26.14",
     "chalk": "^5.2.0",
+    "cross-env": "7.0.3",
     "dayjs": "^1.11.4",
     "del": "^7.0.0",
     "formdata-node": "^5.0.0",

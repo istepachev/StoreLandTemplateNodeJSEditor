@@ -6,6 +6,7 @@ const FILE_CONFIG_NAME = "secret-keys.json";
 const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
 const PREPROCESSOR = "scss";
 const PREPROCESSOR_ON = false;
+const IS_BUILD = process.env.NODE_ENV === 'production'
 
 const Folders = {
   Html: "html",
@@ -99,4 +100,5 @@ export {
   DEFAULT_FOLDER_NAME,
   DOWNLOAD_DIR,
   STATIC_DIR,
+  IS_BUILD
 };

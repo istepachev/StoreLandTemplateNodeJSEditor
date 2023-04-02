@@ -3,12 +3,10 @@ import fileInclude from "gulp-file-include";
 import plumber from "gulp-plumber";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
-import { Paths } from "../const.js";
-import { checkBuild } from "../utils.js";
+import {IS_BUILD, Paths} from "../const.js";
 import chalk from "chalk";
 
 async function html(evt, filePath = Paths.html.default) {
-  const isBuild = checkBuild(evt);
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
 
@@ -52,7 +50,7 @@ async function html(evt, filePath = Paths.html.default) {
       return templateParentsPaths;
     }
 
-    if (isBuild) {
+    if (IS_BUILD) {
       return Paths.html.build;
     }
 
