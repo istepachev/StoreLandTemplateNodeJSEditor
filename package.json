@@ -1,7 +1,7 @@
 {
   "name": "storeland-template-editor",
   "version": "2.0.0",
-  "description": "Template dev enviroment",
+  "description": "Template dev environment",
   "main": "gulpfile.js",
   "type": "module",
   "scripts": {
