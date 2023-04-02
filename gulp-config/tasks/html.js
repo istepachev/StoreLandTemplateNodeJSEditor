@@ -6,7 +6,7 @@ import { readFile } from "node:fs/promises";
 import {IS_BUILD, Paths} from "../const.js";
 import chalk from "chalk";
 
-async function html(evt, filePath = Paths.html.default) {
+async function html(evt ='', filePath = Paths.html.default) {
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
 
