@@ -11,7 +11,7 @@ import {
   watch,
 } from "../../gulpfile.js";
 
-function startwatch() {
+function startWatch() {
   watch(Paths.styles.watch).on("all", styles);
   watch(Paths.images.watch).on("all", images);
   watch(Paths.icons.watch).on("all", icons);
@@ -23,4 +23,4 @@ function startwatch() {
   watch(Paths.dist).on("all", uploadFile);
 }
 
-export default startwatch;
+export default startWatch;

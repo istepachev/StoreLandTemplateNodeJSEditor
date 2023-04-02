@@ -12,8 +12,8 @@ async function buildProject() {
     deleteSync([`${Paths.html.dest}/client/`, `${Paths.html.dest}/discount/`]);
   });
 
-  const staticfilesToMove = [`${STATIC_DIR}/${DEFAULT_FOLDER_NAME}/**/*.*`];
-  const streamStatic = src(staticfilesToMove).pipe(dest(STATIC_DIR));
+  const staticFilesToMove = [`${STATIC_DIR}/${DEFAULT_FOLDER_NAME}/**/*.*`];
+  const streamStatic = src(staticFilesToMove).pipe(dest(STATIC_DIR));
   streamStatic.on("end", () => {
     deleteSync(`${STATIC_DIR}/${DEFAULT_FOLDER_NAME}`);
   });

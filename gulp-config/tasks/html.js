@@ -1,5 +1,5 @@
 import { src, dest } from "../../gulpfile.js";
-import fileinclude from "gulp-file-include";
+import fileInclude from "gulp-file-include";
 import plumber from "gulp-plumber";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
@@ -62,7 +62,7 @@ async function html(evt, filePath = Paths.html.default) {
 
   return src(getCurrentPath(), { allowEmpty: true })
     .pipe(plumber())
-    .pipe(fileinclude(config))
+    .pipe(fileInclude(config))
     .pipe(dest(Paths.html.dest));
 }
 

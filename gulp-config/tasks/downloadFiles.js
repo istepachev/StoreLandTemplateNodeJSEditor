@@ -40,7 +40,7 @@ async function downloadFiles() {
   const files = await getFiles();
   const filesLength = files.length;
 
-  getFile(files);
+  await getFile(files);
 
   async function getFile(filesArray, count = 1) {
     if (!filesArray.length) {

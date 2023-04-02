@@ -12,9 +12,9 @@ import { FormData } from "formdata-node";
 async function uploadFile(evt, filePath) {
   try {
     const fileName = path.basename(filePath);
-    const filehandle = await fs.open(`${filePath}`, "r+");
-    const fileData = await filehandle.readFile("base64");
-    filehandle.close();
+    const fileHandle = await fs.open(`${filePath}`, "r+");
+    const fileData = await fileHandle.readFile("base64");
+    await fileHandle.close();
 
     const formData = new FormData();
     formData.append("secret_key", SECRET_KEY);
