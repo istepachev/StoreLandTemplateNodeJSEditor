@@ -59,6 +59,8 @@ typings/
 
 # next.js build output
 .next
+#JB
+.idea
 # Папки с файлами
 files
 dist
