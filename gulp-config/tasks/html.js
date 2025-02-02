@@ -3,10 +3,11 @@ import fileInclude from "gulp-file-include";
 import plumber from "gulp-plumber";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
-import {IS_BUILD, Paths} from "../const.js";
+import Config from "../const.js";
+const { IS_BUILD, Paths } = Config;
 import chalk from "chalk";
 
-async function html(evt ='', filePath = Paths.html.default) {
+async function html(evt = "", filePath = Paths.html.default) {
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
 
@@ -18,7 +19,6 @@ async function html(evt ='', filePath = Paths.html.default) {
 
       if (!data.length) {
         console.error(chalk.redBright(`⛔ Файл ${fileName} пуст`));
-
         return;
       }
       const firstStrFile = data.split("\n").shift();
@@ -26,10 +26,9 @@ async function html(evt ='', filePath = Paths.html.default) {
       if (!isFirstComment) {
         console.error(
           chalk.redBright(
-            `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] -->`
-          )
+            `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] -->`,
+          ),
         );
-
         return;
       }
 
@@ -39,23 +38,23 @@ async function html(evt ='', filePath = Paths.html.default) {
         .split(",")
         .map((el) => `${Paths.html.src}/${el.trim()}`);
       console.log(
-        chalk.gray(`Сохранение файлов\n${templateParentsPaths.join("\n")}`)
+        chalk.gray(`Сохранение файлов\n${templateParentsPaths.join("\n")}`),
       );
     } catch (err) {
       console.error(err.message);
     }
   }
+
   const getCurrentPath = () => {
     if (templateParentsPaths.length) {
       return templateParentsPaths;
     }
-
     if (IS_BUILD) {
       return Paths.html.build;
     }
-
     return filePath;
   };
+
   const config = await getFileIncludeConfig();
 
   return src(getCurrentPath(), { allowEmpty: true })
@@ -67,10 +66,10 @@ async function html(evt ='', filePath = Paths.html.default) {
 async function getFileIncludeConfig() {
   try {
     const jsonData = await readFile(
-      new URL(`../../${Paths.htmlTemplateJsonDefault}`, import.meta.url),
+      new URL(`../../${Paths.htmlTemplate.default}`, import.meta.url),
       {
         encoding: "utf-8",
-      }
+      },
     );
     const DEFAULT_TEMPLATE_VARIABLES = JSON.parse(jsonData);
 

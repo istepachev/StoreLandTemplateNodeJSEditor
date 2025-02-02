@@ -1,5 +1,6 @@
 import { src, dest } from "../../gulpfile.js";
-import { Paths } from "../const.js";
+import Config from "../const.js";
+const { Paths } = Config;
 import svgSprite from "gulp-svg-sprite";
 
 async function icons() {
@@ -12,7 +13,7 @@ async function icons() {
             sprite: "sprite.svg",
           },
         },
-      })
+      }),
     )
     .pipe(dest(Paths.icons.dest));
 }

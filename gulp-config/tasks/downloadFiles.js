@@ -1,4 +1,9 @@
-import { DOWNLOAD_DIR, Files, URL_MAP } from "../const.js";
+import Config from "../const.js";
+const {
+  dirs: { DOWNLOAD_DIR },
+  FilesExtensions,
+  ApiUrls,
+} = Config;
 import { SECRET_KEY } from "./config-check.js";
 import * as fs from "node:fs";
 import path from "node:path";
@@ -10,8 +15,8 @@ import minimist from "minimist";
 
 async function downloadFiles() {
   const argv = minimist(process.argv.slice(2));
-  const isCodeOnly = argv['code-only'];
-  
+  const isCodeOnly = argv["code-only"];
+
   deleteSync(DOWNLOAD_DIR);
   !fs.existsSync(DOWNLOAD_DIR) && fs.mkdirSync(DOWNLOAD_DIR);
 
@@ -24,7 +29,7 @@ async function downloadFiles() {
   };
 
   async function getFiles() {
-    const { data } = await got.post(URL_MAP.get_list, OPTIONS).json();
+    const { data } = await got.post(ApiUrls.getList, OPTIONS).json();
     return data
       .map(({ file_id, file_name }) => ({
         file_id: file_id.value,
@@ -32,19 +37,23 @@ async function downloadFiles() {
       }))
       .filter(({ file_name }) => {
         if (!isCodeOnly) return true;
-        
+
         const fileExt = path.extname(file_name).replace(".", "").toLowerCase();
-        const codeFileTypes = [...Files.Html.split(", "), ...Files.Js.split(", "), ...Files.Css.split(", ")];
+        const codeFileTypes = [
+          ...FilesExtensions.Html.split(", "),
+          ...FilesExtensions.Js.split(", "),
+          ...FilesExtensions.Css.split(", "),
+        ];
         return codeFileTypes.includes(fileExt);
       });
   }
 
   async function processFile(file, index, total) {
     const { file_id, file_name } = file;
-    
+
     try {
       const { data, status, message } = await got
-        .post(`${URL_MAP.get_file}/${file_id}`, OPTIONS)
+        .post(`${ApiUrls.getFile}/${file_id}`, OPTIONS)
         .json();
 
       if (status === "error") {
@@ -53,16 +62,17 @@ async function downloadFiles() {
       }
 
       const fileExt = path.extname(data.file_name.value).replace(".", "");
-      const fileDirName = Object.keys(Files)
-        .find((key) => Files[key].includes(fileExt))
-        ?.toLowerCase() || "";
+      const fileDirName =
+        Object.keys(FilesExtensions)
+          .find((key) => FilesExtensions[key].includes(fileExt))
+          ?.toLowerCase() || "";
       const newDir = `${DOWNLOAD_DIR}/${fileDirName}`;
 
       await fs.promises.mkdir(newDir, { recursive: true });
       await fs.promises.writeFile(
         `${newDir}/${data.file_name.value}`,
         data.file_content.value,
-        "base64"
+        "base64",
       );
 
       return { file_name, index };
@@ -76,14 +86,14 @@ async function downloadFiles() {
   console.log(
     chalk.greenBright(
       `Загружен список всех файлов ✔️\nВсего файлов для загрузки: ${files.length} шт.${
-        isCodeOnly ? ' (только код)' : ' (все файлы)'
-      }`
-    )
+        isCodeOnly ? " (только код)" : " (все файлы)"
+      }`,
+    ),
   );
 
   let completedCount = 0;
   const results = await Promise.all(
-    files.map((file, index) => processFile(file, index, files.length))
+    files.map((file, index) => processFile(file, index, files.length)),
   );
 
   results
@@ -92,7 +102,7 @@ async function downloadFiles() {
     .forEach(({ file_name }) => {
       completedCount++;
       console.log(
-        `Скачан файл ${chalk.greenBright(file_name)}. Всего ${completedCount} из ${files.length}`
+        `Скачан файл ${chalk.greenBright(file_name)}. Всего ${completedCount} из ${files.length}`,
       );
     });
 

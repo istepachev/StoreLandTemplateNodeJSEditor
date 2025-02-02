@@ -1,8 +1,8 @@
-import {
+import Config from "../const.js";
+const {
   CURRENT_SITE,
-  FILE_CONFIG_NAME,
-  FILE_CURRENT_SITE_NAME,
-} from "../const.js";
+  files: { currentSite: FILE_CURRENT_SITE_NAME, config: FILE_CONFIG_NAME },
+} = Config;
 import { readFileSync, writeFileSync } from "node:fs";
 import chalk from "chalk";
 
@@ -25,13 +25,13 @@ async function checkConfig() {
   if (!CURRENT_SITE) {
     console.error(
       `⛔ Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ${chalk.red(
-        FILE_CURRENT_SITE_NAME
-      )}`
+        FILE_CURRENT_SITE_NAME,
+      )}`,
     );
   }
   try {
     const data = JSON.parse(
-      readFileSync(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url))
+      readFileSync(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url)),
     )[CURRENT_SITE];
     SECRET_KEY = data.SECRET_KEY;
   } catch (error) {
@@ -40,8 +40,8 @@ async function checkConfig() {
   if (!SECRET_KEY) {
     console.error(
       `⛔ Не задан ${chalk.red(`SECRET_KEY`)} в файле ${chalk.red(
-        FILE_CONFIG_NAME
-      )} для ${chalk.gray(CURRENT_SITE)}`
+        FILE_CONFIG_NAME,
+      )} для ${chalk.gray(CURRENT_SITE)}`,
     );
   }
 

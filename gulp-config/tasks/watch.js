@@ -1,4 +1,5 @@
-import { Paths } from "../const.js";
+import Config from "../const.js";
+const { Paths } = Config;
 
 import {
   fonts,
@@ -17,9 +18,8 @@ function startWatch() {
   watch(Paths.icons.watch).on("all", icons);
   watch(Paths.fonts.watch).on("all", fonts);
   watch(Paths.html.watch).on("all", html);
-  watch(Paths.htmlTemplateJson).on("change", () => html());
+  watch(Paths.htmlTemplate.all).on("change", () => html());
   watch(Paths.scripts.watch).on("all", scripts);
-
   watch(Paths.dist).on("all", uploadFile);
 }
 

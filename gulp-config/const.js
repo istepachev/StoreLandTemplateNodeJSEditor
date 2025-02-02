@@ -79,6 +79,7 @@ const Paths = {
 };
 
 const Config = {
+  CURRENT_SITE,
   files: {
     currentSite: FILE_CURRENT_SITE_NAME,
     config: FILE_CONFIG_NAME,
@@ -92,11 +93,11 @@ const Config = {
     isProd: process.env.NODE_ENV === "production",
   },
   dirs: {
-    base: BASE_DIR,
-    dist: DIST_DIR,
-    static: STATIC_DIR,
-    download: DOWNLOAD_DIR,
-    default: DEFAULT_FOLDER_NAME,
+    BASE_DIR,
+    DIST_DIR,
+    STATIC_DIR,
+    DOWNLOAD_DIR,
+    DEFAULT_FOLDER_NAME,
   },
 };
 

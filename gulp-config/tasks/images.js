@@ -1,5 +1,6 @@
 import { src, dest } from "../../gulpfile.js";
-import { Paths } from "../const.js";
+import Config from "../const.js";
+const { Paths } = Config;
 import newer from "gulp-newer";
 import imagemin, { gifsicle, mozjpeg, optipng, svgo } from "gulp-imagemin";
 
@@ -14,7 +15,7 @@ async function images() {
         svgo({
           plugins: [{ removeViewBox: true }, { cleanupIDs: false }],
         }),
-      ])
+      ]),
     )
     .pipe(dest(Paths.images.dest));
 }

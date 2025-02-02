@@ -1,5 +1,6 @@
 import { src, dest } from "../../gulpfile.js";
-import { Paths } from "../const.js";
+import Config from "../const.js";
+const { Paths } = Config;
 import plumber from "gulp-plumber";
 import newer from "gulp-newer";
 

@@ -1,6 +1,11 @@
 import { src, dest } from "../../gulpfile.js";
 import path from "node:path";
-import {Paths, DEFAULT_FOLDER_NAME, IS_BUILD} from "../const.js";
+import Config from "../const.js";
+const {
+  Paths,
+  dirs: { DEFAULT_FOLDER_NAME },
+  env: { IS_BUILD },
+} = Config;
 import plumber from "gulp-plumber";
 import babel from "gulp-babel";
 
@@ -9,9 +14,9 @@ async function scripts(evt, filePath = "") {
 
   if (parentFileFolderName === DEFAULT_FOLDER_NAME) {
     src(filePath).pipe(dest(Paths.scripts.dest));
-
     return;
   }
+
   const PATH = IS_BUILD ? Paths.scripts.build : filePath;
 
   src(PATH)

@@ -2,7 +2,8 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import chalk from "chalk";
 import dayjs from "dayjs";
-import { URL_MAP } from "../const.js";
+import Config from "../const.js";
+const { ApiUrls } = Config;
 import { browserSync } from "./browserSync.js";
 import { SECRET_KEY } from "./config-check.js";
 import got from "got";
@@ -22,7 +23,7 @@ async function uploadFile(evt, filePath) {
     formData.append("form[file_content]", fileData);
 
     const json = await got
-      .post(URL_MAP.save, {
+      .post(ApiUrls.save, {
         body: formData,
         timeout: {
           send: 5000,
@@ -39,7 +40,6 @@ async function uploadFile(evt, filePath) {
 
       if (fileName.includes("css")) {
         browserSync.reload("*.css");
-
         return;
       }
       browserSync.reload();

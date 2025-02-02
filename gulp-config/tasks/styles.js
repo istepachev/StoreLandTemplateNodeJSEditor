@@ -5,7 +5,8 @@ import autoprefixer from "gulp-autoprefixer";
 import cleancss from "gulp-clean-css";
 import scss from "gulp-dart-sass";
 import bulk from "gulp-sass-bulk-importer";
-import {IS_BUILD, Paths, PREPROCESSOR_ON} from "../const.js";
+import Config from "../const.js";
+const { IS_BUILD, Paths, PREPROCESSOR_ON } = Config;
 // import { browserSync } from "./browsersync.js";
 
 async function styles(evt, filePath = "") {
@@ -20,7 +21,7 @@ async function styles(evt, filePath = "") {
       .pipe(
         scss({
           includePaths: [`${Paths.styles.src}/_templates/`],
-        }).on("error", scss.logError)
+        }).on("error", scss.logError),
       )
       .pipe(autoprefixer(getAutoprefixerConfig()))
       .pipe(cleancss(getCleanCssConfig()))
@@ -28,9 +29,8 @@ async function styles(evt, filePath = "") {
 
       .pipe(dest(Paths.styles.dest));
   } else {
-
     src(PATH)
-      //TODO добавить inject прямо в браузер 
+      //TODO добавить inject прямо в браузер
       // .pipe(browserSync.stream())
       // .pipe(browserSync.reload("*.css"))
       // .pipe(browserSync.stream({ match: "**/*.css" }))
