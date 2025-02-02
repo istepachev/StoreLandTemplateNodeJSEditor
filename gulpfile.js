@@ -22,7 +22,6 @@ export const build = series(cleanBuildDist, mainTasks);
 export const dev = series(checkConfig, devTasks);
 export const download = series(checkConfig, downloadFiles);
 export { cleanBuildDist };
-export const init = checkConfig;
 export const move = buildProject;
 
 export default dev;

@@ -1,9 +1,14 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const FILE_CURRENT_SITE_NAME = "current-site.json";
-const { CURRENT_SITE } = require(`../${FILE_CURRENT_SITE_NAME}`);
-const FILE_CONFIG_NAME = "secret-keys.json";
-const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
+import dotenv from "dotenv";
+import path from "path";
+
+const envPath =
+  process.env.NODE_ENV === "production"
+    ? path.resolve("env/production/.env")
+    : path.resolve("env/development/.env");
+
+dotenv.config({ path: envPath });
+
+const { CURRENT_SITE, SECRET_KEY } = process.env;
 
 const FoldersNames = {
   Html: "html",
@@ -36,6 +41,8 @@ const DIST_DIR = "dist";
 const STATIC_DIR = `${DIST_DIR}/static`;
 const DOWNLOAD_DIR = "downloads";
 const DEFAULT_FOLDER_NAME = `default`;
+
+const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
 
 const Paths = {
   htmlTemplate: {
@@ -80,11 +87,7 @@ const Paths = {
 
 const Config = {
   CURRENT_SITE,
-  files: {
-    currentSite: FILE_CURRENT_SITE_NAME,
-    config: FILE_CONFIG_NAME,
-    htmlTemplate: FILE_HTML_TEMPLATE_NAME,
-  },
+  SECRET_KEY,
   FoldersNames,
   FilesExtensions,
   Paths,

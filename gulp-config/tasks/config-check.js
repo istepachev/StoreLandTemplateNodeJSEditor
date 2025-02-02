@@ -1,53 +1,31 @@
 import Config from "../const.js";
-const {
-  CURRENT_SITE,
-  files: { currentSite: FILE_CURRENT_SITE_NAME, config: FILE_CONFIG_NAME },
-} = Config;
-import { readFileSync, writeFileSync } from "node:fs";
+const { CURRENT_SITE, SECRET_KEY } = Config;
 import chalk from "chalk";
-
-const createSecretFile = (siteUrl = "", fileName = "") => {
-  const fileContent = `{
-  "${siteUrl}": {
-    "SECRET_KEY": ""
-  },
-  "": {
-    "SECRET_KEY": ""
-  }
-}`;
-
-  writeFileSync(fileName, fileContent);
-};
-
-let SECRET_KEY;
+import { validateEnv } from "../utils/validateEnv.js";
 
 async function checkConfig() {
-  if (!CURRENT_SITE) {
-    console.error(
-      `⛔ Не задан url адрес ${chalk.red(`CURRENT_SITE`)} в файле ${chalk.red(
-        FILE_CURRENT_SITE_NAME,
-      )}`,
-    );
-  }
-  try {
-    const data = JSON.parse(
-      readFileSync(new URL(`../../${FILE_CONFIG_NAME}`, import.meta.url)),
-    )[CURRENT_SITE];
-    SECRET_KEY = data.SECRET_KEY;
-  } catch (error) {
-    createSecretFile(CURRENT_SITE, FILE_CONFIG_NAME);
-  }
-  if (!SECRET_KEY) {
-    console.error(
-      `⛔ Не задан ${chalk.red(`SECRET_KEY`)} в файле ${chalk.red(
-        FILE_CONFIG_NAME,
-      )} для ${chalk.gray(CURRENT_SITE)}`,
-    );
+  validateEnv();
+
+  console.log("\n" + chalk.bgGreen.black(" КОНФИГУРАЦИЯ ") + "\n");
+
+  console.log(chalk.gray("Окружение:"));
+  console.log(
+    `  • NODE_ENV: ${chalk.cyan(process.env.NODE_ENV || "development")}`,
+  );
+
+  console.log(chalk.gray("\nПеременные окружения:"));
+  console.log(`  • CURRENT_SITE: ${chalk.cyan(CURRENT_SITE)}`);
+  console.log(`  • SECRET_KEY: ${chalk.cyan("*".repeat(SECRET_KEY.length))}`);
+
+  if (process.env.DEBUG_MODE) {
+    console.log(`  • DEBUG_MODE: ${chalk.cyan(process.env.DEBUG_MODE)}`);
   }
 
-  if (SECRET_KEY && CURRENT_SITE) {
-    console.log(chalk.greenBright(`✔️  Конфиг задан верно.`));
+  if (process.env.API_VERSION) {
+    console.log(`  • API_VERSION: ${chalk.cyan(process.env.API_VERSION)}`);
   }
+
+  console.log("\n" + chalk.green("✔️  Все проверки пройдены успешно\n"));
 }
 
 export { checkConfig, SECRET_KEY };

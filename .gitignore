@@ -56,9 +56,8 @@ typings/
 
 # dotenv environment variables file
 .env
+env/*/.env
 
-# next.js build output
-.next
 #JB
 .idea
 # Папки с файлами
@@ -66,5 +65,3 @@ files
 dist
 downloaded-files
 downloads
-# Карта с ключами сайтов
-secret-keys.json
