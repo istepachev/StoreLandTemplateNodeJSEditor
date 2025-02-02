@@ -18,22 +18,22 @@
   "devDependencies": {
     "@babel/core": "^7.26.7",
     "@babel/preset-env": "^7.26.7",
-    "browser-sync": "^2.29.3",
+    "browser-sync": "^3.0.3",
     "chalk": "^5.4.1",
     "cross-env": "7.0.3",
     "dayjs": "^1.11.13",
-    "del": "^7.1.0",
-    "formdata-node": "^5.0.1",
-    "got": "^12.6.1",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
+    "del": "^8.0.0",
+    "formdata-node": "^6.0.3",
+    "got": "^14.4.5",
+    "gulp": "^5.0.0",
+    "gulp-autoprefixer": "^9.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-cssimport": "7.0.0",
     "gulp-dart-sass": "^1.1.0",
     "gulp-file-include": "^2.3.0",
-    "gulp-imagemin": "^8.0.0",
+    "gulp-imagemin": "^9.1.0",
     "gulp-newer": "^1.4.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sass-bulk-importer": "3.0.2",
@@ -41,6 +41,6 @@
     "gulp-uglify-es": "^3.0.0",
     "minimist": "^1.2.8",
     "node-notifier": "^10.0.1",
-    "prettier": "^2.8.8"
+    "prettier": "^3.4.2"
   }
 }
