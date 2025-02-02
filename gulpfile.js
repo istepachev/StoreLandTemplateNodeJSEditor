@@ -1,7 +1,7 @@
 import gulp from "gulp";
 const { parallel, series, src, dest, watch } = gulp;
 
-import { browserSyncTask } from "./gulp-config/tasks/browsersync.js";
+import { browserSyncTask } from "./gulp-config/tasks/browserSync.js";
 import fonts from "./gulp-config/tasks/fonts.js";
 import scripts from "./gulp-config/tasks/scripts.js";
 import styles from "./gulp-config/tasks/styles.js";
@@ -18,12 +18,12 @@ import buildProject from "./gulp-config/tasks/buildProject.js";
 gulp.task("move", buildProject);
 gulp.task(
   "build",
-  parallel(cleanDist, html, scripts, images, fonts, styles, icons)
+  parallel(cleanDist, html, scripts, images, fonts, styles, icons),
 );
 gulp.task("download", series(checkConfig, downloadFiles));
 gulp.task(
   "default",
-  parallel(checkConfig, parallel(browserSyncTask, startWatch))
+  parallel(checkConfig, parallel(browserSyncTask, startWatch)),
 );
 gulp.task("init", checkConfig);
 gulp.task("cleanDist", cleanDist);

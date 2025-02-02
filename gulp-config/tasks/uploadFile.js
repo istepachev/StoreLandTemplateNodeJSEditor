@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import chalk from "chalk";
 import dayjs from "dayjs";
 import { URL_MAP } from "../const.js";
-import { browserSync } from "./browsersync.js";
+import { browserSync } from "./browserSync.js";
 import { SECRET_KEY } from "./config-check.js";
 import got from "got";
 import { FormData } from "formdata-node";
@@ -33,8 +33,8 @@ async function uploadFile(evt, filePath) {
     if (json.status === `ok`) {
       console.log(
         `[${dayjs().format("HH:mm:ss")}][${evt}] Файл ${chalk.red(
-          fileName
-        )} успешно отправлен ${chalk.greenBright("✔️")}`
+          fileName,
+        )} успешно отправлен ${chalk.greenBright("✔️")}`,
       );
 
       if (fileName.includes("css")) {
@@ -45,7 +45,7 @@ async function uploadFile(evt, filePath) {
       browserSync.reload();
     } else if (json.status === `error`) {
       console.log(
-        `Ошибка отправки ⛔ ${fileName}: ${chalk.redBright(json.message)}`
+        `Ошибка отправки ⛔ ${fileName}: ${chalk.redBright(json.message)}`,
       );
     }
   } catch (e) {
