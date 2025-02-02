@@ -1,5 +1,5 @@
 import Config from "../const.js";
-const { CURRENT_SITE, SECRET_KEY } = Config;
+const { CURRENT_SITE, SECRET_KEY, PORT, API_BASE_URL } = Config;
 import chalk from "chalk";
 import { validateEnv } from "../utils/validateEnv.js";
 
@@ -16,6 +16,8 @@ async function checkConfig() {
   console.log(chalk.gray("\nПеременные окружения:"));
   console.log(`  • CURRENT_SITE: ${chalk.cyan(CURRENT_SITE)}`);
   console.log(`  • SECRET_KEY: ${chalk.cyan("*".repeat(SECRET_KEY.length))}`);
+  console.log(`  • PORT: ${chalk.cyan(PORT)}`);
+  console.log(`  • API_BASE_URL: ${chalk.cyan(API_BASE_URL)}`);
 
   if (process.env.DEBUG_MODE) {
     console.log(`  • DEBUG_MODE: ${chalk.cyan(process.env.DEBUG_MODE)}`);

@@ -1,5 +1,5 @@
 import Config from "../const.js";
-const { CURRENT_SITE } = Config;
+const { CURRENT_SITE, PORT } = Config;
 import bs from "browser-sync";
 
 const browserSync = bs.create();
@@ -18,7 +18,7 @@ function browserSyncTask() {
     online: true, // If «false» - Browser-sync will work offline without internet connection
     injectChanges: true,
     open: false,
-    port: 3003,
+    port: PORT,
   });
 }
 

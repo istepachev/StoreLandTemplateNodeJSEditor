@@ -13,10 +13,22 @@ const envSchema = Joi.object({
     "any.required": "отсутствует в .env файле",
     "string.empty": "не может быть пустым",
   }),
+
+  PORT: Joi.number().port().required().messages({
+    "number.port": "должен быть валидным портом (0-65535)",
+    "any.required": "отсутствует в .env файле",
+  }),
+
+  API_BASE_URL: Joi.string().pattern(/^\//).allow(null).optional().messages({
+    "string.pattern.base": "должен начинаться с /",
+    "string.empty": "не может быть пустым",
+  }),
 }).unknown(); // разрешаем дополнительные переменные в .env
 
 export function validateEnv() {
-  const { error } = envSchema.validate(process.env, { abortEarly: false });
+  const { error, value } = envSchema.validate(process.env, {
+    abortEarly: false,
+  });
 
   if (error) {
     console.error(chalk.red("\n⛔ Ошибки валидации .env файла:"));
@@ -32,6 +44,9 @@ export function validateEnv() {
     );
     process.exit(1);
   }
+
+  // Обновляем process.env значениями после валидации (включая дефолтные)
+  Object.assign(process.env, value);
 
   return true;
 }

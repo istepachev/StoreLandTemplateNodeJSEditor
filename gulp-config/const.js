@@ -8,7 +8,12 @@ const envPath =
 
 dotenv.config({ path: envPath });
 
-const { CURRENT_SITE, SECRET_KEY } = process.env;
+const {
+  CURRENT_SITE,
+  SECRET_KEY,
+  PORT = 3003,
+  API_BASE_URL = "/api/v1/site_files",
+} = process.env;
 
 const FoldersNames = {
   Html: "html",
@@ -28,12 +33,10 @@ const FilesExtensions = {
   Icons: "svg",
 };
 
-const API_BASE_URL = `${CURRENT_SITE}/api/v1/site_files`;
-
-const ApiUrls = {
-  save: `${API_BASE_URL}/save`,
-  getList: `${API_BASE_URL}/get_list`,
-  getFile: `${API_BASE_URL}/get`,
+const API_ENDPOINTS = {
+  save: `${CURRENT_SITE}${API_BASE_URL}/save`,
+  getList: `${CURRENT_SITE}${API_BASE_URL}/get_list`,
+  getFile: `${CURRENT_SITE}${API_BASE_URL}/get`,
 };
 
 const BASE_DIR = "src";
@@ -88,10 +91,12 @@ const Paths = {
 const Config = {
   CURRENT_SITE,
   SECRET_KEY,
+  PORT: parseInt(PORT, 10),
+  API_BASE_URL,
   FoldersNames,
   FilesExtensions,
   Paths,
-  ApiUrls,
+  ApiUrls: API_ENDPOINTS,
   env: {
     isProd: process.env.NODE_ENV === "production",
   },
