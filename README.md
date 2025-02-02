@@ -6,37 +6,28 @@
 - Устанавливаем <a target="_blank" href="//nodejs.org/en/"><strong>Node.js</strong></a> на компьютер (LTS версию)
 - Устанавливаем глобально <b>Gulp</b> `npm install -g gulp-cli gulp`
 - Устанавливаем зависимости командой `npm install`
-- Указываем адрес текущего рабочего сайта в файле `current-site.json`
-- Выполняем команду `node createConfig.js` (создает файл с настройками)
-- Заполняем настройки в файле `secret-keys.json`
-- Скачиваем файлы шаблона командой: `gulp download`
-- Запускаем сборку командой: `gulp`
+- Создаем файл `.env` в директории `env/development/` из `.env-example`
+- Заполняем настройки в файле `.env`
+- Скачиваем файлы шаблона одной из команд: 
+  - `npm run download:code` - только файлы кода (HTML, JS, CSS)
+  - `npm run download:all` - все файлы (включая изображения и шрифты)
+- Запускаем сборку командой: `npm start`
 
 #### Файл настроек
 
-Имя файла - **current-site.json**
+Имя файла - **env/development/.env** для разработки или **env/production/.env** для продакшена
 
-```javascript
-{
-  "CURRENT_SITE": "https://trialshop.storeland.ru"
-}
-
+```env
+CURRENT_SITE=https://trialshop.storeland.ru
+SECRET_KEY=d00bcfec8c1eb1ad355fed9fc068e32a
+PORT=3003
+#API_BASE_URL=/api/v1/site_files
 ```
 
-- Проверьте протокол **https://** или **http://** используется у рабочего сайта
-
-Имя файла - **secret-keys.json**
-
-```javascript
-{
-    "https://trialshop.storeland.ru": {
-        "SECRET_KEY": "d00bcfec8c1eb1ad355fed9fc068e32a"
-    },
-    "https://trialshop-2.storeland.ru": {
-        "SECRET_KEY": "bfec8c1eb1ddsvad355fed9f3vdddvsv3"
-    }
-}
-```
+- `CURRENT_SITE` - полный URL вашего магазина, включая протокол (http:// или https://) и завершающий слеш
+- `SECRET_KEY` - секретный ключ для доступа к API
+- `PORT` - порт для локального сервера разработки (по умолчанию 3003)
+- `API_BASE_URL` - базовый путь к API (по умолчанию /api/v1/site_files). Изменяйте только если API изменился на стороне StoreLand
 
 #### Структура проекта
 
