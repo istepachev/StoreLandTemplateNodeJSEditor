@@ -9,7 +9,6 @@ import { deleteSync } from "del";
 
 async function downloadFiles() {
   deleteSync(DOWNLOAD_DIR);
-
   !fs.existsSync(DOWNLOAD_DIR) && fs.mkdirSync(DOWNLOAD_DIR);
 
   const formData = new FormData();
@@ -17,80 +16,73 @@ async function downloadFiles() {
 
   const OPTIONS = {
     body: formData,
-    timeout: {
-      send: 10000,
-    },
+    timeout: { send: 10000 },
   };
 
   async function getFiles() {
-    const jsonFiles = await got.post(URL_MAP.get_list, OPTIONS).json();
-    const files = jsonFiles.data.map(({ file_id, file_name }) => ({
+    const { data } = await got.post(URL_MAP.get_list, OPTIONS).json();
+    return data.map(({ file_id, file_name }) => ({
       file_id: file_id.value,
       file_name: file_name.value,
     }));
-
-    console.log(
-      chalk.greenBright(
-        `Загружен список всех файлов ✔️\nВсего файлов ${files.length} шт.`
-      )
-    );
-
-    return files;
   }
-  const files = await getFiles();
-  const filesLength = files.length;
 
-  await getFile(files);
-
-  async function getFile(filesArray, count = 1) {
-    if (!filesArray.length) {
-      console.log(`Всего скачано файлов ${count} из ${filesLength}`);
-
-      return;
-    }
-
-    const { file_id, file_name } = filesArray.shift();
-
+  async function processFile(file, index, total) {
+    const { file_id, file_name } = file;
+    
     try {
-      const jsonFile = await got
+      const { data, status, message } = await got
         .post(`${URL_MAP.get_file}/${file_id}`, OPTIONS)
         .json();
 
-      if (jsonFile.status === "error") {
-        console.log(chalk.redBright(`Ошибка загрузки ⛔: ${jsonFile.message}`));
+      if (status === "error") {
+        console.log(chalk.redBright(`Ошибка загрузки ⛔: ${message}`));
+        return;
       }
 
-      const file = jsonFile["data"]["file_name"].value;
-      const fileContent = jsonFile["data"]["file_content"].value;
-      const fileExt = path.extname(file).replace(".", "");
-
-      const fileDirName =
-        Object.keys(Files)
-          .find((key) => Files[key].includes(fileExt))
-          ?.toLowerCase() || "";
+      const fileExt = path.extname(data.file_name.value).replace(".", "");
+      const fileDirName = Object.keys(Files)
+        .find((key) => Files[key].includes(fileExt))
+        ?.toLowerCase() || "";
       const newDir = `${DOWNLOAD_DIR}/${fileDirName}`;
 
-      !fs.existsSync(newDir) && fs.mkdirSync(newDir);
+      await fs.promises.mkdir(newDir, { recursive: true });
+      await fs.promises.writeFile(
+        `${newDir}/${data.file_name.value}`,
+        data.file_content.value,
+        "base64"
+      );
 
-      fs.writeFile(`${newDir}/${file}`, fileContent, "base64", (err) => {
-        if (err) {
-          console.error(err);
-        }
-
-        console.log(
-          `Скачан файл ${chalk.greenBright(
-            file_name
-          )}. Всего ${count} из ${filesLength}`
-        );
-        if (filesArray.length) {
-          count++;
-        }
-        getFile(filesArray, count);
-      });
+      return { file_name, index };
     } catch (error) {
-      console.error(error);
+      console.error(`Ошибка при обработке файла ${file_name}:`, error);
+      return null;
     }
   }
+
+  const files = await getFiles();
+  console.log(
+    chalk.greenBright(
+      `Загружен список всех файлов ✔️\nВсего файлов ${files.length} шт.`
+    )
+  );
+
+  let completedCount = 0;
+  const results = await Promise.all(
+    files.map((file, index) => processFile(file, index, files.length))
+  );
+
+  results
+    .filter(Boolean)
+    .sort((a, b) => a.index - b.index)
+    .forEach(({ file_name }) => {
+      completedCount++;
+      console.log(
+        `Скачан файл ${chalk.greenBright(file_name)}. Всего ${completedCount} из ${files.length}`
+      );
+    });
+
+  console.log(`Загрузка завершена. Всего обработано файлов: ${completedCount}`);
 }
 
 export default downloadFiles;
