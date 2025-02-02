@@ -7,7 +7,6 @@ const { ApiUrls } = Config;
 import { browserSync } from "./browserSync.js";
 import { SECRET_KEY } from "./config-check.js";
 import got from "got";
-import { FormData } from "formdata-node";
 import { debounce } from "lodash-es";
 
 async function retry(fn, retries = 3, delay = 1000) {
@@ -27,7 +26,7 @@ const debouncedUpload = debounce(async (evt, filePath) => {
     const fileData = await fileHandle.readFile("base64");
     await fileHandle.close();
 
-    const formData = new FormData();
+    const formData = new globalThis.FormData();
     formData.append("secret_key", SECRET_KEY);
     formData.append("form[file_name]", fileName);
     formData.append("form[file_content]", fileData);

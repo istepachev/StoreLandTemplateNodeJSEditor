@@ -9,7 +9,6 @@ import * as fs from "node:fs";
 import path from "node:path";
 import chalk from "chalk";
 import got from "got";
-import { FormData } from "formdata-node";
 import { deleteSync } from "del";
 import minimist from "minimist";
 
@@ -20,7 +19,7 @@ async function downloadFiles() {
   deleteSync(DOWNLOAD_DIR);
   !fs.existsSync(DOWNLOAD_DIR) && fs.mkdirSync(DOWNLOAD_DIR);
 
-  const formData = new FormData();
+  const formData = new globalThis.FormData();
   formData.append("secret_key", SECRET_KEY);
 
   const OPTIONS = {

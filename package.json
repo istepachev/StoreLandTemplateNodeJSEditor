@@ -26,7 +26,6 @@
     "cross-env": "7.0.3",
     "dayjs": "^1.11.13",
     "del": "^8.0.0",
-    "formdata-node": "^6.0.3",
     "got": "^14.4.5",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^9.0.0",
