@@ -4,7 +4,10 @@ import plumber from "gulp-plumber";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
 import Config from "../const.js";
-const { IS_BUILD, Paths } = Config;
+const {
+  env: { isProd },
+  Paths,
+} = Config;
 import chalk from "chalk";
 
 async function html(evt = "", filePath = Paths.html.default) {
@@ -52,7 +55,7 @@ async function html(evt = "", filePath = Paths.html.default) {
     if (templateParentsPaths.length) {
       return templateParentsPaths;
     }
-    if (IS_BUILD) {
+    if (isProd) {
       return Paths.html.build;
     }
     return filePath;
