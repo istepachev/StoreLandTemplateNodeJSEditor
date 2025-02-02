@@ -8,9 +8,19 @@ import { browserSync } from "./browserSync.js";
 import { SECRET_KEY } from "./config-check.js";
 import got from "got";
 import { FormData } from "formdata-node";
+import { debounce } from "lodash-es";
 
-//TODO добавить debounce на двойное сохранение
-async function uploadFile(evt, filePath) {
+async function retry(fn, retries = 3, delay = 1000) {
+  try {
+    return await fn();
+  } catch (error) {
+    if (retries === 0) throw error;
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    return retry(fn, retries - 1, delay * 2);
+  }
+}
+
+const debouncedUpload = debounce(async (evt, filePath) => {
   try {
     const fileName = path.basename(filePath);
     const fileHandle = await fs.open(`${filePath}`, "r+");
@@ -22,14 +32,16 @@ async function uploadFile(evt, filePath) {
     formData.append("form[file_name]", fileName);
     formData.append("form[file_content]", fileData);
 
-    const json = await got
-      .post(ApiUrls.save, {
-        body: formData,
-        timeout: {
-          send: 5000,
-        },
-      })
-      .json();
+    const json = await retry(async () => {
+      return got
+        .post(ApiUrls.save, {
+          body: formData,
+          timeout: {
+            send: 5000,
+          },
+        })
+        .json();
+    });
 
     if (json.status === `ok`) {
       console.log(
@@ -49,8 +61,16 @@ async function uploadFile(evt, filePath) {
       );
     }
   } catch (e) {
-    console.error("Error", e);
+    console.error("Ошибка загрузки файла:", {
+      file: filePath,
+      error: e.message,
+      stack: e.stack,
+    });
   }
+}, 300);
+
+async function uploadFile(evt, filePath) {
+  return debouncedUpload(evt, filePath);
 }
 
 export default uploadFile;
