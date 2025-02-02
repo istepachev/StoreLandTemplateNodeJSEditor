@@ -16,8 +16,8 @@ function browserSyncTask() {
     },
     online: true, // If «false» - Browser-sync will work offline without internet connection
     injectChanges: true,
-    open: "external",
-    port: 8088,
+    open: false,
+    port: 3003,
   });
 }
 
