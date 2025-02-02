@@ -19,7 +19,7 @@ async function html(evt = "", filePath = Paths.html.default) {
 
       if (!data.length) {
         console.error(chalk.redBright(`⛔ Файл ${fileName} пуст`));
-        return;
+        return null;
       }
       const firstStrFile = data.split("\n").shift();
       const isFirstComment = firstStrFile.match(/\[([^}]*)]/);
@@ -29,7 +29,7 @@ async function html(evt = "", filePath = Paths.html.default) {
             `⛔ Путь до файла/файлов родителей не указан в 1й строке. Пример: <!-- [html.htm] -->`,
           ),
         );
-        return;
+        return null;
       }
 
       templateParentsPaths = firstStrFile
@@ -41,7 +41,10 @@ async function html(evt = "", filePath = Paths.html.default) {
         chalk.gray(`Сохранение файлов\n${templateParentsPaths.join("\n")}`),
       );
     } catch (err) {
-      console.error(err.message);
+      console.error(
+        chalk.redBright(`⛔ Ошибка чтения файла ${fileName}: ${err.message}`),
+      );
+      return null;
     }
   }
 
@@ -56,6 +59,10 @@ async function html(evt = "", filePath = Paths.html.default) {
   };
 
   const config = await getFileIncludeConfig();
+  if (!config) {
+    console.error(chalk.redBright("⛔ Ошибка получения конфигурации"));
+    return null;
+  }
 
   return src(getCurrentPath(), { allowEmpty: true })
     .pipe(plumber())
@@ -64,6 +71,12 @@ async function html(evt = "", filePath = Paths.html.default) {
 }
 
 async function getFileIncludeConfig() {
+  const defaultConfig = {
+    prefix: "@@",
+    basepath: "@file",
+    context: {},
+  };
+
   try {
     const jsonData = await readFile(
       new URL(`../../${Paths.htmlTemplate.default}`, import.meta.url),
@@ -74,12 +87,14 @@ async function getFileIncludeConfig() {
     const DEFAULT_TEMPLATE_VARIABLES = JSON.parse(jsonData);
 
     return {
-      prefix: "@@",
-      basepath: "@file",
+      ...defaultConfig,
       context: DEFAULT_TEMPLATE_VARIABLES,
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      chalk.redBright(`⛔ Ошибка чтения конфигурации: ${error.message}`),
+    );
+    return defaultConfig;
   }
 }
 
