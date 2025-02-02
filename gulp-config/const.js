@@ -6,7 +6,7 @@ const FILE_CONFIG_NAME = "secret-keys.json";
 const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
 const PREPROCESSOR = "scss";
 const PREPROCESSOR_ON = false;
-const IS_BUILD = process.env.NODE_ENV === 'production'
+const IS_BUILD = process.env.NODE_ENV === "production";
 
 const Folders = {
   Html: "html",
@@ -26,10 +26,12 @@ const Files = {
   Icons: "svg",
 };
 
+const API_BASE_URL = `${CURRENT_SITE}/api/v1/site_files`;
+
 const URL_MAP = {
-  save: `${CURRENT_SITE}/api/v1/site_files/save`,
-  get_list: `${CURRENT_SITE}/api/v1/site_files/get_list`,
-  get_file: `${CURRENT_SITE}/api/v1/site_files/get`,
+  save: `${API_BASE_URL}/save`,
+  getList: `${API_BASE_URL}/get_list`,
+  getFile: `${API_BASE_URL}/get`,
 };
 
 const BASE_DIR = "src";
@@ -40,7 +42,7 @@ const DEFAULT_FOLDER_NAME = `default`;
 
 const Paths = {
   htmlTemplateJsonDefault: `${BASE_DIR}/${Folders.Html}/${FILE_HTML_TEMPLATE_NAME}`,
-  htmlTemplateJsons: `${BASE_DIR}/${Folders.Html}/**/*.json`,
+  htmlTemplateJson: `${BASE_DIR}/${Folders.Html}/**/*.json`,
   dist: `${DIST_DIR}/**/*.*`,
   scripts: {
     watch: `${BASE_DIR}/**/*.${Files.Js}`,
@@ -86,19 +88,30 @@ const Paths = {
   },
 };
 
-export {
-  PREPROCESSOR,
-  PREPROCESSOR_ON,
-  Paths,
-  Files,
-  CURRENT_SITE,
-  URL_MAP,
-  FILE_CONFIG_NAME,
-  FILE_CURRENT_SITE_NAME,
-  BASE_DIR,
-  DIST_DIR,
-  DEFAULT_FOLDER_NAME,
-  DOWNLOAD_DIR,
-  STATIC_DIR,
-  IS_BUILD
+const Config = {
+  files: {
+    currentSite: FILE_CURRENT_SITE_NAME,
+    config: FILE_CONFIG_NAME,
+    htmlTemplate: FILE_HTML_TEMPLATE_NAME,
+  },
+  folders: Folders,
+  fileTypes: Files,
+  paths: Paths,
+  urls: URL_MAP,
+  env: {
+    isProd: IS_BUILD,
+    preprocessor: {
+      type: PREPROCESSOR,
+      enabled: PREPROCESSOR_ON,
+    },
+  },
+  dirs: {
+    base: BASE_DIR,
+    dist: DIST_DIR,
+    static: STATIC_DIR,
+    download: DOWNLOAD_DIR,
+    default: DEFAULT_FOLDER_NAME,
+  },
 };
+
+export default Config;
