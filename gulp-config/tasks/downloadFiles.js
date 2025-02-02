@@ -6,8 +6,12 @@ import chalk from "chalk";
 import got from "got";
 import { FormData } from "formdata-node";
 import { deleteSync } from "del";
+import minimist from "minimist";
 
 async function downloadFiles() {
+  const argv = minimist(process.argv.slice(2));
+  const isCodeOnly = argv['code-only'];
+  
   deleteSync(DOWNLOAD_DIR);
   !fs.existsSync(DOWNLOAD_DIR) && fs.mkdirSync(DOWNLOAD_DIR);
 
@@ -21,10 +25,18 @@ async function downloadFiles() {
 
   async function getFiles() {
     const { data } = await got.post(URL_MAP.get_list, OPTIONS).json();
-    return data.map(({ file_id, file_name }) => ({
-      file_id: file_id.value,
-      file_name: file_name.value,
-    }));
+    return data
+      .map(({ file_id, file_name }) => ({
+        file_id: file_id.value,
+        file_name: file_name.value,
+      }))
+      .filter(({ file_name }) => {
+        if (!isCodeOnly) return true;
+        
+        const fileExt = path.extname(file_name).replace(".", "").toLowerCase();
+        const codeFileTypes = [...Files.Html.split(", "), ...Files.Js.split(", "), ...Files.Css.split(", ")];
+        return codeFileTypes.includes(fileExt);
+      });
   }
 
   async function processFile(file, index, total) {
@@ -63,7 +75,9 @@ async function downloadFiles() {
   const files = await getFiles();
   console.log(
     chalk.greenBright(
-      `Загружен список всех файлов ✔️\nВсего файлов ${files.length} шт.`
+      `Загружен список всех файлов ✔️\nВсего файлов для загрузки: ${files.length} шт.${
+        isCodeOnly ? ' (только код)' : ' (все файлы)'
+      }`
     )
   );
 

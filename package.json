@@ -7,7 +7,8 @@
   "scripts": {
     "start": "gulp",
     "build": "cross-env NODE_ENV=production gulp build ",
-    "download": "gulp download",
+    "download:code": "gulp download --code-only",
+    "download:all": "gulp download --all",
     "init": "gulp init",
     "cleanDist": "gulp cleanDist",
     "move": "gulp move"
@@ -39,6 +40,7 @@
     "gulp-svg-sprite": "^2.0.1",
     "gulp-uglify-es": "^3.0.0",
     "node-notifier": "^10.0.1",
-    "prettier": "^2.8.2"
+    "prettier": "^2.8.2",
+    "minimist": "^1.2.8"
   }
 }
