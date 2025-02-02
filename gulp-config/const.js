@@ -4,11 +4,8 @@ const FILE_CURRENT_SITE_NAME = "current-site.json";
 const { CURRENT_SITE } = require(`../${FILE_CURRENT_SITE_NAME}`);
 const FILE_CONFIG_NAME = "secret-keys.json";
 const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
-const PREPROCESSOR = "scss";
-const PREPROCESSOR_ON = false;
-const IS_BUILD = process.env.NODE_ENV === "production";
 
-const Folders = {
+const FoldersNames = {
   Html: "html",
   Images: "images",
   Fonts: "fonts",
@@ -17,7 +14,7 @@ const Folders = {
   Icons: "icons",
 };
 
-const Files = {
+const FilesExtensions = {
   Html: "htm, html",
   Images: "png, jpg, jpeg, gif",
   Fonts: "eot, ttf, woff, woff2",
@@ -28,7 +25,7 @@ const Files = {
 
 const API_BASE_URL = `${CURRENT_SITE}/api/v1/site_files`;
 
-const URL_MAP = {
+const ApiUrls = {
   save: `${API_BASE_URL}/save`,
   getList: `${API_BASE_URL}/get_list`,
   getFile: `${API_BASE_URL}/get`,
@@ -41,49 +38,42 @@ const DOWNLOAD_DIR = "downloads";
 const DEFAULT_FOLDER_NAME = `default`;
 
 const Paths = {
-  htmlTemplateJsonDefault: `${BASE_DIR}/${Folders.Html}/${FILE_HTML_TEMPLATE_NAME}`,
-  htmlTemplateJson: `${BASE_DIR}/${Folders.Html}/**/*.json`,
+  htmlTemplate: {
+    default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
+    all: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
+  },
   dist: `${DIST_DIR}/**/*.*`,
   scripts: {
-    watch: `${BASE_DIR}/**/*.${Files.Js}`,
+    watch: `${BASE_DIR}/**/*.${FilesExtensions.Js}`,
     dest: STATIC_DIR,
-    build: [`${BASE_DIR}/${Folders.Js}/**/*.${Files.Js}`],
+    build: [`${BASE_DIR}/${FoldersNames.Js}/**/*.${FilesExtensions.Js}`],
   },
   styles: {
-    src: PREPROCESSOR_ON
-      ? `${BASE_DIR}/${PREPROCESSOR}`
-      : `${BASE_DIR}/${Folders.Css}`,
-    watch: PREPROCESSOR_ON
-      ? `${BASE_DIR}/${PREPROCESSOR}/**.${PREPROCESSOR}`
-      : `${BASE_DIR}/${Folders.Css}/**/*.${Files.Css}`,
+    src: `${BASE_DIR}/${FoldersNames.Css}`,
+    watch: `${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`,
     dest: STATIC_DIR,
-    build: PREPROCESSOR_ON
-      ? [
-          `${BASE_DIR}/${PREPROCESSOR}/.${Files.Css}`,
-          `${BASE_DIR}/${PREPROCESSOR}/${DEFAULT_FOLDER_NAME}/**`,
-        ]
-      : [`${BASE_DIR}/${Folders.Css}/**/*.${Files.Css}`],
+    build: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
   },
   html: {
-    default: `${BASE_DIR}/${Folders.Html}/html.htm`,
-    src: `${BASE_DIR}/${Folders.Html}`,
-    watch: `${BASE_DIR}/**/*.{${Files.Html}}`,
-    dest: `${DIST_DIR}/${Folders.Html}`,
+    default: `${BASE_DIR}/${FoldersNames.Html}/html.htm`,
+    src: `${BASE_DIR}/${FoldersNames.Html}`,
+    watch: `${BASE_DIR}/**/*.{${FilesExtensions.Html}}`,
+    dest: `${DIST_DIR}/${FoldersNames.Html}`,
     build: [
-      `${BASE_DIR}/${Folders.Html}/**/*.{${Files.Html}}`,
-      //`!${BASE_DIR}/${Folders.Html}/**/[_].{${Files.Html}}`, //TODO поддержка любой вложенности
+      `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
+      //`!${BASE_DIR}/${FoldersNames.Html}/**/[_].{${FilesExtensions.Html}}`, //TODO поддержка любой вложенности
     ],
   },
   fonts: {
-    watch: `${BASE_DIR}/${Folders.Fonts}/**/*.{${Files.Fonts}}`,
+    watch: `${BASE_DIR}/${FoldersNames.Fonts}/**/*.{${FilesExtensions.Fonts}}`,
     dest: STATIC_DIR,
   },
   images: {
-    watch: `${BASE_DIR}/${Folders.Images}/**/*.{${Files.Images}}`,
+    watch: `${BASE_DIR}/${FoldersNames.Images}/**/*.{${FilesExtensions.Images}}`,
     dest: STATIC_DIR,
   },
   icons: {
-    watch: `${BASE_DIR}/${Folders.Icons}/**/*.{${Files.Icons}}`,
+    watch: `${BASE_DIR}/${FoldersNames.Icons}/**/*.{${FilesExtensions.Icons}}`,
     dest: STATIC_DIR,
   },
 };
@@ -94,16 +84,12 @@ const Config = {
     config: FILE_CONFIG_NAME,
     htmlTemplate: FILE_HTML_TEMPLATE_NAME,
   },
-  folders: Folders,
-  fileTypes: Files,
-  paths: Paths,
-  urls: URL_MAP,
+  FoldersNames,
+  FilesExtensions,
+  Paths,
+  ApiUrls,
   env: {
-    isProd: IS_BUILD,
-    preprocessor: {
-      type: PREPROCESSOR,
-      enabled: PREPROCESSOR_ON,
-    },
+    isProd: process.env.NODE_ENV === "production",
   },
   dirs: {
     base: BASE_DIR,
