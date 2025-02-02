@@ -3,54 +3,25 @@ import path from "node:path";
 import plumber from "gulp-plumber";
 import autoprefixer from "gulp-autoprefixer";
 import cleancss from "gulp-clean-css";
-import scss from "gulp-dart-sass";
-import bulk from "gulp-sass-bulk-importer";
 import Config from "../const.js";
-const { IS_BUILD, Paths, PREPROCESSOR_ON } = Config;
-// import { browserSync } from "./browsersync.js";
+const { IS_BUILD, Paths } = Config;
 
-async function styles(evt, filePath = "") {
+async function styles(_, filePath = "") {
   const fileName = path.basename(filePath);
   const cssPath = `${Paths.styles.src}/${fileName}`;
   const PATH = IS_BUILD ? Paths.styles.build : cssPath;
 
-  if (PREPROCESSOR_ON) {
-    src(PATH)
-      .pipe(bulk())
-      .pipe(plumber())
-      .pipe(
-        scss({
-          includePaths: [`${Paths.styles.src}/_templates/`],
-        }).on("error", scss.logError),
-      )
-      .pipe(autoprefixer(getAutoprefixerConfig()))
-      .pipe(cleancss(getCleanCssConfig()))
-      // .pipe(sourcemaps.write("/src/scss/sourcemaps/"))
-
-      .pipe(dest(Paths.styles.dest));
-  } else {
-    src(PATH)
-      //TODO добавить inject прямо в браузер
-      // .pipe(browserSync.stream())
-      // .pipe(browserSync.reload("*.css"))
-      // .pipe(browserSync.stream({ match: "**/*.css" }))
-      .pipe(dest(Paths.styles.dest));
-  }
+  src(PATH)
+    .pipe(plumber())
+    .pipe(autoprefixer(getAutoprefixerConfig()))
+    .pipe(cleancss(getCleanCssConfig()))
+    .pipe(dest(Paths.styles.dest));
 }
 
 function getAutoprefixerConfig() {
   return {
     grid: true,
-    overrideBrowserslist: ["last 8 versions"],
-    browsers: [
-      "Android >= 4",
-      "Chrome >= 20",
-      "Firefox >= 24",
-      "Explorer >= 11",
-      "iOS >= 6",
-      "Opera >= 12",
-      "Safari >= 6",
-    ],
+    overrideBrowserslist: ["last 3 versions", "> 1%", "not dead"],
   };
 }
 
