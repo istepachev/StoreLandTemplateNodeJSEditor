@@ -4,8 +4,8 @@ const {
 } = Config;
 import { deleteSync } from "del";
 
-async function cleanDist() {
+async function cleanBuildDist() {
   deleteSync(DIST_DIR, { force: true });
 }
 
-export default cleanDist;
+export default cleanBuildDist;

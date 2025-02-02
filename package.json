@@ -10,7 +10,7 @@
     "download:code": "gulp download --code-only",
     "download:all": "gulp download --all",
     "init": "gulp init",
-    "cleanDist": "gulp cleanDist",
+    "clean-build-dist": "gulp cleanBuildDist",
     "move": "gulp move"
   },
   "author": "Dmitry Shcheklein",
