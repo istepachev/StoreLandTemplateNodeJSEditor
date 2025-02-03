@@ -23,7 +23,7 @@
       <!-- /END Хлебные крошки -->
     {% ENDIF %}
     
-    <!-- Слайдер и Распродажа-->
+    <!-- Главная страница-->
     {% IF index_page %}
       @@include('./index/_index.html')
     {% ENDIF %}
@@ -31,318 +31,23 @@
     <!-- Основная часть -->
     {% IFNOT index_page %}
       {% IF MOD_LNAME = goods %}
-        {% IF MSG_CODE = 404 %}
-          <div id="main">
-            <div class="container">
-              <div class="block-bg page-content">
-                {BODY}
-              </div>
-            </div>
-          </div>
-        {% ELSE %}
           <div id="main">{BODY}</div>
-        {% ENDIF %}
       {% ELSE %}
       <div id="main">
         <div class="container">
           <div class="block-bg">
           <div class="row no-gutters">
-            <!-- Баннер в каталоге -->
-            {% IF MOD_LNAME = catalog %}
-            <div class="col-xs-12">
-              <div id="slideshow-catalog">
-                <div class="slider owl-carousel">
-                  <!-- Слайд 1 -->
-                  <div class="item">
-                    <a href="#">
-                      <div class="image">
-                        <picture>
-                          <source media="(max-width: 768px)" srcset="{ASSETS_IMAGES_PATH}slide-1-catalog-mobile.jpg">
-                          <img src="{ASSETS_IMAGES_PATH}slide-1-catalog.jpg" alt="Слайд 1">
-                        </picture>
-                      </div>
-                    </a>
-                  </div>
-                  <!-- /Слайд 1 -->
-                  
-                  <!-- Слайд 2 -->
-                  <div class="item">
-                    <a href="#">
-                      <div class="image">
-                        <picture>
-                          <source media="(max-width: 768px)" srcset="{ASSETS_IMAGES_PATH}slide-2-catalog-mobile.jpg">
-                          <img src="{ASSETS_IMAGES_PATH}slide-2-catalog.jpg" alt="Слайд 2">
-                        </picture>
-                      </div>
-                    </a>
-                  </div>
-                  <!-- /Слайд 2 -->
-                </div>
-              </div>                
-            </div>
-            {% ENDIF %}
             <!-- Левый блок -->
             {% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare %}
             <div class="col-md-3 col-xs-12 col-left">
-              <div class="page-sidebar">
-              <!-- Меню пользователя ЛК -->
-              {% IF MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = compare && CLIENT_IS_LOGIN %}
-              <div class="block user-menu catalog">
-                <h3 class="title"><a href="{USER_SETTINGS_URL}"><span class="text">Меню</span></a></h3>
-                <div class="content">
-                  <ul>
-                    <li><a {% IF USER_SETTINGS_URL = CURRENT_URL %}class="active"{% ENDIF %} href="{USER_SETTINGS_URL}">Мой кабинет</a></li>
-                    <li><a {% IF FAVORITES_URL = CURRENT_URL %}class="active"{% ENDIF %} href="{FAVORITES_URL}">Избранное</a></li>
-                    <li><a {% IF USER_HISTORY_LIST_URL = CURRENT_URL %}class="active"{% ENDIF %} href="{USER_HISTORY_LIST_URL}">История заказов</a></li>
-                    {% IF TARIFF_FEATURE_GOODS_COMPARE && SETTINGS_COMPARE_DISABLE=0 %}<li><a {% IF COMPARE_URL = CURRENT_URL %}class="active"{% ENDIF %} href="{COMPARE_URL}">Сравнение</a></li>{% ENDIF %}
-                    <li><a href="{USER_LOGOUT_URL}">Выход</a></li>
-                  </ul>
-                </div>
-              </div>
-              {% ENDIF %}
-              <!-- /END Меню пользователя ЛК -->
-              <!-- Каталог -->
-              {% IFNOT catalog_full_empty %}
-              <div class="block catalog">
-                <h3 class="title"><a href="{CATALOG_URL}"><span class="text">Каталог</span></a></h3>
-                <div class="content">
-                  <ul>
-                    {% FOR catalog_full %}
-                      {% IF catalog_full.FIRST %}{% IFNOT catalog_full.LEVEL = 0 %}<ul class="sub">{% ENDIF %}{% ENDIF %}
-                      <li {% IF catalog_full.HIDE %}style="display:none;"{% ENDIF %} class="{% IF catalog_full.ISSET_VISIBLE_SUB %}parent{% ENDIF %} {% IF catalog_full.LEVEL = 0 %}subhead{% ENDIF %} {% IF catalog_full.CURRENT || catalog_full.CURRENT_PARENT %}active{% ENDIF %}" title="{catalog_full.NAME}">
-                        <a href="{catalog_full.URL}" {% IF catalog_full.CURRENT %}class="active"{% ENDIF %}>
-                          {% IF catalog_full.IMAGE_ICON %}<img src="{catalog_full.IMAGE_ICON}" class="goods-cat-image-icon"/>{% ENDIF %}{% IF catalog_full.ISSET_VISIBLE_SUB %}<span class="open-sub {% IF catalog_full.CURRENT_PARENT || catalog_full.CURRENT %}active{% ENDIF %}"></span>{% ENDIF %}
-                          {catalog_full.NAME}
-                          {% IF catalog_full.GOODS_COUNT>0 %} <span class="count">{catalog_full.GOODS_COUNT}</span>{% ELSEIF catalog_full.BRANCH_GOODS_COUNT>0 %}<span class="count">{catalog_full.BRANCH_GOODS_COUNT}</span>{% ENDIF %}
-                        </a>
-                      {% IF catalog_full.ISSET_SUB=0 %}</li>{% ENDIF %}
-                      {% IF catalog_full.LAST %}{%FOR out%}</ul>{%IFNOT catalog_full.out.LAST%}</li>{%ENDIF%}{%ENDFOR%}{% ENDIF %}
-                      <!-- Отображение количества товаров в категории -->
-                    {% ENDFOR %}
-                  </ul>
-                </div>
-              </div>
-              {% ENDIF %}
-              <!-- /END Каталог -->
-              <!-- Если в тарифном плане подключен модуль фильтров по товарам -->
-              {% IF TARIFF_FEATURE_GOODS_FILTERS && SHOW_GOODS_FILTERS %}
-              <div class="block filters">
-                <h3 class="title _main"><span class="fal fa-filter"></span> Фильтры</h3>
-                <div class="content">
-                  <div class="content-title">Фильтры<button class="content-close-btn"><i class="fal fa-times"></i></button></div>
-                  <!-- Форма поиска отправляет всегда на ту же страницу, на которой находится пользователь -->
-                  <form action="#page-title" method="get" id="filters-form">
-                    <!-- Активные Фильтры -->
-                    <div class="filters-goods-active" {% FOR filter_attr_list %}{% FOR values %}{% IF filter_attr_list.values.CHECKED %}style="display: block;"{% ENDIF %}{% ENDFOR %}{% ENDFOR %} {% FOR filter_prop_list %}{% FOR values %}{% IF filter_prop_list.values.CHECKED %}style="display: block;"{% ENDIF %}{% ENDFOR %}{% ENDFOR %}>
-                      <!-- Фильтры по характеристикам товаров (Например: Производитель, разрешение экрана, заряд аккомулятора) -->
-                      <div class="filter">
-                        <div class="title">Активные фильтры:<span class="filter-arrow fal fa-angle-up"></span></div>                        
-                        <ul class="filter-inner">
-                          {% FOR filter_attr_list %}{% FOR values %}{% IF filter_attr_list.values.CHECKED %}<li class="filter-item"><label class="button button2 small" for="filterAttrVal{filter_attr_list.values.ID}"><i class="fal fa-times" aria-hidden="true"></i><span>{filter_attr_list.values.VALUE}</span> <span class="counter">{filter_attr_list.values.NB_GOODS_FILTERED}</span></label></li>{% ENDIF %}{% ENDFOR %}{% ENDFOR %}
-                          {% FOR filter_prop_list %}{% FOR values %}{% IF filter_prop_list.values.CHECKED %}<li class="filter-item"><label class="button button2 small" for="filterPropVal{filter_prop_list.values.ID}"><i class="fal fa-times" aria-hidden="true"></i><span>{filter_prop_list.values.VALUE}</span> <span class="counter">{filter_prop_list.values.NB_GOODS_FILTERED}</span></label></li>{% ENDIF %}{% ENDFOR %}{% ENDFOR %}
-                        </ul>
-                        <button id="filters-reset" type="button" class="button button2 small" onclick="javascript:document.location = document.location.pathname;">Сбросить все фильтры</button>
-                      </div>
-                      <!-- Фильтры по свойствам товарных модификаций (Например: Цвет, размер, модификация) -->
-                    </div>
-                    <!-- /END Осноные Фильтры -->
-                    <!-- Если есть возможность фильтрации товаров по ценам -->
-                    {% IF SHOW_GOODS_PRICE_FILTERS %}
-                      <div class="filters-price">
-                        <div class="title">Фильтры по ценам:<span class="filter-arrow fal fa-angle-up"></span></div>
-                        <div class="layout-slider">
-                          <div class="filter-range-col">
-                            <label class="filter-range-label" for="goods-filter-min-price">от</label>
-                            <input id="goods-filter-min-price" class="input" type="text" name="form[filter][price][min]" value="{% IF GOODS_FILTER_MIN_PRICE %}{GOODS_FILTER_MIN_PRICE}{% ELSE %}{GOODS_FILTER_MIN_AVAILABLE_PRICE}{% ENDIF %}" min="1" onkeypress="return keyPress(this, event);" onpaste="return false;" />                            
-                          </div>
-                          <span class="price-separator">-</span>
-                          <div class="filter-range-col">
-                            <label class="filter-range-label" for="goods-filter-max-price">до</label>
-                            <input id="goods-filter-max-price" class="input" type="text" name="form[filter][price][max]" value="{% IF GOODS_FILTER_MAX_PRICE %}{GOODS_FILTER_MAX_PRICE}{% ELSE %}{GOODS_FILTER_MAX_AVAILABLE_PRICE}{% ENDIF %}" min="1" onkeypress="return keyPress(this, event);" onpaste="return false;" />
-                          </div>
-                          <input type="hidden" name="form[filter][available_price][min]" value="{GOODS_FILTER_MIN_AVAILABLE_PRICE}" />
-                          <input type="hidden" name="form[filter][available_price][max]" value="{GOODS_FILTER_MAX_AVAILABLE_PRICE}" />
-                          <!-- Фильтры по цене -->
-                          <div class="goodsFilterPriceRangePointers">
-                            <span class="min" style="display:none;">{GOODS_FILTER_MIN_AVAILABLE_PRICE}</span>
-                            <span class="max" style="display:none;">{GOODS_FILTER_MAX_AVAILABLE_PRICE}</span>
-                          </div>
-                          <div id="goods-filter-price-slider"></div>
-                          <div class="goodsFilterPriceSubmit">
-                            <button class="button button2 small" type="submit" title="Показать">Показать</button>
-                          </div>
-                        </div>
-                      </div>
-                    {% ENDIF %}
-                    <!-- /END Если есть возможность фильтрации товаров по ценам -->
-                    <!-- Осноные Фильтры -->
-                    <div class="filters-goods">
-                      <!-- Фильтры по характеристикам товаров (Например: Производитель, разрешение экрана, заряд аккомулятора) -->
-                      {% FOR filter_attr_list %}
-                        <div class="filter">
-                          <div class="title {% IF filter_attr_list.index > 3 %}active{% ENDIF %}">{filter_attr_list.NAME}:<span class="filter-arrow fal fa-angle-up"></span></div>
-                          <ul class="filter-inner {% FOR values %}{% IF filter_attr_list.values.index > 10 %}crop{break}{% ENDIF %}{% ENDFOR %}" {% IF filter_attr_list.index > 3 %}style="display:none"{% ENDIF %}>
-                          {% FOR values %}
-                            <li class="filter-item">
-                              <input class="checkbox-hidden" type="checkbox" name="form[filter][attr][{filter_attr_list.ID}][{filter_attr_list.values.ID}]" value="1" id="filterAttrVal{filter_attr_list.values.ID}" {% IF filter_attr_list.values.CHECKED %}checked="checked"{% ELSEIF filter_attr_list.values.NB_GOODS_FILTERED=0 %}disabled="disabled"{% ENDIF %} />
-                              <label class="checkbox-name" for="filterAttrVal{filter_attr_list.values.ID}">{filter_attr_list.values.VALUE} <span class="counter">{filter_attr_list.values.NB_GOODS_FILTERED}</span></label>
-                            </li>
-                          {% ENDFOR %}
-                          </ul>
-                          {% FOR values %}
-                            {% IF filter_attr_list.values.index > 10 %}
-                            <button class="filter-more" type="button"><span class="filter-moreText pseudo-link">Показать все</span> <span class="filter-moreArrow fal fa-angle-down"></span></button>
-                            {break}
-                            {% ENDIF %}
-                          {% ENDFOR %}                           
-                        </div>
-                      {% ENDFOR %}
-                      <!-- Фильтры по свойствам товарных модификаций (Например: Цвет, размер, модификация) -->
-                      {% FOR filter_prop_list %}
-                        <div class="filter">
-                          <div class="title {% IF filter_prop_list.index > 3 %}active{% ENDIF %}">{filter_prop_list.NAME}:<span class="filter-arrow fal fa-angle-up"></span></div>
-                          <ul class="filter-inner {% FOR values %}{% IF filter_prop_list.values.index > 10 %}crop{break}{% ENDIF %}{% ENDFOR %}" {% IF filter_prop_list.index > 3 %}style="display:none"{% ENDIF %}>
-                          {% FOR values %}
-                            <li class="filter-item">
-                              <input class="checkbox-hidden" type="checkbox" name="form[filter][prop][{filter_prop_list.ID}][{filter_prop_list.values.ID}]" value="1" id="filterPropVal{filter_prop_list.values.ID}" {% IF filter_prop_list.values.CHECKED %}checked="checked"{% ELSEIF filter_prop_list.values.NB_GOODS_FILTERED=0 %}disabled="disabled"{% ENDIF %} >
-                              <label class="checkbox-name" for="filterPropVal{filter_prop_list.values.ID}">{filter_prop_list.values.VALUE} <span class="counter">{filter_prop_list.values.NB_GOODS_FILTERED}</span></label>
-                            </li>
-                          {% ENDFOR %}
-                          </ul>
-                          {% FOR values %}
-                            {% IF filter_prop_list.values.index > 10 %}
-                            <button class="filter-more" type="button"><span class="filter-moreText pseudo-link">Показать все</span> <span class="filter-moreArrow fal fa-angle-down"></span></button>
-                            {break}
-                            {% ENDIF %}
-                          {% ENDFOR %}
-                        </div>
-                      {% ENDFOR %}
-                    </div>
-                    <!-- /END Осноные Фильтры -->
-                  </form>
-                </div>
-              </div>
-              {% ENDIF %}
-              <!-- /END Если в тарифном плане подключен модуль фильтров по товарам -->                
-              <!-- Вы смотрели -->
-              {% IFNOT recently_viewed_goods_empty %}
-              <div class="block viewed">
-                <h3 class="title _main"><span class="text">Вы смотрели</span></h3>
-                <div class="content">
-                  <div class="content-title">Вы смотрели</div>
-                  <div class="viewed-items owl-carousel owl-theme">
-                    <div class="item">
-                      {% FOR recently_viewed_goods %}
-                        <div class="item-inner"  itemscope itemtype="https://schema.org/Product">
-                          <meta itemprop="name" content="{recently_viewed_goods.NAME}">
-                          <meta itemprop="description" content="{% IF recently_viewed_goods.DESCRIPTION_SHORT %}{recently_viewed_goods.DESCRIPTION_SHORT}{% ELSE %}Описание отсутствует{% ENDIF %}">
-                          <div class="product-image">
-                            <a href="{recently_viewed_goods.URL_MIN_PRICE_NOW | url_amp}" title="{recently_viewed_goods.NAME}" itemprop="url">
-                              <img data-src="{% IF recently_viewed_goods.IMAGE_EMPTY %}{ASSETS_IMAGES_PATH}no-photo-small.png?design=techno{% ELSE %}{recently_viewed_goods.IMAGE_ICON}{% ENDIF %}" class="goods-image-icon owl-lazy" alt="{recently_viewed_goods.NAME}" title="{recently_viewed_goods.NAME}"  itemprop="image">
-                            </a>
-                          </div>
-                          <div class="product-info">
-                            <h2 class="product-name"><a href="{recently_viewed_goods.URL_MIN_PRICE_NOW | url_amp}" title="{recently_viewed_goods.NAME}" itemprop="url">{recently_viewed_goods.NAME}</a></h2>
-                            <div class="ratings">
-                              <div class="rating-box">
-                                {% IF recently_viewed_goods.OPINION_RATING_VALUE %}
-                                <span itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-                                  <meta itemprop="worstRating" content = "1">
-                                  <meta itemprop="bestRating" content = "10">
-                                  <meta itemprop="ratingValue" content = "{recently_viewed_goods.OPINION_RATING_VALUE}">
-                                  <meta itemprop="reviewCount" content = "{recently_viewed_goods.OPINION_RATING_CNT_ALL}">
-                                  <div class="rating" style="width:{recently_viewed_goods.OPINION_RATING_VALUE}0%" alt="{recently_viewed_goods.OPINION_RATING_VALUE}" title="Рейтинг товара"></div>
-                                </span>
-                                {% ELSE %}
-                                  <div class="rating" style="width:0%"  title="Рейтинг не определён"></div>
-                                {% ENDIF %}
-                              </div>
-                            </div>
-                            <div class="price-box" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-                              <link itemprop="availability" href="{% IF recently_viewed_goods.MAX_REST_VALUE>0 %}http://schema.org/InStock{%ELSE %}http://schema.org/OutOfStock{% ENDIF %}" />
-                              <meta itemprop="priceCurrency" content="{CURRENCY_CHAR_CODE}"/>
-                              <span class="price {CURRENCY_CHAR_CODE}" itemprop="price" content="{recently_viewed_goods.MIN_PRICE_NOW}">{recently_viewed_goods.MIN_PRICE_NOW | money_format}</span>
-                            </div>
-                          </div>
-                          <div class="clearfix"></div>
-                        </div>
-                      {% IFNOT recently_viewed_goods.last %}{recently_viewed_goods.index | is_divided("3","</div><div>","")}{% ENDIF %}
-                      {% ENDFOR %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {% ENDIF %}
-              <!-- /END Вы смотрели -->
-              </div>
+              @@include('./_components/sidebar/_sidebar.html')
             </div>
             {% ENDIF %}
             <div class="{% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare%}col-md-9 col-xs-12 col-right{% ELSE %}col-xs-12{% ENDIF %}">
               <div class="page-content {% IF MOD_LNAME = catalog || MOD_LNAME = search || MOD_LNAME =  discount %}no-padding {% ENDIF %} clearfix">
-              <!-- Заголовок страницы -->
-              <div id="page-title">
-                  {% IF MOD_LNAME=user && ACT=login %}
-                    <div class="block-title"><h1 class="title">Войти или зарегистрироваться</h1></div>
-                  {% ELSEIF MOD_LNAME=user && ACT=change %}
-                    <div class="block-title"><h1 class="title">Активация нового пароля</h1></div>
-                  {% ELSEIF MOD_LNAME=user && ACT=recovery %}
-                    <div class="block-title"><h1 class="title">Восстановление пароля</h1></div>
-                  {% ELSEIF MOD_LNAME=user && ACT=favorites %}
-                    <div class="block-title"><h1 class="title">Избранные товары</h1></div>
-                  {% ELSEIF MOD_LNAME=user  && ACT=history_list %}
-                    <div class="block-title"><h1 class="title">Мои заказы</h1></div>
-                  {% ELSEIF MOD_LNAME=user && ACT=settings %}
-                    <div class="block-title"><h1 class="title">Личный кабинет</h1></div>
-                  {% ELSEIF MOD_LNAME=user && ACT=register %}
-                    <div class="block-title"><h1 class="title">Регистрация клиента</h1></div>
-                  {% ELSEIF MOD_LNAME=user && ACT=history_info %}
-                    <div class="block-title"><h1 class="title">Карточка заказа</h1></div>
-                  {% ELSEIF MOD_LNAME=order && ACT=info %}
-                    <div class="block-title"><h1 class="title">Заказ {% IF ORDER_NUM %}№{ORDER_NUM}{% ENDIF %}</h1></div>
-                  {% ELSEIF MOD_LNAME=order && ACT=stage %}
-                    <div class="block-title"><h1 class="title">Оформление заказа. Шаг {ORDER_STAGE_NUM} из 4</h1></div>
-                  {% ELSEIF MOD_LNAME=search %}
-                    <div class="block-title"><h1 class="title">Результат поиска по запросу: {% IFNOT search_query_empty %}&laquo;{SEARCH_QUERY}&raquo;{% ENDIF %}</h1>{% IFNOT search_query_empty %} <span>({GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")} найд{GOODS_PAGES_RESULTS | gen_word_end("ен","ено","ено")} по запросу)</span>{% ENDIF %}</div>
-                  {% ELSEIF MOD_LNAME=discount && ACT=index && ID %}
-                    <div class="block-title"><h1 class="title">{PROMOTIONAL_CAMPAIGN_NAME}</h1> <h5 class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</h5></div>
-                  {% ELSEIF MOD_LNAME=discount && ACT=index %}
-                    <div class="block-title"><h1 class="title">Акции</h1>{% IF PROMOTION_CAMPAIGN_PAGES_RESULTS %}<h5 class="result">{PROMOTION_CAMPAIGN_PAGES_RESULTS} акци{PROMOTION_CAMPAIGN_PAGES_RESULTS | gen_word_end("я","и","ий")}</h5>{% ENDIF %}</div>
-                  {% ELSEIF MOD_LNAME=feedback %}
-                    <div class="block-title"><h1 class="title">Связь с администрацией</h1></div>
-                  {% ELSEIF CURRENT_URL=NEWS_SHOP_URL || CURRENT_URL=NEWS_ARTICLES_URL  || CURRENT_URL=NEWS_MASS_MEDIA_URL %}
-                    <div class="block-title"><h1 class="title">{NEWS_SECTION_NAME}</h1></div>
-                  {% ELSEIF MOD_LNAME=news %}
-                    <div class="block-title"><h1 class="title">{PAGE_TITLE}</h1></div>
-                  {% ELSEIF MOD_LNAME=compare %}
-                    <div class="block-title"><h1 class="title">{% IF compare_list_empty %}Ваш список сравнения пуст{% ELSE %}Сравнение товаров{% ENDIF %}</h1></div>
-                  {% ELSEIF MOD_LNAME=page %}
-                    <div class="block-title"><h1 class="title">{PAGE_NAME}</h1></div>
-                  {% ELSEIF MOD_LNAME= %}
-                    <div class="block-title"><h1 class="title">Внутренняя ошибка сервера. {MSG_HEADER}</h1></div>
-                  {% ELSEIF MOD_LNAME=callback %}
-                    <div class="block-title"><h1 class="title">Заказ обратного звонка</h1></div>
-                  {% ELSEIF MOD_LNAME=cart %}
-                    <div class="block-title cart">
-                      <h1 class="title">
-                        {% IF cart_items_empty %}
-                        Корзина покупок пуста
-                        {% ELSE %}
-                        <button type="button" class="title-tab" id="closeOrderTab">
-                          <span class="title-step">1.</span>
-                          Корзина
-                        </button>                        
-                        <button type="button" class="title-tab disabled" id="startOrderTab">
-                          <span class="title-step">2.</span>
-                          Оформить заказ
-                        </button>
-                        {% ENDIF %}
-                      </h1>
-                    </div>
-                  {% ELSEIF MOD_LNAME=catalog %}
-                    <div class="block-title"><h1 class="title">{% IF IS_FULL_CATALOG %}Каталог{% ELSE %} {% IF GOODS_PAGES_RESULTS = 0 %} {CATEGORY_NAME} {% ELSE %} {CATEGORY_NAME} {% ENDIF %} {% ENDIF %}</h1>{% IF GOODS_PAGES_RESULTS > 0 %}<h5 class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</h5>{% ENDIF %}</div>
-                  {% ENDIF %}            
-              </div>
-              <!-- /END Заголовок страницы -->                
+                <!-- Заголовок страницы -->      
+                @@include('./_components/page-title/_page-title.html')
+                <!-- /END Заголовок страницы -->
                 {BODY}                
               </div>
             </div>            
@@ -356,7 +61,7 @@
     <!-- /END Основная часть -->
     
     <!-- Подвал -->
-    <!-- @@include('./_templates/_footer.html') -->
+    @@include('./_templates/_footer.html')
     <!-- /END Подвал -->
    
   </div>

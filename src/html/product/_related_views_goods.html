@@ -1,0 +1,19 @@
+{% IFNOT related_views_goods_empty %}
+<div class="related">
+  <div class="container">
+    <div class="row">
+      <div class="related-views col-xs-12">
+        <div class="box-up-sell products-container block-bg">
+          <div class="block-title">
+            <h2 class="title">С этим товаром смотрят</h2>
+            <div class="navigation owl-nav"></div>
+          </div>
+          <div class="products-grid owl-carousel">
+            @@include('../_templates/goods/_goods.html', {"goods_array_name": "related_views_goods"})
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% ENDIF %}
