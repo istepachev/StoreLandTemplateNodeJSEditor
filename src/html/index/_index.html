@@ -1,0 +1,83 @@
+<!-- Преимущества -->
+@@include('./features/_features.html')
+<!-- /Преимущества -->
+
+<!-- Хиты продаж -->
+{% IFNOT index_page_favorites_goods_empty %}
+<div class="pdt-best products-container index">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="content block-bg">
+                    <div class="block-title">
+                        <h2 class="title">Хиты продаж</h2>
+                        <div class="navigation owl-nav"></div>
+                    </div>
+                    <div class="preloader"><span class="content-loading"></span></div>
+                    <div class="products-grid owl-carousel">
+                        777
+                        <!-- @@include(''../../_templates/goods/_goods.html', {"goods_array_name": "index_page_favorites_goods"}) -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% ENDIF %}
+
+<!-- Новинки -->
+{% IFNOT index_page_new_goods_empty %}
+<div class="pdt-new products-container index">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="content block-bg">
+                    <div class="block-title">
+                        <h2 class="title">Новинки</h2>
+                        <div class="navigation owl-nav"></div>
+                    </div>
+                    <div class="preloader"><span class="content-loading"></span></div>
+                    <div class="products-grid owl-carousel">
+                        555
+                        @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_new_goods"})
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% ENDIF %}
+
+<!-- Баннеры -->
+@@include('./banners/_banners.html')
+
+<!-- Товары на главной -->
+{% IFNOT index_page_goods_empty %}
+<div class="pdt-index products-container index">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="content block-bg">
+                    <div class="block-title">
+                        <h2 class="title">Товары на главной</h2>
+                        <div class="navigation owl-nav"></div>
+                    </div>
+                    <div class="preloader"><span class="content-loading"></span></div>
+                    <div class="products-grid owl-carousel">
+                        @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_goods"})
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% ENDIF %}
+
+<div id="main" class="index">
+    <div class="container">
+        {BODY}
+    </div>
+</div>
+
+<!-- Новости -->
+@@include('./news/_news.html')
