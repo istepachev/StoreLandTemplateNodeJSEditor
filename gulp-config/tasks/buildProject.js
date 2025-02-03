@@ -1,4 +1,4 @@
-import { src, dest } from "../../gulpfile.js";
+import { src, dest } from "gulp";
 import { deleteSync } from "del";
 import Config from "../const.js";
 const { Paths, dirs } = Config;

@@ -1,3 +1,4 @@
+import { watch } from "gulp";
 import Config from "../const.js";
 const { Paths } = Config;
 
@@ -9,7 +10,6 @@ import {
   images,
   icons,
   uploadFile,
-  watch,
 } from "../../gulpfile.js";
 
 function startWatch() {

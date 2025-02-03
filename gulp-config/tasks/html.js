@@ -1,4 +1,4 @@
-import { src, dest } from "../../gulpfile.js";
+import { src, dest } from "gulp";
 import fileInclude from "gulp-file-include";
 import plumber from "gulp-plumber";
 import path from "node:path";

@@ -1,4 +1,4 @@
-import { src, dest } from "../../gulpfile.js";
+import { src, dest } from "gulp";
 import path from "node:path";
 import Config from "../const.js";
 const {
