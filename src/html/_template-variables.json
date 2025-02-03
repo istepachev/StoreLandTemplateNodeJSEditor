@@ -1,5 +1,4 @@
 {
-  "inCatalog": false,
   "DESIGN_NAME": "techno",
   "tel1": {
     "num": "{SETTINGS_STORE_PHONE_COUNTRY_CODE1}{SETTINGS_STORE_PHONE_CITY_CODE1}{SETTINGS_STORE_PHONE_NUMBER1}",
@@ -13,20 +12,17 @@
     {
       "name": "facebook",
       "title": "FaceBook.com",
-      "link": "https://www.facebook.com/",
-      "hide": true
+      "link": "https://www.facebook.com/"
     },
     {
       "name": "viber",
       "title": "Viber.com",
-      "link": "https://viber.com/",
-      "hide": false
+      "link": "https://viber.com/"
     },
     {
       "name": "viber",
       "title": "VK.com",
-      "link": "https://vk.com/",
-      "hide": false
+      "link": "https://vk.com/"
     }
   ]
 }

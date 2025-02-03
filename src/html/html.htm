@@ -30,32 +30,32 @@
     
     <!-- Основная часть -->
     {% IFNOT index_page %}
-      {% IF MOD_LNAME = goods %}
-          <div id="main">{BODY}</div>
-      {% ELSE %}
-      <div id="main">
-        <div class="container">
-          <div class="block-bg">
-          <div class="row no-gutters">
-            <!-- Левый блок -->
-            {% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare %}
-            <div class="col-md-3 col-xs-12 col-left">
-              @@include('./_components/sidebar/_sidebar.html')
-            </div>
-            {% ENDIF %}
-            <div class="{% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare%}col-md-9 col-xs-12 col-right{% ELSE %}col-xs-12{% ENDIF %}">
-              <div class="page-content {% IF MOD_LNAME = catalog || MOD_LNAME = search || MOD_LNAME =  discount %}no-padding {% ENDIF %} clearfix">
-                <!-- Заголовок страницы -->      
-                @@include('./_components/page-title/_page-title.html')
-                <!-- /END Заголовок страницы -->
-                {BODY}                
+    <div id="main">
+      <div class="container">
+        <div class="block-bg">
+          {% IF MOD_LNAME = goods %}
+              {BODY}
+          {% ELSE %}
+            <div class="row no-gutters">
+              <!-- Левый блок -->
+              {% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare %}
+              <div class="col-md-3 col-xs-12 col-left">
+                @@include('./_components/sidebar/_sidebar.html')
               </div>
-            </div>            
-          </div>
-          </div>
+              {% ENDIF %}
+              <div class="{% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare%}col-md-9 col-xs-12 col-right{% ELSE %}col-xs-12{% ENDIF %}">
+                <div class="page-content {% IF MOD_LNAME = catalog || MOD_LNAME = search || MOD_LNAME =  discount %}no-padding {% ENDIF %} clearfix">
+                  <!-- Заголовок страницы -->      
+                  @@include('./_components/page-title/_page-title.html')
+                  <!-- /END Заголовок страницы -->
+                  {BODY}                
+                </div>
+              </div>            
+            </div>
+          {% ENDIF %}
         </div>
       </div>
-      {% ENDIF %}
+    </div>
     {% ENDIF %}
     
     <!-- /END Основная часть -->
