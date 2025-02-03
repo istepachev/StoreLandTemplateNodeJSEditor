@@ -48,9 +48,9 @@ const DEFAULT_FOLDER_NAME = `default`;
 const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
 
 const Paths = {
-  htmlTemplate: {
+  htmlTemplateJsons: {
     default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
-    all: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
+    watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
   },
   dist: `${DIST_DIR}/**/*.*`,
   scripts: {
@@ -65,13 +65,15 @@ const Paths = {
     build: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
   },
   html: {
-    default: `${BASE_DIR}/${FoldersNames.Html}/html.htm`,
     src: `${BASE_DIR}/${FoldersNames.Html}`,
-    watch: `${BASE_DIR}/**/*.{${FilesExtensions.Html}}`,
+    watch: [
+      `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
+      `${BASE_DIR}/${FoldersNames.Html}/**/_*.html`,
+    ],
     dest: `${DIST_DIR}/${FoldersNames.Html}`,
     build: [
       `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
-      //`!${BASE_DIR}/${FoldersNames.Html}/**/[_].{${FilesExtensions.Html}}`, //TODO поддержка любой вложенности
+      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.html`,
     ],
   },
   fonts: {
