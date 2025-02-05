@@ -25,7 +25,7 @@ const FoldersNames = {
 };
 
 const FilesExtensions = {
-  Html: "htm, html",
+  Html: "html, htm",
   Images: "png, jpg, jpeg, gif",
   Fonts: "eot, ttf, woff, woff2",
   Js: "js",
@@ -68,12 +68,12 @@ const Paths = {
     src: `${BASE_DIR}/${FoldersNames.Html}`,
     watch: [
       `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
-      `${BASE_DIR}/${FoldersNames.Html}/**/_*.html`,
+      `${BASE_DIR}/${FoldersNames.Html}/**/_*.{${FilesExtensions.Html}}`,
     ],
     dest: `${DIST_DIR}/${FoldersNames.Html}`,
     build: [
       `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
-      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.html`,
+      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.{${FilesExtensions.Html}}`,
     ],
   },
   fonts: {
