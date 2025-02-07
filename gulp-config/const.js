@@ -25,7 +25,8 @@ const FoldersNames = {
 };
 
 const FilesExtensions = {
-  Html: "html, htm",
+  Htm: "htm",
+  Html: "html",
   Images: "png, jpg, jpeg, gif",
   Fonts: "eot, ttf, woff, woff2",
   Js: "js",
@@ -54,26 +55,26 @@ const Paths = {
   },
   dist: `${DIST_DIR}/**/*.*`,
   scripts: {
-    watch: `${BASE_DIR}/**/*.${FilesExtensions.Js}`,
+    watch: [`${BASE_DIR}/**/*.${FilesExtensions.Js}`],
     dest: STATIC_DIR,
     build: [`${BASE_DIR}/${FoldersNames.Js}/**/*.${FilesExtensions.Js}`],
   },
   styles: {
     src: `${BASE_DIR}/${FoldersNames.Css}`,
-    watch: `${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`,
+    watch: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
     dest: STATIC_DIR,
     build: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
   },
   html: {
     src: `${BASE_DIR}/${FoldersNames.Html}`,
     watch: [
-      `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
-      `${BASE_DIR}/${FoldersNames.Html}/**/_*.{${FilesExtensions.Html}}`,
+      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
+      `${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
     ],
     dest: `${DIST_DIR}/${FoldersNames.Html}`,
     build: [
-      `${BASE_DIR}/${FoldersNames.Html}/**/*.{${FilesExtensions.Html}}`,
-      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.{${FilesExtensions.Html}}`,
+      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
+      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
     ],
   },
   fonts: {

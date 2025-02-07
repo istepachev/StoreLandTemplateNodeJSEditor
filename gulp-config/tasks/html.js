@@ -82,7 +82,7 @@ async function getFileIncludeConfig() {
 
   try {
     const jsonData = await readFile(
-      new URL(`../../${Paths.htmlTemplate.default}`, import.meta.url),
+      new URL(`../../${Paths.htmlTemplateJsons.default}`, import.meta.url),
       {
         encoding: "utf-8",
       },
