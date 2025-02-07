@@ -26,6 +26,7 @@
     "dayjs": "^1.11.13",
     "del": "^8.0.0",
     "dotenv": "^16.4.7",
+    "glob": "11.0.1",
     "got": "^14.4.5",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^9.0.0",
@@ -42,7 +43,6 @@
     "gulp-svg-sprite": "^2.0.3",
     "gulp-uglify-es": "^3.0.0",
     "joi": "^17.13.3",
-    "lodash-es": "4.17.21",
     "minimist": "^1.2.8",
     "node-notifier": "^10.0.1",
     "prettier": "^3.4.2"

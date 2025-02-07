@@ -14,6 +14,7 @@ import downloadFiles from "./gulp-config/tasks/downloadFiles.js";
 import uploadFile from "./gulp-config/tasks/uploadFile.js";
 import startWatch from "./gulp-config/tasks/watch.js";
 import buildProject from "./gulp-config/tasks/buildProject.js";
+import uploadAllFiles from "./gulp-config/tasks/uploadAllFiles.js";
 
 const mainTasks = parallel(html, scripts, images, fonts, styles, icons);
 const devTasks = parallel(browserSyncTask, startWatch);
@@ -23,6 +24,7 @@ export const dev = series(checkConfig, devTasks);
 export const download = series(checkConfig, downloadFiles);
 export { cleanBuildDist };
 export const move = buildProject;
+export const uploadAll = uploadAllFiles;
 
 export default dev;
 
