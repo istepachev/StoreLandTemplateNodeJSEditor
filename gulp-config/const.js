@@ -46,7 +46,7 @@ const STATIC_DIR = `${DIST_DIR}/static`;
 const DOWNLOAD_DIR = "downloads";
 const DEFAULT_FOLDER_NAME = `default`;
 
-const FILE_HTML_TEMPLATE_NAME = "_template-variables.json";
+const FILE_HTML_TEMPLATE_NAME = "template-variables.json";
 
 const Paths = {
   htmlTemplateJsons: {

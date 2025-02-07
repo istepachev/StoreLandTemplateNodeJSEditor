@@ -94,8 +94,8 @@ async function getFileIncludeConfig() {
       context: DEFAULT_TEMPLATE_VARIABLES,
     };
   } catch (error) {
-    console.error(
-      chalk.redBright(`⛔ Ошибка чтения конфигурации: ${error.message}`),
+    console.info(
+      chalk.yellowBright(`⛔ Ошибка чтения конфигурации: ${error.message}`),
     );
     return defaultConfig;
   }
