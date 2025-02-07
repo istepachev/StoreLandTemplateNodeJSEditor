@@ -15,8 +15,9 @@
                     </div>
                     <div class="preloader"><span class="content-loading"></span></div>
                     <div class="products-grid owl-carousel">
-                        777
-                        <!-- @@include(''../../_templates/goods/_goods.html', {"goods_array_name": "index_page_favorites_goods"}) -->
+                        {% FOR index_page_favorites_goods %}
+                            @@include(''../../_templates/goods/_goods.html', {"goods_array_name": "index_page_favorites_goods"})
+                        {% ENDFOR %}
                     </div>
                 </div>
             </div>
@@ -38,8 +39,9 @@
                     </div>
                     <div class="preloader"><span class="content-loading"></span></div>
                     <div class="products-grid owl-carousel">
-                        555
-                        @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_new_goods"})
+                        {% FOR index_page_new_goods %}
+                            @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_new_goods"})
+                        {% ENDFOR %}
                     </div>
                 </div>
             </div>
@@ -64,7 +66,9 @@
                     </div>
                     <div class="preloader"><span class="content-loading"></span></div>
                     <div class="products-grid owl-carousel">
-                        @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_goods"})
+                        {% FOR index_page_goods %}
+                            @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_goods"})
+                        {% ENDFOR %}
                     </div>
                 </div>
             </div>

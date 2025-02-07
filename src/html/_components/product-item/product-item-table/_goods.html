@@ -1,4 +1,3 @@
-{% FOR @@goods_array_name %}
 <div class="item 
 {% IF @@goods_array_name.MAX_REST_VALUE=0 && SETTINGS_GOODS_DONT_PUT_TO_CART_MORE_THAN_AVAILABLE %}empty{% ENDIF %}
 {% IF @@goods_array_name.COUNT_MODIFICATION > 1 %}_with-mod{% ENDIF %}
@@ -177,4 +176,3 @@
     </form>
   </div>
 </div>
-{% ENDFOR %}

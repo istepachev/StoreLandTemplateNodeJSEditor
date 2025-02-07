@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html lang="ru">
 <head>
-  @@include('./_templates/_head.html')
+  @@include('./_head.html')
 </head>
 <body>
   <h1>@@DESIGN_NAME</h1>
@@ -10,18 +10,19 @@
 
   <div class="wrapper {% IF index_page %}index{% ENDIF %} nojs">
     <!-- Сообщение для инвалидов -->
-    @@include('./_templates/_invalids.html')
+    @@include('./_invalids.html')
     <!-- /END Сообщение для инвалидов -->
 
     <!-- Шапка -->
-    @@include('./_templates/_header.html')
+    @@include('./_header.html')
     <!-- /END Шапка -->
     
     <!-- Главная страница-->
     {% IF index_page %}
-      @@include('./index/_index.html')
+      @@include('./pages/index/_index.html')
     {% ENDIF %}
     
+
     <!-- Основная часть -->
     {% IFNOT index_page %}
       <!-- Хлебные крошки -->
@@ -59,7 +60,7 @@
     <!-- /END Основная часть -->
     
     <!-- Подвал -->
-    @@include('./_templates/_footer.html')
+    @@include('./_footer.html')
     <!-- /END Подвал -->
    
   </div>
