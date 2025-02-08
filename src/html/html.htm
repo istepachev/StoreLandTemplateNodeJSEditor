@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html lang="ru">
 <head>
-  @@include('./head.html')
+  @@include('./_head.html')
 </head>
 <body>
   <h1>@@DESIGN_NAME</h1>
@@ -10,11 +10,12 @@
 
   <div class="wrapper {% IF index_page %}index{% ENDIF %} nojs">
     <!-- Сообщение для инвалидов -->
-    @@include('./invalids.html')
+    @@include('./_invalids.html')
     <!-- /END Сообщение для инвалидов -->
 
+
     <!-- Шапка -->
-    @@include('./header.html')
+    @@include('./components/header/header.html')
     <!-- /END Шапка -->
     
     <!-- Главная страница-->
@@ -26,7 +27,7 @@
     <!-- Основная часть -->
     {% IFNOT index_page %}
       <!-- Хлебные крошки -->
-      @@include('./_components/breadcrumbs/_breadcrumbs.html')
+      @@include('./components/breadcrumbs/breadcrumbs.html')
       <!-- /END Хлебные крошки -->
 
       <div id="main">
@@ -39,13 +40,13 @@
                 <!-- Левый блок -->
                 {% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare %}
                 <div class="col-md-3 col-xs-12 col-left">
-                  @@include('./_components/sidebar/_sidebar.html')
+                  @@include('./components/sidebar/sidebar.html')
                 </div>
                 {% ENDIF %}
                 <div class="{% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare%}col-md-9 col-xs-12 col-right{% ELSE %}col-xs-12{% ENDIF %}">
                   <div class="page-content {% IF MOD_LNAME = catalog || MOD_LNAME = search || MOD_LNAME =  discount %}no-padding {% ENDIF %} clearfix">
                     <!-- Заголовок страницы -->      
-                    @@include('./_components/page-title/_page-title.html')
+                    @@include('./components/page-title/page-title.html')
                     <!-- /END Заголовок страницы -->
                     {BODY}                
                   </div>
@@ -60,7 +61,7 @@
     <!-- /END Основная часть -->
     
     <!-- Подвал -->
-    @@include('./_footer.html')
+    @@include('./components/footer/footer.html')
     <!-- /END Подвал -->
    
   </div>
