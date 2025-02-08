@@ -6,7 +6,9 @@ import {
   fonts,
   scripts,
   styles,
-  html,
+  htmlTemplate,
+  htmlTemplateJsons,
+  htm,
   images,
   icons,
   uploadFile,
@@ -17,8 +19,9 @@ function startWatch() {
   watch(Paths.images.watch).on('all', images);
   watch(Paths.icons.watch).on('all', icons);
   watch(Paths.fonts.watch).on('all', fonts);
-  watch(Paths.html.watch).on('all', html);
-  watch(Paths.htmlTemplateJsons.watch).on('all', html);
+  watch(Paths.htm.watch).on('all', htm);
+  watch(Paths.htmlTemplate.watch).on('all', htmlTemplate);
+  watch(Paths.htmlTemplateJsons.watch).on('all', htmlTemplateJsons);
   watch(Paths.scripts.watch).on('all', scripts);
 
   watch(Paths.dist).on('all', uploadFile);
