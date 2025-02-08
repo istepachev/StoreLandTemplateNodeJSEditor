@@ -1,10 +1,10 @@
-import dotenv from "dotenv";
-import path from "path";
+import dotenv from 'dotenv';
+import path from 'path';
 
 const envPath =
-  process.env.NODE_ENV === "production"
-    ? path.resolve("env/production/.env")
-    : path.resolve("env/development/.env");
+  process.env.NODE_ENV === 'production'
+    ? path.resolve('env/production/.env')
+    : path.resolve('env/development/.env');
 
 dotenv.config({ path: envPath });
 
@@ -12,26 +12,26 @@ const {
   CURRENT_SITE,
   SECRET_KEY,
   PORT = 3003,
-  API_BASE_URL = "/api/v1/site_files",
+  API_BASE_URL = '/api/v1/site_files',
 } = process.env;
 
 const FoldersNames = {
-  Html: "html",
-  Images: "images",
-  Fonts: "fonts",
-  Js: "js",
-  Css: "css",
-  Icons: "icons",
+  Html: 'html',
+  Images: 'images',
+  Fonts: 'fonts',
+  Js: 'js',
+  Css: 'css',
+  Icons: 'icons',
 };
 
 const FilesExtensions = {
-  Htm: "htm",
-  Html: "html",
-  Images: "png, jpg, jpeg, gif",
-  Fonts: "eot, ttf, woff, woff2",
-  Js: "js",
-  Css: "css",
-  Icons: "svg",
+  Htm: 'htm',
+  Html: 'html',
+  Images: 'png, jpg, jpeg, gif',
+  Fonts: 'eot, ttf, woff, woff2',
+  Js: 'js',
+  Css: 'css',
+  Icons: 'svg',
 };
 
 const API_ENDPOINTS = {
@@ -40,16 +40,33 @@ const API_ENDPOINTS = {
   getFile: `${CURRENT_SITE}${API_BASE_URL}/get`,
 };
 
-const BASE_DIR = "src";
-const DIST_DIR = "dist";
+const BASE_DIR = 'src';
+const DIST_DIR = 'dist';
 const STATIC_DIR = `${DIST_DIR}/static`;
-const DOWNLOAD_DIR = "downloads";
+const DOWNLOAD_DIR = 'downloads';
 const DEFAULT_FOLDER_NAME = `default`;
 
-const FILE_HTML_TEMPLATE_NAME = "template-variables.json";
+const FILE_HTML_TEMPLATE_NAME = 'template-variables.json';
 
 const Paths = {
   dist: `${DIST_DIR}/**/*.*`,
+
+  htm: {
+    src: `${BASE_DIR}/${FoldersNames.Html}`,
+    watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
+    dest: `${DIST_DIR}/${FoldersNames.Html}`,
+    build: [
+      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
+      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
+    ],
+  },
+  htmlTemplate: {
+    watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Html}`,
+    build: [
+      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
+      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
+    ],
+  },
   htmlTemplateJsons: {
     default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
@@ -64,18 +81,6 @@ const Paths = {
     watch: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
     dest: STATIC_DIR,
     build: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
-  },
-  html: {
-    src: `${BASE_DIR}/${FoldersNames.Html}`,
-    watch: [
-      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
-      `${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
-    ],
-    dest: `${DIST_DIR}/${FoldersNames.Html}`,
-    build: [
-      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
-      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
-    ],
   },
   fonts: {
     watch: `${BASE_DIR}/${FoldersNames.Fonts}/**/*.{${FilesExtensions.Fonts}}`,
@@ -101,7 +106,7 @@ const Config = {
   Paths,
   ApiUrls: API_ENDPOINTS,
   env: {
-    isProd: process.env.NODE_ENV === "production",
+    isProd: process.env.NODE_ENV === 'production',
   },
   dirs: {
     BASE_DIR,

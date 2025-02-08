@@ -1,12 +1,12 @@
-import { src, dest } from "gulp";
-import path from "node:path";
-import plumber from "gulp-plumber";
-import autoprefixer from "gulp-autoprefixer";
-import cleancss from "gulp-clean-css";
-import Config from "../const.js";
+import { src, dest } from 'gulp';
+import path from 'node:path';
+import plumber from 'gulp-plumber';
+import autoprefixer from 'gulp-autoprefixer';
+import cleancss from 'gulp-clean-css';
+import Config from '../const.js';
 const { IS_BUILD, Paths } = Config;
 
-async function styles(_, filePath = "") {
+async function styles(_, filePath = '') {
   const fileName = path.basename(filePath);
   const cssPath = `${Paths.styles.src}/${fileName}`;
   const PATH = IS_BUILD ? Paths.styles.build : cssPath;
@@ -21,7 +21,7 @@ async function styles(_, filePath = "") {
 function getAutoprefixerConfig() {
   return {
     grid: true,
-    overrideBrowserslist: ["last 3 versions", "> 1%", "not dead"],
+    overrideBrowserslist: ['last 3 versions', '> 1%', 'not dead'],
   };
 }
 
@@ -40,9 +40,9 @@ function getCleanCssConfig() {
         beforeBlockEnds: true, // controls if a line break comes before a block ends; defaults to `false`
         betweenSelectors: false, // controls if a line break comes between selectors; defaults to `false`
       },
-      breakWith: "\n", // controls the new line character, can be `'\r\n'` or `'\n'` (aliased as `'windows'` and `'unix'` or `'crlf'` and `'lf'`); defaults to system one, so former on Windows and latter on Unix
+      breakWith: '\n', // controls the new line character, can be `'\r\n'` or `'\n'` (aliased as `'windows'` and `'unix'` or `'crlf'` and `'lf'`); defaults to system one, so former on Windows and latter on Unix
       indentBy: 0, // controls number of characters to indent with; defaults to `0`
-      indentWith: "space", // controls a character to indent with, can be `'space'` or `'tab'`; defaults to `'space'`
+      indentWith: 'space', // controls a character to indent with, can be `'space'` or `'tab'`; defaults to `'space'`
       spaces: {
         // controls where to insert spaces
         aroundSelectorRelation: true, // controls if spaces come around selector relations; e.g. `div > a`; defaults to `false`

@@ -1,7 +1,7 @@
 {
   "overrides": [
     {
-      "files": "src/js/*.js",
+      "files": ["src/js/*.js", "gulp-config/**/*.js"],
       "options": {
         "trailingComma": "all",
         "printWidth": 80,

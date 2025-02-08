@@ -1,26 +1,26 @@
-import Config from "../const.js";
+import Config from '../const.js';
 const {
   dirs: { DOWNLOAD_DIR },
   FilesExtensions,
   ApiUrls,
 } = Config;
-import { SECRET_KEY } from "./config-check.js";
-import * as fs from "node:fs";
-import path from "node:path";
-import chalk from "chalk";
-import got from "got";
-import { deleteSync } from "del";
-import minimist from "minimist";
+import { SECRET_KEY } from './config-check.js';
+import * as fs from 'node:fs';
+import path from 'node:path';
+import chalk from 'chalk';
+import got from 'got';
+import { deleteSync } from 'del';
+import minimist from 'minimist';
 
 async function downloadFiles() {
   const argv = minimist(process.argv.slice(2));
-  const isCodeOnly = argv["code-only"];
+  const isCodeOnly = argv['code-only'];
 
   deleteSync(DOWNLOAD_DIR);
   !fs.existsSync(DOWNLOAD_DIR) && fs.mkdirSync(DOWNLOAD_DIR);
 
   const formData = new globalThis.FormData();
-  formData.append("secret_key", SECRET_KEY);
+  formData.append('secret_key', SECRET_KEY);
 
   const OPTIONS = {
     body: formData,
@@ -37,11 +37,11 @@ async function downloadFiles() {
       .filter(({ file_name }) => {
         if (!isCodeOnly) return true;
 
-        const fileExt = path.extname(file_name).replace(".", "").toLowerCase();
+        const fileExt = path.extname(file_name).replace('.', '').toLowerCase();
         const codeFileTypes = [
-          ...FilesExtensions.Html.split(", "),
-          ...FilesExtensions.Js.split(", "),
-          ...FilesExtensions.Css.split(", "),
+          ...FilesExtensions.Html.split(', '),
+          ...FilesExtensions.Js.split(', '),
+          ...FilesExtensions.Css.split(', '),
         ];
         return codeFileTypes.includes(fileExt);
       });
@@ -55,23 +55,23 @@ async function downloadFiles() {
         .post(`${ApiUrls.getFile}/${file_id}`, OPTIONS)
         .json();
 
-      if (status === "error") {
+      if (status === 'error') {
         console.log(chalk.redBright(`Ошибка загрузки ⛔: ${message}`));
         return;
       }
 
-      const fileExt = path.extname(data.file_name.value).replace(".", "");
+      const fileExt = path.extname(data.file_name.value).replace('.', '');
       const fileDirName =
         Object.keys(FilesExtensions)
           .find((key) => FilesExtensions[key].includes(fileExt))
-          ?.toLowerCase() || "";
+          ?.toLowerCase() || '';
       const newDir = `${DOWNLOAD_DIR}/${fileDirName}`;
 
       await fs.promises.mkdir(newDir, { recursive: true });
       await fs.promises.writeFile(
         `${newDir}/${data.file_name.value}`,
         data.file_content.value,
-        "base64",
+        'base64',
       );
 
       return { file_name, index };
@@ -85,7 +85,7 @@ async function downloadFiles() {
   console.log(
     chalk.greenBright(
       `Загружен список всех файлов ✔️\nВсего файлов для загрузки: ${files.length} шт.${
-        isCodeOnly ? " (только код)" : " (все файлы)"
+        isCodeOnly ? ' (только код)' : ' (все файлы)'
       }`,
     ),
   );

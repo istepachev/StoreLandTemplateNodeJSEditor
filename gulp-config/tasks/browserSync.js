@@ -1,6 +1,6 @@
-import Config from "../const.js";
+import Config from '../const.js';
 const { CURRENT_SITE, PORT } = Config;
-import bs from "browser-sync";
+import bs from 'browser-sync';
 
 const browserSync = bs.create();
 
@@ -11,7 +11,7 @@ function browserSyncTask() {
       target: CURRENT_SITE,
       proxyReq: [
         (proxyReq) => {
-          proxyReq.setHeader("x-nodejs-editor-version", "1.01");
+          proxyReq.setHeader('x-nodejs-editor-version', '1.01');
         },
       ],
     },

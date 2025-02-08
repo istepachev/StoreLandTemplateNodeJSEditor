@@ -1,8 +1,8 @@
-import { src, dest } from "gulp";
-import Config from "../const.js";
+import { src, dest } from 'gulp';
+import Config from '../const.js';
 const { Paths } = Config;
-import newer from "gulp-newer";
-import imagemin, { gifsicle, mozjpeg, optipng, svgo } from "gulp-imagemin";
+import newer from 'gulp-newer';
+import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
 
 async function images() {
   return src([Paths.images.watch])

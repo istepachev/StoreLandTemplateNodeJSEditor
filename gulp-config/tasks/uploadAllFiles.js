@@ -1,17 +1,17 @@
-import { src } from "gulp";
-import Config from "../const.js";
+import { src } from 'gulp';
+import Config from '../const.js';
 const { Paths } = Config;
-import uploadFile from "./uploadFile.js";
-import path from "path";
-import { glob } from "glob";
+import uploadFile from './uploadFile.js';
+import path from 'path';
+import { glob } from 'glob';
 
 async function uploadAllFiles(done) {
   const patterns = [
-    "src/html/**/*.{html,htm}",
-    "!src/html/**/_*.{html,htm}",
-    "src/css/**/*.css",
-    "src/js/**/*.js",
-    "!src/**/default/**/*",
+    'src/html/**/*.{html,htm}',
+    '!src/html/**/_*.{html,htm}',
+    'src/css/**/*.css',
+    'src/js/**/*.js',
+    '!src/**/default/**/*',
   ];
 
   try {
@@ -21,10 +21,10 @@ async function uploadAllFiles(done) {
       files = [...files, ...matches];
     }
 
-    console.log("Найдены файлы для загрузки:", files);
+    console.log('Найдены файлы для загрузки:', files);
 
     if (files.length === 0) {
-      console.log("Файлы для загрузки не найдены");
+      console.log('Файлы для загрузки не найдены');
       done();
       return;
     }
@@ -33,7 +33,7 @@ async function uploadAllFiles(done) {
       const fileName = path.basename(filePath);
       console.log(`Загрузка файла: ${fileName}`);
       try {
-        await uploadFile("upload", filePath);
+        await uploadFile('upload', filePath);
         console.log(`Файл ${fileName} успешно загружен`);
       } catch (err) {
         console.error(`Ошибка при загрузке файла ${fileName}:`, err);
@@ -41,10 +41,10 @@ async function uploadAllFiles(done) {
     });
 
     await Promise.all(promises);
-    console.log("Загрузка всех файлов завершена");
+    console.log('Загрузка всех файлов завершена');
     done();
   } catch (error) {
-    console.error("Ошибка при загрузке файлов:", error);
+    console.error('Ошибка при загрузке файлов:', error);
     done(error);
   }
 }

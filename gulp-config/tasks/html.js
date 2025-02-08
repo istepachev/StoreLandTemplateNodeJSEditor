@@ -1,30 +1,30 @@
-import { src, dest } from "gulp";
-import fileInclude from "gulp-file-include";
-import plumber from "gulp-plumber";
-import path from "node:path";
-import { readFile } from "node:fs/promises";
-import Config from "../const.js";
+import { src, dest } from 'gulp';
+import fileInclude from 'gulp-file-include';
+import plumber from 'gulp-plumber';
+import path from 'node:path';
+import { readFile } from 'node:fs/promises';
+import Config from '../const.js';
 const {
   env: { isProd },
   Paths,
 } = Config;
-import chalk from "chalk";
+import chalk from 'chalk';
 
-async function html(evt = "", filePath = Paths.html.default) {
+async function html(evt = '', filePath = Paths.html.default) {
   const fileName = path.basename(filePath);
   let templateParentsPaths = [];
 
   if (fileName.startsWith(`_`)) {
     try {
       const data = await readFile(path.resolve(filePath), {
-        encoding: "utf8",
+        encoding: 'utf8',
       });
 
       if (!data.length) {
         console.error(chalk.redBright(`⛔ Файл ${fileName} пуст`));
         return null;
       }
-      const firstStrFile = data.split("\n").shift();
+      const firstStrFile = data.split('\n').shift();
       const isFirstComment = firstStrFile.match(/\[([^}]*)]/);
       if (!isFirstComment) {
         console.error(
@@ -38,10 +38,10 @@ async function html(evt = "", filePath = Paths.html.default) {
       templateParentsPaths = firstStrFile
         .match(/\[([^}]*)]/)[1]
         .trim()
-        .split(",")
+        .split(',')
         .map((el) => `${Paths.html.src}/${el.trim()}`);
       console.log(
-        chalk.gray(`Сохранение файлов\n${templateParentsPaths.join("\n")}`),
+        chalk.gray(`Сохранение файлов\n${templateParentsPaths.join('\n')}`),
       );
     } catch (err) {
       console.error(
@@ -63,7 +63,7 @@ async function html(evt = "", filePath = Paths.html.default) {
 
   const config = await getFileIncludeConfig();
   if (!config) {
-    console.error(chalk.redBright("⛔ Ошибка получения конфигурации"));
+    console.error(chalk.redBright('⛔ Ошибка получения конфигурации'));
     return null;
   }
 
@@ -75,8 +75,8 @@ async function html(evt = "", filePath = Paths.html.default) {
 
 async function getFileIncludeConfig() {
   const defaultConfig = {
-    prefix: "@@",
-    basepath: "@file",
+    prefix: '@@',
+    basepath: '@file',
     context: {},
   };
 
@@ -84,7 +84,7 @@ async function getFileIncludeConfig() {
     const jsonData = await readFile(
       new URL(`../../${Paths.htmlTemplateJsons.default}`, import.meta.url),
       {
-        encoding: "utf-8",
+        encoding: 'utf-8',
       },
     );
     const DEFAULT_TEMPLATE_VARIABLES = JSON.parse(jsonData);

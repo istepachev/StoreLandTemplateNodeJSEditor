@@ -1,12 +1,12 @@
-import path from "node:path";
-import fs from "node:fs/promises";
-import chalk from "chalk";
-import dayjs from "dayjs";
-import Config from "../const.js";
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import chalk from 'chalk';
+import dayjs from 'dayjs';
+import Config from '../const.js';
 const { ApiUrls } = Config;
-import { browserSync } from "./browserSync.js";
-import { SECRET_KEY } from "./config-check.js";
-import got from "got";
+import { browserSync } from './browserSync.js';
+import { SECRET_KEY } from './config-check.js';
+import got from 'got';
 
 async function retry(fn, retries = 3, delay = 1000) {
   try {
@@ -21,14 +21,14 @@ async function retry(fn, retries = 3, delay = 1000) {
 const debouncedUpload = async (evt, filePath) => {
   try {
     const fileName = path.basename(filePath);
-    const fileHandle = await fs.open(`${filePath}`, "r+");
-    const fileData = await fileHandle.readFile("base64");
+    const fileHandle = await fs.open(`${filePath}`, 'r+');
+    const fileData = await fileHandle.readFile('base64');
     await fileHandle.close();
 
     const formData = new globalThis.FormData();
-    formData.append("secret_key", SECRET_KEY);
-    formData.append("form[file_name]", fileName);
-    formData.append("form[file_content]", fileData);
+    formData.append('secret_key', SECRET_KEY);
+    formData.append('form[file_name]', fileName);
+    formData.append('form[file_content]', fileData);
 
     const json = await retry(async () => {
       return got
@@ -43,13 +43,13 @@ const debouncedUpload = async (evt, filePath) => {
 
     if (json.status === `ok`) {
       console.log(
-        `[${dayjs().format("HH:mm:ss")}][${evt}] Файл ${chalk.red(
+        `[${dayjs().format('HH:mm:ss')}][${evt}] Файл ${chalk.red(
           fileName,
-        )} успешно отправлен ${chalk.greenBright("✔️")}`,
+        )} успешно отправлен ${chalk.greenBright('✔️')}`,
       );
 
-      if (fileName.includes("css")) {
-        browserSync.reload("*.css");
+      if (fileName.includes('css')) {
+        browserSync.reload('*.css');
         return;
       }
       browserSync.reload();
@@ -59,7 +59,7 @@ const debouncedUpload = async (evt, filePath) => {
       );
     }
   } catch (e) {
-    console.error("Ошибка загрузки файла:", {
+    console.error('Ошибка загрузки файла:', {
       file: filePath,
       error: e.message,
       stack: e.stack,

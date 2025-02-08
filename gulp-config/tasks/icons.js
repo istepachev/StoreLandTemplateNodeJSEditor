@@ -1,7 +1,7 @@
-import { src, dest } from "gulp";
-import Config from "../const.js";
+import { src, dest } from 'gulp';
+import Config from '../const.js';
 const { Paths } = Config;
-import svgSprite from "gulp-svg-sprite";
+import svgSprite from 'gulp-svg-sprite';
 
 async function icons() {
   return src(Paths.icons.watch)
@@ -9,8 +9,8 @@ async function icons() {
       svgSprite({
         mode: {
           symbol: {
-            dest: ".",
-            sprite: "sprite.svg",
+            dest: '.',
+            sprite: 'sprite.svg',
           },
         },
       }),

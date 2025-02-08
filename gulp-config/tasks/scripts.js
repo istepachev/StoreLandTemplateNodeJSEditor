@@ -1,15 +1,15 @@
-import { src, dest } from "gulp";
-import path from "node:path";
-import Config from "../const.js";
+import { src, dest } from 'gulp';
+import path from 'node:path';
+import Config from '../const.js';
 const {
   Paths,
   dirs: { DEFAULT_FOLDER_NAME },
   env: { IS_BUILD },
 } = Config;
-import plumber from "gulp-plumber";
-import babel from "gulp-babel";
+import plumber from 'gulp-plumber';
+import babel from 'gulp-babel';
 
-async function scripts(evt, filePath = "") {
+async function scripts(evt, filePath = '') {
   const parentFileFolderName = path.basename(path.dirname(filePath));
 
   if (parentFileFolderName === DEFAULT_FOLDER_NAME) {
