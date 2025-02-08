@@ -24,7 +24,7 @@ async function downloadFiles() {
 
   const OPTIONS = {
     body: formData,
-    timeout: { send: 10000 },
+    timeout: { send: 10_000 },
   };
 
   async function getFiles() {
