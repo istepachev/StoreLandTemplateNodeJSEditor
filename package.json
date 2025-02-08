@@ -10,7 +10,8 @@
     "download:code": "cross-env NODE_ENV=development gulp download --code-only",
     "download:all": "cross-env NODE_ENV=development gulp download --all",
     "clean-build-dist": "gulp cleanBuildDist",
-    "move": "cross-env NODE_ENV=production gulp move"
+    "move": "cross-env NODE_ENV=production gulp move",
+    "lint": "eslint ./src/js/main.js"
   },
   "author": "Dmitry Shcheklein",
   "license": "ISC",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.8",
     "@babel/preset-env": "^7.26.8",
+    "@eslint/js": "^9.20.0",
     "browser-sync": "^3.0.3",
     "chalk": "^5.4.1",
     "cross-env": "7.0.3",
@@ -29,6 +31,7 @@
     "eslint": "9.20.0",
     "eslint-config-htmlacademy": "10.0.1",
     "glob": "11.0.1",
+    "globals": "^15.14.0",
     "got": "^14.4.5",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^9.0.0",
