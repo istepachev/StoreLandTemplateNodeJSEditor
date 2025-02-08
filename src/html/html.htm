@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html lang="ru">
 <head>
-  @@include('./_head.html')
+  @@include('./head.html')
 </head>
 <body>
   <h1>@@DESIGN_NAME</h1>
@@ -10,16 +10,16 @@
 
   <div class="wrapper {% IF index_page %}index{% ENDIF %} nojs">
     <!-- Сообщение для инвалидов -->
-    @@include('./_invalids.html')
+    @@include('./invalids.html')
     <!-- /END Сообщение для инвалидов -->
 
     <!-- Шапка -->
-    @@include('./_header.html')
+    @@include('./header.html')
     <!-- /END Шапка -->
     
     <!-- Главная страница-->
     {% IF index_page %}
-      @@include('./pages/index/_index.html')
+      @@include('./pages/index/index.html')
     {% ENDIF %}
     
 

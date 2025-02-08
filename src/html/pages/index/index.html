@@ -1,5 +1,5 @@
 <!-- Преимущества -->
-@@include('./features/_features.html')
+@@include('./features/features.html')
 <!-- /Преимущества -->
 
 <!-- Хиты продаж -->
@@ -51,7 +51,7 @@
 {% ENDIF %}
 
 <!-- Баннеры -->
-@@include('./banners/_banners.html')
+@@include('./banners/banners.html')
 
 <!-- Товары на главной -->
 {% IFNOT index_page_goods_empty %}
@@ -67,7 +67,7 @@
                     <div class="preloader"><span class="content-loading"></span></div>
                     <div class="products-grid owl-carousel">
                         {% FOR index_page_goods %}
-                            @@include('../_templates/goods/_goods.html', {"goods_array_name": "index_page_goods"})
+                            @@include('../components/goods/_goods.html', {"goods_array_name": "index_page_goods"})
                         {% ENDFOR %}
                     </div>
                 </div>
@@ -84,4 +84,4 @@
 </div>
 
 <!-- Новости -->
-@@include('./news/_news.html')
+@@include('./news/news.html')
