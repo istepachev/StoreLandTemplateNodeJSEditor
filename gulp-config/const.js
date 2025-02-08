@@ -49,11 +49,11 @@ const DEFAULT_FOLDER_NAME = `default`;
 const FILE_HTML_TEMPLATE_NAME = "template-variables.json";
 
 const Paths = {
+  dist: `${DIST_DIR}/**/*.*`,
   htmlTemplateJsons: {
     default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
   },
-  dist: `${DIST_DIR}/**/*.*`,
   scripts: {
     watch: [`${BASE_DIR}/**/*.${FilesExtensions.Js}`],
     dest: STATIC_DIR,
