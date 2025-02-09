@@ -55,22 +55,20 @@ const Paths = {
     src: `${BASE_DIR}/${FoldersNames.Html}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
     dest: `${DIST_DIR}/${FoldersNames.Html}`,
-    build: [
-      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
-      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
-    ],
+    build: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
   },
+
   htmlTemplate: {
+    src: `${BASE_DIR}/${FoldersNames.Html}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Html}`,
-    build: [
-      `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Htm}`,
-      `!${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
-    ],
+    build: `${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
   },
+
   htmlTemplateJsons: {
     default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
   },
+  
   scripts: {
     watch: [`${BASE_DIR}/**/*.${FilesExtensions.Js}`],
     dest: STATIC_DIR,
