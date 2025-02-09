@@ -5,9 +5,10 @@ import Config from '../const.js';
 import { getFileIncludeConfig } from '../utils/getFileIncludeConfig.js';
 
 const { Paths } = Config;
-const fileIncludeConfig = await getFileIncludeConfig();
 
 async function html(_, filePath = Paths.htm.default) {
+  const fileIncludeConfig = await getFileIncludeConfig();
+
   return src(filePath, { allowEmpty: true })
     .pipe(plumber())
     .pipe(fileInclude(fileIncludeConfig))
