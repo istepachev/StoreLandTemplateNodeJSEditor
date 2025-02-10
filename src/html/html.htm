@@ -8,51 +8,51 @@
 <body>
   @@include('./_root.html')
 
-  <div class="wrapper">
+  <section class="hero is-fullheight">
     <!-- Шапка -->
     @@include('./components/header/header.html')
     <!-- /END Шапка -->
 
-    <!-- Главная страница-->
-    {% IF index_page %}
-    <!-- @@include('./pages/index/index.html') -->
-    {% ENDIF %}
-
-
-    <!-- Основная часть -->
-    {% IFNOT index_page %}
-    <main class="main">
+    <main class="hero-body is-align-items-start">
       <div class="container">
+
+      <!-- Главная страница-->
+      {% IF index_page %}
+        @@include('./pages/index/index.html')
+      {% ENDIF %}
+
+      <!-- Основная часть -->
+      {% IFNOT index_page %}
         <!-- Хлебные крошки -->
         @@include('./components/breadcrumbs/breadcrumbs.html')
         <!-- /END Хлебные крошки -->
 
         {% IF MOD_LNAME = goods %}
-        {BODY}
-        {% ELSE %}
-        <!-- Левый блок -->
-        <div class="col-md-3 col-xs-12">
-          @@include('./components/sidebar/sidebar.html')
-        </div>
-        <div class="col-md-9 col-xs-12">
-          <!-- Заголовок страницы -->
-          @@include('./components/page-title/page-title.html')
-          <!-- /END Заголовок страницы -->
-
           {BODY}
+        {% ELSE %}
+          <!-- Левый блок -->
+          <div class="col-md-3 col-xs-12">
+            @@include('./components/sidebar/sidebar.html')
+          </div>
+          <div class="col-md-9 col-xs-12">
+            <!-- Заголовок страницы -->
+            @@include('./components/page-title/page-title.html')
+            <!-- /END Заголовок страницы -->
 
-        </div>
+            {BODY}
+
+          </div>
         {% ENDIF %}
+      {% ENDIF %}
+
       </div>
     </main>
-    {% ENDIF %}
     <!-- /END Основная часть -->
 
     <!-- Подвал -->
     @@include('./components/footer/footer.html')
     <!-- /END Подвал -->
-
-  </div>
+  </section>
 
   <!-- SEO -->
   @@include('components/SEO/Organization.html')

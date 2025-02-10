@@ -1,87 +1,45 @@
-<!-- Преимущества -->
-@@include('./features/features.html')
-<!-- /Преимущества -->
-
 <!-- Хиты продаж -->
 {% IFNOT index_page_favorites_goods_empty %}
-<div class="pdt-best products-container index">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="content block-bg">
-                    <div class="block-title">
-                        <h2 class="title">Хиты продаж</h2>
-                        <div class="navigation owl-nav"></div>
-                    </div>
-                    <div class="preloader"><span class="content-loading"></span></div>
-                    <div class="products-grid owl-carousel">
-                        {% FOR index_page_favorites_goods %}
-                            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_favorites_goods"})
-                        {% ENDFOR %}
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="section py-0 px-0 mb-6">
+    <h2 class="title is-4">Хиты продаж</h2>
+    <div class="columns is-multiline">
+        {% FOR index_page_favorites_goods %}
+            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_favorites_goods"})
+        {% ENDFOR %}
     </div>
-</div>
+</section>
 {% ENDIF %}
 
 <!-- Новинки -->
 {% IFNOT index_page_new_goods_empty %}
-<div class="pdt-new products-container index">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="content block-bg">
-                    <div class="block-title">
-                        <h2 class="title">Новинки</h2>
-                        <div class="navigation owl-nav"></div>
-                    </div>
-                    <div class="preloader"><span class="content-loading"></span></div>
-                    <div class="products-grid owl-carousel">
-                        {% FOR index_page_new_goods %}
-                            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_new_goods"})
-                        {% ENDFOR %}
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="section py-0 px-0 mb-6">
+    <h2 class="title is-4">Новинки</h2>
+    <div class="columns is-multiline">
+        {% FOR index_page_new_goods %}
+            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_new_goods"})
+        {% ENDFOR %}
     </div>
-</div>
+</section>
 {% ENDIF %}
-
-<!-- Баннеры -->
-@@include('./banners/banners.html')
 
 <!-- Товары на главной -->
 {% IFNOT index_page_goods_empty %}
-<div class="pdt-index products-container index">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="content block-bg">
-                    <div class="block-title">
-                        <h2 class="title">Товары на главной</h2>
-                        <div class="navigation owl-nav"></div>
-                    </div>
-                    <div class="preloader"><span class="content-loading"></span></div>
-                    <div class="products-grid owl-carousel">
-                        {% FOR index_page_goods %}
-                            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_new_goods"})
-                        {% ENDFOR %}
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="section py-0 px-0 mb-6">
+    <h2 class="title is-4">Товары на главной</h2>
+    <div class="columns is-multiline">
+        {% FOR index_page_goods %}
+            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_goods"})
+        {% ENDFOR %}
     </div>
-</div>
+</section>
 {% ENDIF %}
 
-<div id="main" class="index">
-    <div class="container">
-        {BODY}
-    </div>
-</div>
+<!-- Заголовок страницы и текст -->
+<section class="section py-0 px-0 mb-6">
+    <h1 class="title is-3">{PAGE_TITLE}</h1>
+    <p class="subtitle is-5">{BODY}</p>
+</section>
 
-<!-- Новости -->
-@@include('./news/news.html')
+<!-- Преимущества -->
+@@include('./features/features.html')
+<!-- /Преимущества -->
