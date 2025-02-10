@@ -39,7 +39,7 @@ async function downloadFiles() {
 
         const fileExt = path.extname(file_name).replace('.', '').toLowerCase();
         const codeFileTypes = [
-          ...FilesExtensions.Html.split(', '),
+          ...FilesExtensions.Htm.split(', '),
           ...FilesExtensions.Js.split(', '),
           ...FilesExtensions.Css.split(', '),
         ];
