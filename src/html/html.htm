@@ -27,10 +27,11 @@
         @@include('./components/breadcrumbs/breadcrumbs.html')
         <!-- /END Хлебные крошки -->
 
-        {% IF MOD_LNAME = goods %}
+        {% IF MOD_LNAME = goods || MOD_LNAME = cart%}
           {BODY}
         {% ELSE %}
           <div class="columns">
+
             <!-- Левый блок -->
             <div class="column is-one-quarter">
               @@include('./components/sidebar/sidebar.html')
