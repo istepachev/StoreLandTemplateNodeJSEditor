@@ -1,9 +1,10 @@
 <footer class="footer">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+
+    <div class="columns">
+      <div class="column">
         <h3 class="title">Контакты</h3>
-        <address class="block-contact">
+        <address>
           {% IF SETTINGS_STORE_REGION %}<div><b>Адрес</b> <span>{SETTINGS_STORE_REGION}</span></div>{% ENDIF %}
           {% IF SETTINGS_STORE_WORK_TIME %}<div><b>Режим работы</b> <time>{SETTINGS_STORE_WORK_TIME}</time></div>{% ENDIF %}
           {% IF SETTINGS_STORE_PHONE_NUMBER1 %}<div><b>Телефон 1</b> <a href="tel:@@PHONE_1.Value">@@PHONE_1.Template</a></div>{% ENDIF %}
@@ -14,13 +15,23 @@
         </address>
       </div>
 
-      <!-- Подвал. Копирайт -->
-      <div class="copyright">
-        <div>&copy;{DATE_YEAR} {SETTINGS_STORE_NAME}. Все права защищены.</div>
-        <div>{SETTINGS_STORE_ORG_NAME}.</div>
-        <div>{COPYRIGHT_FOR_DESIGN_THEMENAME}</div>
-        <div style="display: none;">{SETTINGS_STORE_HTML_CODE}</div>
+      <div class="column">
+        <h3 class="title">Давайте дружить</h3>
+        <div class="columns">
+          <div class="column is-half">
+            @@include("../../components/social-icons/social-icons.html")
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Подвал. Копирайт -->
+    <div class="content has-text-centered">
+      <div>&copy;{DATE_YEAR} {SETTINGS_STORE_NAME}. Все права защищены.</div>
+      <div>{SETTINGS_STORE_ORG_NAME}.</div>
+      <div>{COPYRIGHT_FOR_DESIGN_THEMENAME}</div>
+      <div style="display: none;">{SETTINGS_STORE_HTML_CODE}</div>
+    </div>
+
   </div>
 </footer>

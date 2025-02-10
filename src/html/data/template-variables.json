@@ -11,22 +11,5 @@
   "PHONE_3": {
     "Value": "8{SETTINGS_STORE_PHONE_CITY_CODE3}{SETTINGS_STORE_PHONE_NUMBER3}",
     "Template": "{SETTINGS_STORE_PHONE_COUNTRY_CODE3}({SETTINGS_STORE_PHONE_CITY_CODE3}){SETTINGS_STORE_PHONE_NUMBER3}"
-  },
-  "social": [
-    {
-      "name": "facebook",
-      "title": "FaceBook.com",
-      "link": "https://www.facebook.com/"
-    },
-    {
-      "name": "viber",
-      "title": "Viber.com",
-      "link": "https://viber.com/"
-    },
-    {
-      "name": "viber",
-      "title": "VK.com",
-      "link": "https://vk.com/"
-    }
-  ]
+  }
 }
