@@ -61,11 +61,11 @@ const Paths = {
   htmlTemplate: {
     src: `${BASE_DIR}/${FoldersNames.Html}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Html}`,
-    build: `${BASE_DIR}/${FoldersNames.Html}/**/_*.${FilesExtensions.Html}`,
+    build: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Html}`,
   },
 
   htmlTemplateJsons: {
-    default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
+    default: `${BASE_DIR}/${FoldersNames.Html}/data/${FILE_HTML_TEMPLATE_NAME}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
   },
 
