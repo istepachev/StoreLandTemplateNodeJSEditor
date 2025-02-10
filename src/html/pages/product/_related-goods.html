@@ -1,19 +1,10 @@
 {% IFNOT related_goods_empty %}
-<div class="related clear">
-  <div class="container">
-    <div class="row">
-      <div class="related-goods col-xs-12">                                                   
-        <div class="box-up-sell products-container block-bg">
-          <div class="block-title">
-            <h2 class="title">Сопутствующие товары</h2>
-            <div class="navigation owl-nav"></div>
-          </div>
-          <div class="products-grid owl-carousel">
-                @@include('../_templates/goods/_goods.html', {"goods_array_name": "related_goods"})
-          </div>
-        </div>
-      </div>
+<section class="section py-0 px-0 mb-6">
+    <h2 class="title is-4">Сопутствующие товары</h2>
+    <div class="columns is-multiline">
+        {% FOR related_goods %}
+            @@include('../../components/product-card/product-card.html', {"goods_array": "related_goods"})
+        {% ENDFOR %}
     </div>
-  </div>
-</div>
+</section>
 {% ENDIF %} 
