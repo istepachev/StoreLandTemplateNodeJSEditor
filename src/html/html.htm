@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  @@include('./root.html')
+  @@include('./_root.html')
 
   <div class="wrapper">
     <!-- Шапка -->
@@ -20,7 +20,7 @@
 
 
     <!-- Основная часть -->
-    {% IFNOT index_page %}    
+    {% IFNOT index_page %}
     <main class="main">
       <div class="container">
         <!-- Хлебные крошки -->
@@ -28,20 +28,20 @@
         <!-- /END Хлебные крошки -->
 
         {% IF MOD_LNAME = goods %}
-          {BODY}
+        {BODY}
         {% ELSE %}
-          <!-- Левый блок -->
-          <div class="col-md-3 col-xs-12">
-            @@include('./components/sidebar/sidebar.html')
-          </div>
-          <div class="col-md-9 col-xs-12">
-            <!-- Заголовок страницы -->
-            @@include('./components/page-title/page-title.html')
-            <!-- /END Заголовок страницы -->
+        <!-- Левый блок -->
+        <div class="col-md-3 col-xs-12">
+          @@include('./components/sidebar/sidebar.html')
+        </div>
+        <div class="col-md-9 col-xs-12">
+          <!-- Заголовок страницы -->
+          @@include('./components/page-title/page-title.html')
+          <!-- /END Заголовок страницы -->
 
-            {BODY}
+          {BODY}
 
-          </div>
+        </div>
         {% ENDIF %}
       </div>
     </main>
@@ -54,8 +54,12 @@
 
   </div>
 
+  <!-- SEO -->
+  @@include('components/SEO/Organization.html')
+  <!-- /END SEO -->
+
   <!-- Скрипты -->
-  @@include('./components/_scripts.html')
+  @@include('./_scripts.html')
   <!-- /END Скрипты -->
 
 </body>
