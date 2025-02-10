@@ -4,6 +4,26 @@
   box-sizing: border-box;
 }
 
+:root {
+	--color-black: #333333;
+	--color-white: #FFFFFF;
+	--color-border: #ced0d6;
+	--color-gray: #666666;
+	--color-lightgray: #ced0d6;
+	--color-darkgray: #444b5b;
+	--color-primary: #70C062;
+	--color-secondary: #7879F1;
+	--color-tertiary: #FFD968;
+	--color-yellow: #FFD968;
+	--color-red: #FF383E;
+	--color-bg: #F1F1F1;
+	--color-shadow: rgba(201, 208, 230, 0.2);
+	--white-shadow: rgba(255, 255, 255, 0.7);
+
+	scrollbar-color: var(--color-lightgray) var(--color-bg);
+  scrollbar-width: thin;
+}
+
 html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
@@ -21,9 +41,18 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  background-color: #fafafa;
 }
 
+body {
+  background-color: var(--color-white);
+}
+
+/* Тёмная тема */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--bulma-scheme-main);
+  }
+}
 
 /* Подвал. Соц сети */
 .vk {color: #4B729F;}
