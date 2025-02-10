@@ -1,6 +1,3 @@
-import { src } from 'gulp';
-import Config from '../const.js';
-const { Paths } = Config;
 import uploadFile from './uploadFile.js';
 import path from 'path';
 import { glob } from 'glob';

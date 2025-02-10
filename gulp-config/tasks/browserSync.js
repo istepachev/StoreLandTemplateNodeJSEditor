@@ -1,6 +1,7 @@
 import Config from '../const.js';
-const { CURRENT_SITE, PORT } = Config;
 import bs from 'browser-sync';
+
+const { CURRENT_SITE, PORT } = Config;
 
 const browserSync = bs.create();
 

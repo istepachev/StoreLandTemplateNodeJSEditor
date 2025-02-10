@@ -4,6 +4,7 @@ import plumber from 'gulp-plumber';
 import autoprefixer from 'gulp-autoprefixer';
 import cleancss from 'gulp-clean-css';
 import Config from '../const.js';
+
 const { IS_BUILD, Paths } = Config;
 
 async function styles(_, filePath = '') {
@@ -11,7 +12,7 @@ async function styles(_, filePath = '') {
   const cssPath = `${Paths.styles.src}/${fileName}`;
   const PATH = IS_BUILD ? Paths.styles.build : cssPath;
 
-  src(PATH)
+  return src(PATH)
     .pipe(plumber())
     .pipe(autoprefixer(getAutoprefixerConfig()))
     .pipe(cleancss(getCleanCssConfig()))

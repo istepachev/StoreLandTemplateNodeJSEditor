@@ -1,16 +1,16 @@
 import Config from '../const.js';
-const {
-  dirs: { DOWNLOAD_DIR },
-  FilesExtensions,
-  ApiUrls,
-} = Config;
-import { SECRET_KEY } from './config-check.js';
 import * as fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
 import got from 'got';
 import { deleteSync } from 'del';
 import minimist from 'minimist';
+
+const {
+  dirs: { DOWNLOAD_DIR },
+  FilesExtensions,
+  ApiUrls,
+} = Config;
 
 async function downloadFiles() {
   const argv = minimist(process.argv.slice(2));

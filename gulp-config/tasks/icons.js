@@ -1,7 +1,8 @@
 import { src, dest } from 'gulp';
 import Config from '../const.js';
-const { Paths } = Config;
 import svgSprite from 'gulp-svg-sprite';
+
+const { Paths } = Config;
 
 async function icons() {
   return src(Paths.icons.watch)

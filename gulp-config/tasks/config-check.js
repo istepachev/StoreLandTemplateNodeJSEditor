@@ -1,7 +1,8 @@
 import Config from '../const.js';
-const { CURRENT_SITE, SECRET_KEY, PORT, API_BASE_URL } = Config;
 import chalk from 'chalk';
 import { validateEnv } from '../utils/validateEnv.js';
+
+const { CURRENT_SITE, SECRET_KEY, PORT, API_BASE_URL } = Config;
 
 async function checkConfig() {
   validateEnv();
@@ -30,4 +31,4 @@ async function checkConfig() {
   console.log('\n' + chalk.green('✔️  Все проверки пройдены успешно\n'));
 }
 
-export { checkConfig, SECRET_KEY };
+export default checkConfig;

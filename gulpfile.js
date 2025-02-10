@@ -11,7 +11,7 @@ import htmlTemplate from "./gulp-config/tasks/htmlTemplate.js";
 import htmlTemplateJsons from "./gulp-config/tasks/htmlTemplateJsons.js";
 import images from "./gulp-config/tasks/images.js";
 import icons from "./gulp-config/tasks/icons.js";
-import { checkConfig } from "./gulp-config/tasks/config-check.js";
+import checkConfig from "./gulp-config/tasks/config-check.js";
 import downloadFiles from "./gulp-config/tasks/downloadFiles.js";
 import uploadFile from "./gulp-config/tasks/uploadFile.js";
 import startWatch from "./gulp-config/tasks/watch.js";

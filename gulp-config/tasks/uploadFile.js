@@ -3,10 +3,10 @@ import fs from 'node:fs/promises';
 import chalk from 'chalk';
 import dayjs from 'dayjs';
 import Config from '../const.js';
-const { ApiUrls } = Config;
 import { browserSync } from './browserSync.js';
-import { SECRET_KEY } from './config-check.js';
 import got from 'got';
+
+const { ApiUrls, SECRET_KEY } = Config;
 
 async function retry(fn, retries = 3, delay = 1000) {
   try {
@@ -18,7 +18,7 @@ async function retry(fn, retries = 3, delay = 1000) {
   }
 }
 
-const debouncedUpload = async (evt, filePath) => {
+const uploadFile = async (evt, filePath) => {
   try {
     const fileName = path.basename(filePath);
     const fileHandle = await fs.open(`${filePath}`, 'r+');
@@ -66,9 +66,5 @@ const debouncedUpload = async (evt, filePath) => {
     });
   }
 };
-
-async function uploadFile(evt, filePath) {
-  return debouncedUpload(evt, filePath);
-}
 
 export default uploadFile;

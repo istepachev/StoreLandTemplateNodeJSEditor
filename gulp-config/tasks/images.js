@@ -1,8 +1,9 @@
 import { src, dest } from 'gulp';
 import Config from '../const.js';
-const { Paths } = Config;
 import newer from 'gulp-newer';
 import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
+
+const { Paths } = Config;
 
 async function images() {
   return src([Paths.images.watch])

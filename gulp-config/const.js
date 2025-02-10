@@ -68,7 +68,7 @@ const Paths = {
     default: `${BASE_DIR}/${FoldersNames.Html}/${FILE_HTML_TEMPLATE_NAME}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
   },
-  
+
   scripts: {
     watch: [`${BASE_DIR}/**/*.${FilesExtensions.Js}`],
     dest: STATIC_DIR,
