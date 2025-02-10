@@ -1,8 +1,8 @@
-async function htmlTemplate(_, filePath = Paths.htmlTemplate.default) {
-  return src(filePath, { allowEmpty: true })
-    .pipe(plumber())
-    .pipe(fileInclude(fileIncludeConfig))
-    .pipe(dest(Paths.htm.dest));
+import { src } from 'gulp';
+import plumber from 'gulp-plumber';
+
+async function htmlTemplate(_, filePath) {
+  return src(filePath, { allowEmpty: true }).pipe(plumber());
 }
 
 export default htmlTemplate;
