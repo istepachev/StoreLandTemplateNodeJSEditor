@@ -1,0 +1,63 @@
+{% IFNOT index_page %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Главная",
+      "item": "{INDEX_PAGE_URL}"
+    }
+    {% IF MOD_LNAME=cart %},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{% IF cart_items_empty %}Корзина покупок пуста{% ELSE %}Корзина{% ENDIF %}",
+      "item": "{CART_URL}"
+    }
+    {% ELSEIF MOD_LNAME=user && ACT=login %},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Войти или зарегистрироваться"
+    }
+    {% ELSEIF MOD_LNAME=user && ACT=change %},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Восстановление пароля",
+      "item": "{USER_RECOVERY_URL}"
+    },
+    {
+      "@type": "ListItem", 
+      "position": 3,
+      "name": "Активация нового пароля"
+    }
+    {% ELSEIF MOD_LNAME=goods %},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Каталог",
+      "item": "{CATALOG_URL}"
+    }
+    {% FOR upper_navigation %},
+    {
+      "@type": "ListItem",
+      "position": {upper_navigation.LEVEL | plus('3')},
+      "name": "{upper_navigation.NAME}",
+      "item": "{upper_navigation.URL}"
+    }
+    {% ENDFOR %}
+    ,{
+      "@type": "ListItem",
+      "position": {% FOR upper_navigation %}{%IF upper_navigation.last%}{upper_navigation.index | plus("3")}{%ENDIF%}{%ENDFOR%},
+      "name": "{GOODS_NAME}"
+    }
+    {% ENDIF %}
+  ]
+}
+</script>
+{% ENDIF %}
+    

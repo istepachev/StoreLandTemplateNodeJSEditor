@@ -45,6 +45,12 @@
           <li><a href="{USER_SETTINGS_URL}">Личный кабинет</a></li>
           <li><a href="{USER_HISTORY_LIST_URL}">Мои заказы</a></li>
           <li class="is-active"><a aria-current="page">Карточка заказа</a></li>
+        {% ELSEIF ACT=change %}
+          <li><a href="{USER_SETTINGS_URL}">Личный кабинет</a></li>
+          <li class="is-active"><a aria-current="page">Восстановление пароля</a></li>
+        {% ELSEIF ACT=recovery %}
+          <li><a href="{USER_SETTINGS_URL}">Личный кабинет</a></li>
+          <li class="is-active"><a aria-current="page">Восстановление пароля</a></li>
         {% ENDIF %}
 
       {% ELSEIF MOD_LNAME=order %}
@@ -76,6 +82,24 @@
 
       {% ELSEIF MOD_LNAME=page %}
         <li class="is-active"><a href="{CURRENT_URL}" aria-current="page">{PAGE_NAME}</a></li>
+
+      {% ELSEIF MOD_LNAME=discount %}
+        {% IF ACT=index && ID %}
+          <li><a href="{DISCOUNT_URL}">Акции магазина</a></li>
+          <li class="is-active"><a aria-current="page">{PROMOTIONAL_CAMPAIGN_NAME}</a></li>
+        {% ELSEIF ACT=index %}
+          <li class="is-active"><a aria-current="page">Акции магазина</a></li>
+        {% ENDIF %}
+
+      {% ELSEIF MOD_LNAME=callback %}
+        <li class="is-active"><a aria-current="page">Заказ обратного звонка</a></li>
+
+      {% ELSEIF MOD_LNAME= %}
+        <li class="is-active"><a aria-current="page">Внутренняя ошибка сервера</a></li>
+
+      {% ELSEIF CURRENT_URL=NEWS_SHOP_URL || CURRENT_URL=NEWS_ARTICLES_URL || CURRENT_URL=NEWS_MASS_MEDIA_URL || CURRENT_URL=NEWS_ALL_URL %}
+        <li><a href="{NEWS_SECTION_URL}">{NEWS_SECTION_NAME}</a></li>
+        <li class="is-active"><a href="{CURRENT_URL}" aria-current="page">{NEWS_TITLE}</a></li>
 
       {% ENDIF %}
     </ul>
