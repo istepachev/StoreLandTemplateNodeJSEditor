@@ -27,7 +27,7 @@
         @@include('./components/breadcrumbs/breadcrumbs.html')
         <!-- /END Хлебные крошки -->
 
-        {% IF MOD_LNAME = goods || MOD_LNAME = cart%}
+        {% IF MOD_LNAME = goods || MOD_LNAME = cart || MOD_LNAME = feedback %}
           {BODY}
         {% ELSE %}
           <div class="columns">
