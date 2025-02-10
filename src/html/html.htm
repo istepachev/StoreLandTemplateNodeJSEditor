@@ -6,17 +6,9 @@
 </head>
 
 <body>
-  <h1>123</h1>
-  <h1>@@DESIGN_NAME</h1>
-  <h1>@@tel1.num</h1>
-  <h1>@@tel2.num</h1>
+  @@include('./root.html')
 
-  <div class="wrapper {% IF index_page %}index{% ENDIF %} nojs">
-    <!-- Сообщение для инвалидов -->
-    @@include('./_invalids.html')
-    <!-- /END Сообщение для инвалидов -->
-
-
+  <div class="wrapper">
     <!-- Шапка -->
     @@include('./components/header/header.html')
     <!-- /END Шапка -->
@@ -28,28 +20,21 @@
 
 
     <!-- Основная часть -->
-    {% IFNOT index_page %}
-    <!-- Хлебные крошки -->
-    @@include('./components/breadcrumbs/breadcrumbs.html')
-    <!-- /END Хлебные крошки -->
-
-    <div id="main">
+    {% IFNOT index_page %}    
+    <main class="main">
       <div class="container">
-        <div class="block-bg">
-          {% IF MOD_LNAME = goods %}
-            {BODY}
-          {% ELSE %}
+        <!-- Хлебные крошки -->
+        @@include('./components/breadcrumbs/breadcrumbs.html')
+        <!-- /END Хлебные крошки -->
+
+        {% IF MOD_LNAME = goods %}
+          {BODY}
+        {% ELSE %}
           <!-- Левый блок -->
-          {% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites ||
-          MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news ||
-          MOD_LNAME = compare %}
-          <div class="col-md-3 col-xs-12 col-left">
+          <div class="col-md-3 col-xs-12">
             @@include('./components/sidebar/sidebar.html')
           </div>
-          {% ENDIF %}
-          <div
-            class="{% IF MOD_LNAME = catalog || MOD_LNAME = user && ACT= settings || MOD_LNAME = user && ACT= favorites || MOD_LNAME = user && ACT= history_list || MOD_LNAME = discount || MOD_LNAME = search || MOD_LNAME = news || MOD_LNAME = compare%}col-md-9 col-xs-12 col-right{% ELSE %}col-xs-12{% ENDIF %}">
-
+          <div class="col-md-9 col-xs-12">
             <!-- Заголовок страницы -->
             @@include('./components/page-title/page-title.html')
             <!-- /END Заголовок страницы -->
@@ -57,12 +42,10 @@
             {BODY}
 
           </div>
-        </div>
         {% ENDIF %}
       </div>
-    </div>
+    </main>
     {% ENDIF %}
-
     <!-- /END Основная часть -->
 
     <!-- Подвал -->
@@ -70,6 +53,10 @@
     <!-- /END Подвал -->
 
   </div>
+
+  <!-- Скрипты -->
+  @@include('./components/_scripts.html')
+  <!-- /END Скрипты -->
 
 </body>
 
