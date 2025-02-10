@@ -10,12 +10,12 @@
   <div class="container">
     <div class="columns is-multiline">
       {% FOR nested_categories_list %}
-        <div class="column is-3">
+        <div class="column is-2">
           <div class="card">
             <div class="card-image">
-              <figure class="image is-2by3">
+              <figure class="image is-1by1">
                 <a href="{nested_categories_list.URL}" title="Перейти к категории «{nested_categories_list.NAME}»">
-                  <img src="{% IF nested_categories_list.IMAGE_EMPTY %}{ASSETS_IMAGES_PATH}no-photo-medium.png?design=techno{% ELSE %}{nested_categories_list.IMAGE_MEDIUM}{% ENDIF %}">
+                  <img src="{% IF nested_categories_list.IMAGE_EMPTY %}{ASSETS_IMAGES_PATH}no-photo-medium.png?design=techno{% ELSE %}{nested_categories_list.IMAGE_MEDIUM}{% ENDIF %}" style="object-fit: contain;">
                 </a>
               </figure>
             </div>
