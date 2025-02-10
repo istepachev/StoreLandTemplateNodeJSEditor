@@ -30,17 +30,19 @@
         {% IF MOD_LNAME = goods %}
           {BODY}
         {% ELSE %}
-          <!-- Левый блок -->
-          <div class="col-md-3 col-xs-12">
-            @@include('./components/sidebar/sidebar.html')
-          </div>
-          <div class="col-md-9 col-xs-12">
-            <!-- Заголовок страницы -->
-            @@include('./components/page-title/page-title.html')
-            <!-- /END Заголовок страницы -->
+          <div class="columns">
+            <!-- Левый блок -->
+            <div class="column is-one-quarter">
+              @@include('./components/sidebar/sidebar.html')
+            </div>
+            <!-- Основной контент -->
+            <div class="column">
+              <!-- Заголовок страницы -->
+              @@include('./components/page-title/page-title.html')
+              <!-- /END Заголовок страницы -->
 
-            {BODY}
-
+              {BODY}
+            </div>
           </div>
         {% ENDIF %}
       {% ENDIF %}

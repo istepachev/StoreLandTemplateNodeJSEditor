@@ -7,14 +7,15 @@
       
       <div class="card-image">
         <figure class="image is-4by3">
-          <img src="
-              {% IF @@goods_array.IMAGE_EMPTY %}
-                {ASSETS_IMAGES_PATH}no-photo-small.png?design=@@DESIGN_NAME
-              {% ELSE %}
-                {@@goods_array.IMAGE_MEDIUM}
-              {% ENDIF %}"
-              style="object-fit: contain;" 
-              alt="{@@goods_array.NAME}">
+          <img
+            {% IF @@goods_array.IMAGE_EMPTY %}
+              src="{ASSETS_IMAGES_PATH}no-photo-small.png?design=@@DESIGN_NAME"
+            {% ELSE %}
+              src="{@@goods_array.IMAGE_MEDIUM}"
+            {% ENDIF %}
+            style="object-fit: contain;" 
+            alt="{@@goods_array.NAME}"
+            >
         </figure>
       </div>
       

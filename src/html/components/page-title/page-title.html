@@ -27,9 +27,9 @@
     Результат поиска по запросу: {% IFNOT search_query_empty %}&laquo;{SEARCH_QUERY}&raquo;{% ENDIF %}
     {% IFNOT search_query_empty %} <span>({GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")} найд{GOODS_PAGES_RESULTS | gen_word_end("ен","ено","ено")} по запросу)</span>{% ENDIF %}
   {% ELSEIF MOD_LNAME=discount && ACT=index && ID %}
-    {PROMOTIONAL_CAMPAIGN_NAME} <h5 class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</h5>
+    {PROMOTIONAL_CAMPAIGN_NAME} <span class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</span>
   {% ELSEIF MOD_LNAME=discount && ACT=index %}
-    Акции{% IF PROMOTION_CAMPAIGN_PAGES_RESULTS %}<h5 class="result">{PROMOTION_CAMPAIGN_PAGES_RESULTS} акци{PROMOTION_CAMPAIGN_PAGES_RESULTS | gen_word_end("я","и","ий")}</h5>{% ENDIF %}
+    Акции{% IF PROMOTION_CAMPAIGN_PAGES_RESULTS %}<span class="result">{PROMOTION_CAMPAIGN_PAGES_RESULTS} акци{PROMOTION_CAMPAIGN_PAGES_RESULTS | gen_word_end("я","и","ий")}</span>{% ENDIF %}
   {% ELSEIF MOD_LNAME=feedback %}
     Связь с администрацией
   {% ELSEIF CURRENT_URL=NEWS_SHOP_URL || CURRENT_URL=NEWS_ARTICLES_URL || CURRENT_URL=NEWS_MASS_MEDIA_URL %}
@@ -40,22 +40,13 @@
     {% IF compare_list_empty %}Ваш список сравнения пуст{% ELSE %}Сравнение товаров{% ENDIF %}
   {% ELSEIF MOD_LNAME=page %}
     {PAGE_NAME}
-  {% ELSEIF MOD_LNAME= %}
-    Внутренняя ошибка сервера. {MSG_HEADER}
   {% ELSEIF MOD_LNAME=callback %}
     Заказ обратного звонка
   {% ELSEIF MOD_LNAME=cart %}
     {% IF cart_items_empty %}
       Корзина покупок пуста
     {% ELSE %}
-      <button type="button" class="title-tab" id="closeOrderTab">
-        <span class="title-step">1.</span>
-        Корзина
-      </button>                        
-      <button type="button" class="title-tab disabled" id="startOrderTab">
-        <span class="title-step">2.</span>
-        Оформить заказ
-      </button>
+      Корзина
     {% ENDIF %}
   {% ELSEIF MOD_LNAME=catalog %}
     {% IF IS_FULL_CATALOG %}
@@ -68,7 +59,9 @@
       {% ENDIF %}
     {% ENDIF %}
     {% IF GOODS_PAGES_RESULTS > 0 %}
-      <h5 class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</h5>
+      <span class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</span>
     {% ENDIF %}
+  {% ELSE %}
+    {PAGE_TITLE}
   {% ENDIF %}
 </h1>

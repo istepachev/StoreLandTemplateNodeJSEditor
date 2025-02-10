@@ -4,7 +4,7 @@
     <h2 class="title is-4">Хиты продаж</h2>
     <div class="columns is-multiline">
         {% FOR index_page_favorites_goods %}
-            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_favorites_goods"})
+            @@include('../../components/product-card/product-card.html', {"goods_array": "index_page_favorites_goods"})
         {% ENDFOR %}
     </div>
 </section>
@@ -16,7 +16,7 @@
     <h2 class="title is-4">Новинки</h2>
     <div class="columns is-multiline">
         {% FOR index_page_new_goods %}
-            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_new_goods"})
+            @@include('../../components/product-card/product-card.html', {"goods_array": "index_page_new_goods"})
         {% ENDFOR %}
     </div>
 </section>
@@ -28,7 +28,7 @@
     <h2 class="title is-4">Товары на главной</h2>
     <div class="columns is-multiline">
         {% FOR index_page_goods %}
-            @@include('../../components/product-item/product-item-table/product-item-table.html', {"goods_array": "index_page_goods"})
+            @@include('../../components/product-card/product-card.html', {"goods_array": "index_page_goods"})
         {% ENDFOR %}
     </div>
 </section>
