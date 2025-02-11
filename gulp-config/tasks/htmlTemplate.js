@@ -1,8 +1,79 @@
-import { src } from 'gulp';
+import { src, dest } from 'gulp';
 import plumber from 'gulp-plumber';
+import path from 'path';
+import * as glob from 'glob';
+import Config from '../const.js';
+import html from './htm.js';
+import fs from 'fs';
+
+const { Paths } = Config;
+
+// Получаем имя файла из пути
+function getComponentName(filePath) {
+  return path.basename(filePath);
+}
+
+// Проверяем, включает ли файл компонент
+function fileIncludesComponent(filePath, componentName) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    return content.includes(`@@include`) && content.includes(componentName);
+  } catch (e) {
+    return false;
+  }
+}
+
+// Рекурсивно собираем все файлы, зависящие от компонента
+function findDependentFiles(componentName, checkedFiles = new Set()) {
+  const htmlFiles = glob.sync(path.join(Paths.htmlTemplate.src, '**/*.html'));
+  const htmFiles = glob.sync(path.join(Paths.htm.src, '**/*.htm'));
+  const allFiles = [...htmlFiles, ...htmFiles];
+
+  const directDependencies = allFiles.filter((file) => {
+    if (checkedFiles.has(file)) {
+      console.log(file, componentName);
+    }
+    if (checkedFiles.has(file)) return false;
+    checkedFiles.add(file);
+    const isInclude = fileIncludesComponent(file, componentName);
+    return isInclude;
+  });
+
+  const result = [...directDependencies];
+
+  // Рекурсивно ищем файлы, которые включают найденные зависимости
+  for (const file of directDependencies) {
+    const fileName = getComponentName(file);
+    const nestedDeps = findDependentFiles(fileName, checkedFiles);
+    result.push(...nestedDeps);
+  }
+
+  return result;
+}
 
 async function htmlTemplate(_, filePath) {
-  return src(filePath, { allowEmpty: true }).pipe(plumber());
+  if (!filePath) {
+    filePath = Paths.htmlTemplate.build;
+    return src(filePath, { allowEmpty: true }).pipe(plumber());
+  }
+
+  const componentName = getComponentName(filePath);
+  console.log('Changed component:', componentName);
+
+  // Находим все файлы, зависящие от измененного компонента
+  const affectedFiles = findDependentFiles(componentName).filter((file) =>
+    file.endsWith('.htm'),
+  );
+
+  console.log('Affected files:', affectedFiles);
+
+  if (affectedFiles.length === 0) {
+    return src(filePath, { allowEmpty: true }).pipe(plumber());
+  }
+
+  // Перегенерируем затронутые файлы
+  const tasks = affectedFiles.map((file) => html(_, file));
+  return Promise.all(tasks);
 }
 
 export default htmlTemplate;
