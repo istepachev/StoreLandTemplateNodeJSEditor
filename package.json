@@ -11,7 +11,8 @@
     "download:all": "cross-env NODE_ENV=development gulp download --all",
     "clean-build-dist": "gulp cleanBuildDist",
     "move": "cross-env NODE_ENV=production gulp move",
-    "lint": "eslint ./src/js/main.js"
+    "lint": "eslint ./src/js/main.js",
+    "dev:watch": "nodemon"
   },
   "author": "Dmitry Shcheklein",
   "license": "ISC",
@@ -50,6 +51,7 @@
     "joi": "^17.13.3",
     "minimist": "^1.2.8",
     "node-notifier": "^10.0.1",
+    "nodemon": "^3.1.9",
     "prettier": "^3.4.2"
   },
   "dependencies": {
