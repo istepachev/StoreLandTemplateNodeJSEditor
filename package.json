@@ -7,12 +7,10 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp",
     "build": "cross-env NODE_ENV=production gulp build",
+    "dev:watch": "nodemon",
     "download:code": "cross-env NODE_ENV=development gulp download --code-only",
     "download:all": "cross-env NODE_ENV=development gulp download --all",
-    "clean-build-dist": "gulp cleanBuildDist",
-    "move": "cross-env NODE_ENV=production gulp move",
-    "lint": "eslint ./src/js/main.js",
-    "dev:watch": "nodemon"
+    "lint": "eslint ./src/js/main.js"
   },
   "author": "Dmitry Shcheklein",
   "license": "ISC",
