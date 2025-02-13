@@ -75,7 +75,6 @@ const Paths = {
     build: [`${BASE_DIR}/${FoldersNames.Js}/**/*.${FilesExtensions.Js}`],
   },
   styles: {
-    src: `${BASE_DIR}/${FoldersNames.Css}`,
     watch: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
     dest: STATIC_DIR,
     build: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
