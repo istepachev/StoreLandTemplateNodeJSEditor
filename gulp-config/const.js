@@ -70,14 +70,14 @@ const Paths = {
   },
 
   scripts: {
-    watch: [`${BASE_DIR}/**/*.${FilesExtensions.Js}`],
+    watch: `${BASE_DIR}/**/*.${FilesExtensions.Js}`,
     dest: STATIC_DIR,
-    build: [`${BASE_DIR}/${FoldersNames.Js}/**/*.${FilesExtensions.Js}`],
+    build: `${BASE_DIR}/${FoldersNames.Js}/**/*.${FilesExtensions.Js}`,
   },
   styles: {
-    watch: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
+    watch: `${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`,
     dest: STATIC_DIR,
-    build: [`${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`],
+    build: `${BASE_DIR}/${FoldersNames.Css}/**/*.${FilesExtensions.Css}`,
   },
   fonts: {
     watch: `${BASE_DIR}/${FoldersNames.Fonts}/**/*.{${FilesExtensions.Fonts}}`,
