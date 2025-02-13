@@ -16,7 +16,7 @@ function browserSyncTask() {
         },
       ],
     },
-    online: true, // If «false» - Browser-sync will work offline without internet connection
+    online: true,
     injectChanges: true,
     open: false,
     port: PORT,
