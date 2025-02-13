@@ -13,7 +13,7 @@ import {
   images,
   icons,
   uploadFile,
-} from '../../gulpfile.js';
+} from './index.js';
 
 function startWatch() {
   watch(Paths.styles.watch).on('all', styles);
