@@ -7,6 +7,7 @@ import { deleteSync } from 'del';
 import minimist from 'minimist';
 
 const {
+  SECRET_KEY,
   dirs: { DOWNLOAD_DIR },
   FilesExtensions,
   ApiUrls,
