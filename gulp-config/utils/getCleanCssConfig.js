@@ -1,5 +1,7 @@
 export function getCleanCssConfig() {
   return {
+    keepSpecialComments: '*', // сохраняет все комментарии
+    level: 0, // отключает оптимизацию, которая может удалять комментарии
     format: {
       breaks: {
         // controls where to insert breaks
@@ -17,12 +19,12 @@ export function getCleanCssConfig() {
       indentBy: 0, // controls number of characters to indent with; defaults to `0`
       indentWith: 'space', // controls a character to indent with, can be `'space'` or `'tab'`; defaults to `'space'`
       spaces: {
-        // controls where to insert spaces
-        aroundSelectorRelation: true, // controls if spaces come around selector relations; e.g. `div > a`; defaults to `false`
-        beforeBlockBegins: true, // controls if a space comes before a block begins; e.g. `.block {`; defaults to `false`
-        beforeValue: true, // controls if a space comes before a value; e.g. `width: 1rem`; defaults to `false`
+        aroundSelectorRelation: true,
+        beforeBlockBegins: true,
+        beforeValue: true,
       },
-      wrapAt: false, // controls maximum line length; defaults to `false`
+      wrapAt: false,
+      semicolonAfterLastProperty: true,
     },
   };
 }
