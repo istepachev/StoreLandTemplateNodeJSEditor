@@ -2,7 +2,7 @@ import { browserSyncTask } from './browserSync.js';
 import fonts from './fonts.js';
 import scripts from './scripts.js';
 import styles from './styles.js';
-import cleanBuildDist from './clean-build-dist.js';
+import cleanDir from './clean-dir.js';
 import htm from './htm.js';
 import htmlTemplate from './htmlTemplate.js';
 import htmlTemplateJsons from './htmlTemplateJsons.js';
@@ -26,7 +26,7 @@ export {
   uploadFile,
   htmlTemplate,
   htmlTemplateJsons,
-  cleanBuildDist,
+  cleanDir,
   checkConfig,
   downloadFiles,
   buildProject,
