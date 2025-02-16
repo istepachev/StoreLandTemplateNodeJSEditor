@@ -46,12 +46,6 @@ function findDependentFiles(componentName, checkedFiles = new Set()) {
   const result = [...directDependencies];
 
   // Среди html файлов ищем их шаблонов родителей
-  console.log(
-    directDependencies.filter((file) =>
-      file.endsWith(`.${FilesExtensions.Html}`),
-    ),
-  );
-
   directDependencies
     .filter((file) => file.endsWith(`.${FilesExtensions.Html}`))
     .forEach((file) => {
