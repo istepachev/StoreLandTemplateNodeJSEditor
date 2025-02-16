@@ -3,7 +3,7 @@
     <h2 class="title is-4">С этим товаром смотрят</h2>
     <div class="columns is-multiline">
         {% FOR related_views_goods %}
-            @@include('../../components/product-card/product-card.html', {"goods_array": "related_views_goods"})
+            @@include('../../../components/product-card/product-card.html', {"goods_array": "related_views_goods"})
         {% ENDFOR %}
     </div>
 </section>
