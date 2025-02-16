@@ -23,7 +23,7 @@ function fileIncludesComponent(filePath, componentName) {
   }
 }
 
-// Рекурсивно собираем все файлы, зависящие от компонента
+// Ищем все файлы, зависящие от компонента
 function findDependentFiles(componentName, checkedFiles = new Set()) {
   const htmlFiles = glob.sync(
     path.join(Paths.htmlTemplate.src, `**/*.${FilesExtensions.Html}`),
@@ -34,7 +34,9 @@ function findDependentFiles(componentName, checkedFiles = new Set()) {
   const allFiles = [...htmlFiles, ...htmFiles];
 
   const directDependencies = allFiles.filter((file) => {
-    if (checkedFiles.has(file)) return false;
+    if (checkedFiles.has(file)) {
+      return false;
+    }
     checkedFiles.add(file);
     const isInclude = fileIncludesComponent(file, componentName);
 
@@ -43,12 +45,23 @@ function findDependentFiles(componentName, checkedFiles = new Set()) {
 
   const result = [...directDependencies];
 
-  // Рекурсивно ищем файлы, которые включают найденные зависимости
-  for (const file of directDependencies) {
-    const fileName = getComponentName(file);
-    const nestedDeps = findDependentFiles(fileName, checkedFiles);
-    result.push(...nestedDeps);
-  }
+  // Среди html файлов ищем их шаблонов родителей
+  console.log(
+    directDependencies.filter((file) =>
+      file.endsWith(`.${FilesExtensions.Html}`),
+    ),
+  );
+
+  directDependencies
+    .filter((file) => file.endsWith(`.${FilesExtensions.Html}`))
+    .forEach((file) => {
+      const fileName = getComponentName(file);
+      const nestedDeps = allFiles.filter((file) =>
+        fileIncludesComponent(file, fileName),
+      );
+
+      result.push(...nestedDeps);
+    });
 
   return result;
 }
