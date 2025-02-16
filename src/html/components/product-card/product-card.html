@@ -29,11 +29,6 @@
         </p>
         
         <p class="subtitle is-6">
-          {% IF @@goods_array.MIN_PRICE_NOW_WITHOUT_DISCOUNT>@@goods_array.MIN_PRICE_NOW %}
-            <span class="has-text-grey-light has-text-line-through mr-2">
-              {@@goods_array.MIN_PRICE_NOW_WITHOUT_DISCOUNT | money_format}
-            </span>
-          {% ENDIF %}
           <span>{@@goods_array.MIN_PRICE_NOW | money_format}</span> 
         </p>
         

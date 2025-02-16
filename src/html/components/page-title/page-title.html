@@ -29,7 +29,7 @@
   {% ELSEIF MOD_LNAME=discount && ACT=index && ID %}
     {PROMOTIONAL_CAMPAIGN_NAME} <span class="result">{GOODS_PAGES_RESULTS} товар{GOODS_PAGES_RESULTS | gen_word_end("","а","ов")}</span>
   {% ELSEIF MOD_LNAME=discount && ACT=index %}
-    Акции{% IF PROMOTION_CAMPAIGN_PAGES_RESULTS %}<span class="result">{PROMOTION_CAMPAIGN_PAGES_RESULTS} акци{PROMOTION_CAMPAIGN_PAGES_RESULTS | gen_word_end("я","и","ий")}</span>{% ENDIF %}
+    Акции {% IF PROMOTION_CAMPAIGN_PAGES_RESULTS %}<span class="result">{PROMOTION_CAMPAIGN_PAGES_RESULTS} акци{PROMOTION_CAMPAIGN_PAGES_RESULTS | gen_word_end("я","и","ий")}</span>{% ENDIF %}
   {% ELSEIF MOD_LNAME=feedback %}
     Связь с администрацией
   {% ELSEIF CURRENT_URL=NEWS_SHOP_URL || CURRENT_URL=NEWS_ARTICLES_URL || CURRENT_URL=NEWS_MASS_MEDIA_URL %}
