@@ -5,7 +5,7 @@ import styles from './styles.js';
 import cleanDir from './clean-dir.js';
 import htm from './htm.js';
 import htmlTemplate from './htmlTemplate.js';
-import htmlTemplateJsons from './htmlTemplateJsons.js';
+import htmlTemplateJson from './htmlTemplateJson.js';
 import images from './images.js';
 import icons from './icons.js';
 import checkConfig from './config-check.js';
@@ -25,7 +25,7 @@ export {
   icons,
   uploadFile,
   htmlTemplate,
-  htmlTemplateJsons,
+  htmlTemplateJson,
   cleanDir,
   checkConfig,
   downloadFiles,

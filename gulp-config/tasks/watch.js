@@ -8,7 +8,7 @@ import {
   scripts,
   styles,
   htmlTemplate,
-  htmlTemplateJsons,
+  htmlTemplateJson,
   htm,
   images,
   icons,
@@ -22,7 +22,7 @@ function startWatch() {
   watch(Paths.fonts.watch).on('all', fonts);
   watch(Paths.htm.watch).on('all', htm);
   watch(Paths.htmlTemplate.watch).on('all', htmlTemplate);
-  watch(Paths.htmlTemplateJsons.watch).on('all', htmlTemplateJsons);
+  watch(Paths.htmlTemplateJson.watch).on('all', htmlTemplateJson);
   watch(Paths.scripts.watch).on('all', scripts);
 
   watch(Paths.dist).on('all', uploadFile);

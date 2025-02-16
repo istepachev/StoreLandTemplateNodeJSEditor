@@ -64,7 +64,7 @@ const Paths = {
     build: `${BASE_DIR}/${FoldersNames.Html}/**/*.${FilesExtensions.Html}`,
   },
 
-  htmlTemplateJsons: {
+  htmlTemplateJson: {
     default: `${BASE_DIR}/${FoldersNames.Html}/data/${FILE_HTML_TEMPLATE_NAME}`,
     watch: `${BASE_DIR}/${FoldersNames.Html}/**/*.json`,
   },
