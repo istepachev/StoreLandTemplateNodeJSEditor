@@ -1,4 +1,4 @@
-import { src, dest } from 'gulp';
+import { src } from 'gulp';
 import plumber from 'gulp-plumber';
 import path from 'path';
 import * as glob from 'glob';
@@ -6,7 +6,7 @@ import Config from '../const.js';
 import html from './htm.js';
 import fs from 'fs';
 
-const { Paths } = Config;
+const { FilesExtensions, Paths } = Config;
 
 // Получаем имя файла из пути
 function getComponentName(filePath) {
@@ -25,17 +25,19 @@ function fileIncludesComponent(filePath, componentName) {
 
 // Рекурсивно собираем все файлы, зависящие от компонента
 function findDependentFiles(componentName, checkedFiles = new Set()) {
-  const htmlFiles = glob.sync(path.join(Paths.htmlTemplate.src, '**/*.html'));
-  const htmFiles = glob.sync(path.join(Paths.htm.src, '**/*.htm'));
+  const htmlFiles = glob.sync(
+    path.join(Paths.htmlTemplate.src, `**/*.${FilesExtensions.Html}`),
+  );
+  const htmFiles = glob.sync(
+    path.join(Paths.htm.src, `**/*.${FilesExtensions.Htm}`),
+  );
   const allFiles = [...htmlFiles, ...htmFiles];
 
   const directDependencies = allFiles.filter((file) => {
-    if (checkedFiles.has(file)) {
-      console.log(file, componentName);
-    }
     if (checkedFiles.has(file)) return false;
     checkedFiles.add(file);
     const isInclude = fileIncludesComponent(file, componentName);
+
     return isInclude;
   });
 
@@ -62,7 +64,7 @@ async function htmlTemplate(_, filePath) {
 
   // Находим все файлы, зависящие от измененного компонента
   const affectedFiles = findDependentFiles(componentName).filter((file) =>
-    file.endsWith('.htm'),
+    file.endsWith(`.${FilesExtensions.Htm}`),
   );
 
   console.log('Affected files:', affectedFiles);
