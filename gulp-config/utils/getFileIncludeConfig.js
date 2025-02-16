@@ -12,7 +12,7 @@ export async function getFileIncludeConfig() {
 
   try {
     const jsonData = await readFile(
-      new URL(`../../${Paths.htmlTemplateJsons.default}`, import.meta.url),
+      new URL(`../../${Paths.htmlTemplateJson.default}`, import.meta.url),
       {
         encoding: 'utf-8',
       },
