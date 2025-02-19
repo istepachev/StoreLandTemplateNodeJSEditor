@@ -7,12 +7,12 @@ const { STATIC_DIR, DEFAULT_FOLDER_NAME } = dirs;
 
 async function buildProject() {
   const htmlFilesToMove = [
-    `${Paths.html.dest}/client/**/*.*`,
-    `${Paths.html.dest}/discount/**/*.*`,
+    `${Paths.htm.dest}/client/**/*.*`,
+    `${Paths.htm.dest}/discount/**/*.*`,
   ];
-  const streamHtml = src(htmlFilesToMove).pipe(dest(Paths.html.dest));
+  const streamHtml = src(htmlFilesToMove).pipe(dest(Paths.htm.dest));
   streamHtml.on('end', () => {
-    deleteSync([`${Paths.html.dest}/client/`, `${Paths.html.dest}/discount/`]);
+    deleteSync([`${Paths.htm.dest}/client/`, `${Paths.htm.dest}/discount/`]);
   });
 
   const staticFilesToMove = [`${STATIC_DIR}/${DEFAULT_FOLDER_NAME}/**/*.*`];
