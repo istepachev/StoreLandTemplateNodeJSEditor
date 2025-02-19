@@ -11,7 +11,7 @@ dotenv.config({ path: envPath });
 const {
   CURRENT_SITE,
   SECRET_KEY,
-  PORT = 3003,
+  PORT = '3003',
   API_BASE_URL = '/api/v1/site_files',
 } = process.env;
 

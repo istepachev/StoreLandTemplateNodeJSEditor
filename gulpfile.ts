@@ -11,8 +11,8 @@ import {
   downloadFiles,
   startWatch,
   cleanDir,
-} from "./gulp-config/tasks/index.js";
-import Config from "./gulp-config/const.js";
+} from "./gulp-config/tasks/index";
+import Config from "./gulp-config/const";
 
 const { DIST_DIR, DOWNLOAD_DIR } = Config;
 const { parallel, series } = gulp;

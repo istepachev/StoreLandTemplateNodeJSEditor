@@ -21,6 +21,7 @@
     "@babel/core": "^7.26.8",
     "@babel/preset-env": "^7.26.8",
     "@eslint/js": "^9.20.0",
+    "@types/node": "^22.13.4",
     "browser-sync": "^3.0.3",
     "chalk": "^5.4.1",
     "cross-env": "7.0.3",
@@ -50,7 +51,9 @@
     "minimist": "^1.2.8",
     "node-notifier": "^10.0.1",
     "nodemon": "^3.1.9",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "air-datepicker": "^2.2.3",
