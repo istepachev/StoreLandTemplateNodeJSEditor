@@ -1,5 +1,5 @@
 {
   "watch": ["./gulpfile.ts", "gulp-config/**/*.ts"],
-  "exec": "ts-node ./gulpfile.ts",
+  "exec": "tsx ./gulpfile.ts",
   "ext": "ts"
 }
