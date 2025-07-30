@@ -8,12 +8,7 @@ const envPath =
 
 dotenv.config({ path: envPath });
 
-const {
-  CURRENT_SITE,
-  SECRET_KEY,
-  PORT = 3003,
-  API_BASE_URL = '/api/v1/site_files',
-} = process.env;
+const { CURRENT_SITE, SECRET_KEY, PORT, API_BASE_URL } = process.env;
 
 const FoldersNames = {
   Html: 'html',
@@ -96,7 +91,7 @@ const Paths = {
 const Config = {
   CURRENT_SITE,
   SECRET_KEY,
-  PORT: parseInt(PORT, 10),
+  PORT,
   API_BASE_URL,
   FoldersNames,
   FilesExtensions,
