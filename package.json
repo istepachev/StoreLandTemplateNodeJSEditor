@@ -18,21 +18,21 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.9",
-    "@babel/preset-env": "^7.26.9",
-    "@eslint/js": "^9.20.0",
-    "browser-sync": "^3.0.3",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@eslint/js": "^9.32.0",
+    "browser-sync": "^3.0.4",
     "chalk": "^5.4.1",
-    "cross-env": "7.0.3",
+    "cross-env": "10.0.0",
     "dayjs": "^1.11.13",
     "del": "^8.0.0",
-    "dotenv": "^16.4.7",
-    "eslint": "9.20.1",
+    "dotenv": "^17.2.1",
+    "eslint": "9.32.0",
     "eslint-config-htmlacademy": "10.0.1",
-    "glob": "11.0.1",
-    "globals": "^15.15.0",
-    "got": "^14.4.6",
-    "gulp": "^5.0.0",
+    "glob": "11.0.3",
+    "globals": "^16.3.0",
+    "got": "^14.4.7",
+    "gulp": "^5.0.1",
     "gulp-autoprefixer": "^9.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
@@ -44,11 +44,11 @@
     "gulp-svg-sprite": "^2.0.3",
     "joi": "^17.13.3",
     "minimist": "^1.2.8",
-    "nodemon": "^3.1.9",
-    "prettier": "^3.5.1"
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
   },
   "dependencies": {
-    "air-datepicker": "^3.5.3",
+    "air-datepicker": "^3.6.0",
     "jquery": "^3.7.1",
     "normalize.css": "^8.0.1"
   }
