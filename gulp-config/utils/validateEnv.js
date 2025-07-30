@@ -19,9 +19,10 @@ const envSchema = Joi.object({
     'any.required': 'отсутствует в .env файле',
   }),
 
-  API_BASE_URL: Joi.string().pattern(/^\//).allow(null).optional().messages({
+  API_BASE_URL: Joi.string().required().pattern(/^\//).messages({
     'string.pattern.base': 'должен начинаться с /',
     'string.empty': 'не может быть пустым',
+    'any.required': 'отсутствует в .env файле',
   }),
 }).unknown(); // разрешаем дополнительные переменные в .env
 
