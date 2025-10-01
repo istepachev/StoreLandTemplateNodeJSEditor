@@ -7,24 +7,24 @@ import {
   fonts,
   styles,
   icons,
-  checkConfig,
+  showConfig,
   downloadFiles,
   startWatch,
   cleanDir,
+  validateEnv,
 } from "./gulp-config/tasks/index.js";
-import Config from "./gulp-config/const.js";
 
-const { DIST_DIR, DOWNLOAD_DIR } = Config;
 const { parallel, series } = gulp;
 
 const mainTasks = parallel(htm, scripts, images, fonts, styles, icons);
 const devTasks = parallel(browserSyncTask, startWatch);
 
-export const build = series(cleanDir.bind(null, `./${DIST_DIR}`), mainTasks);
-export const dev = series(checkConfig, devTasks);
+export const build = series(cleanDir, mainTasks);
+export const dev = series(validateEnv, showConfig, devTasks);
 export const download = series(
-  checkConfig,
-  cleanDir.bind(null, `./${DOWNLOAD_DIR}`),
+  validateEnv,
+  showConfig,
+  cleanDir,
   downloadFiles,
 );
 

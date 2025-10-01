@@ -8,12 +8,13 @@ import htmlTemplate from './htmlTemplate.js';
 import htmlTemplateJson from './htmlTemplateJson.js';
 import images from './images.js';
 import icons from './icons.js';
-import checkConfig from './config-check.js';
+import showConfig from './show-config.js';
 import downloadFiles from './downloadFiles.js';
 import uploadFile from './uploadFile.js';
 import buildProject from './buildProject.js';
 import uploadAllFiles from './uploadAllFiles.js';
 import startWatch from './watch.js';
+import validateEnv from './validateEnv.js';
 
 export {
   browserSyncTask,
@@ -27,9 +28,10 @@ export {
   htmlTemplate,
   htmlTemplateJson,
   cleanDir,
-  checkConfig,
+  showConfig,
   downloadFiles,
   buildProject,
   uploadAllFiles,
   startWatch,
+  validateEnv,
 };

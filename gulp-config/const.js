@@ -1,13 +1,3 @@
-import dotenv from 'dotenv';
-import path from 'path';
-
-const envPath =
-  process.env.NODE_ENV === 'production'
-    ? path.resolve('env/production/.env')
-    : path.resolve('env/development/.env');
-
-dotenv.config({ path: envPath });
-
 const { CURRENT_SITE, SECRET_KEY, PORT, API_BASE_URL } = process.env;
 
 const FoldersNames = {
@@ -97,16 +87,8 @@ const Config = {
   FilesExtensions,
   Paths,
   ApiUrls: API_ENDPOINTS,
-  env: {
-    isProd: process.env.NODE_ENV === 'production',
-  },
-  dirs: {
-    BASE_DIR,
-    DIST_DIR,
-    STATIC_DIR,
-    DOWNLOAD_DIR,
-    DEFAULT_FOLDER_NAME,
-  },
+  env: { isProd: process.env.NODE_ENV === 'production' },
+  dirs: { BASE_DIR, DIST_DIR, STATIC_DIR, DOWNLOAD_DIR, DEFAULT_FOLDER_NAME },
 };
 
 export default Config;

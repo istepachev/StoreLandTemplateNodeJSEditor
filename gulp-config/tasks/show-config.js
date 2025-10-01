@@ -1,12 +1,6 @@
-import Config from '../const.js';
 import chalk from 'chalk';
-import { validateEnv } from '../utils/validateEnv.js';
 
-const { CURRENT_SITE, SECRET_KEY, PORT, API_BASE_URL } = Config;
-
-async function checkConfig() {
-  validateEnv();
-
+async function showConfig() {
   console.log('\n' + chalk.bgGreen.black(' КОНФИГУРАЦИЯ ') + '\n');
 
   console.log(chalk.gray('Окружение:'));
@@ -15,10 +9,12 @@ async function checkConfig() {
   );
 
   console.log(chalk.gray('\nПеременные окружения:'));
-  console.log(`  • CURRENT_SITE: ${chalk.cyan(CURRENT_SITE)}`);
-  console.log(`  • SECRET_KEY: ${chalk.cyan('*'.repeat(SECRET_KEY.length))}`);
-  console.log(`  • PORT: ${chalk.cyan(PORT)}`);
-  console.log(`  • API_BASE_URL: ${chalk.cyan(API_BASE_URL)}`);
+  console.log(`  • CURRENT_SITE: ${chalk.cyan(process.env.CURRENT_SITE)}`);
+  console.log(
+    `  • SECRET_KEY: ${chalk.cyan('*'.repeat(process.env.SECRET_KEY.length))}`,
+  );
+  console.log(`  • PORT: ${chalk.cyan(process.env.PORT)}`);
+  console.log(`  • API_BASE_URL: ${chalk.cyan(process.env.API_BASE_URL)}`);
 
   if (process.env.DEBUG_MODE) {
     console.log(`  • DEBUG_MODE: ${chalk.cyan(process.env.DEBUG_MODE)}`);
@@ -31,4 +27,4 @@ async function checkConfig() {
   console.log('\n' + chalk.green('✔️  Все проверки пройдены успешно\n'));
 }
 
-export default checkConfig;
+export default showConfig;
