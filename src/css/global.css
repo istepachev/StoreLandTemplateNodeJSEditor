@@ -3,22 +3,22 @@
 /**************************************/
 
 :root {
-	--color-black: #333333;
-	--color-white: #FFFFFF;
-	--color-border: #ced0d6;
-	--color-gray: #666666;
-	--color-lightgray: #ced0d6;
-	--color-darkgray: #444b5b;
-	--color-primary: #70C062;
-	--color-secondary: #7879F1;
-	--color-tertiary: #FFD968;
-	--color-yellow: #FFD968;
-	--color-red: #FF383E;
-	--color-bg: #F1F1F1;
-	--color-shadow: rgba(201, 208, 230, 0.2);
-	--white-shadow: rgba(255, 255, 255, 0.7);
+  --color-black: #333333;
+  --color-white: #ffffff;
+  --color-border: #ced0d6;
+  --color-gray: #666666;
+  --color-lightgray: #ced0d6;
+  --color-darkgray: #444b5b;
+  --color-primary: #70c062;
+  --color-secondary: #7879f1;
+  --color-tertiary: #ffd968;
+  --color-yellow: #ffd968;
+  --color-red: #ff383e;
+  --color-bg: #f1f1f1;
+  --color-shadow: rgba(201, 208, 230, 0.2);
+  --white-shadow: rgba(255, 255, 255, 0.7);
 
-	scrollbar-color: var(--color-lightgray) var(--color-bg);
+  scrollbar-color: var(--color-lightgray) var(--color-bg);
   scrollbar-width: thin;
 }
 
@@ -60,27 +60,53 @@ body {
 }
 
 /** Кнопка. Вторичная **/
-.button-secondary {background: var(--color-darkgray);}
+.button-secondary {
+  background: var(--color-darkgray);
+}
 @media (hover: hover) and (pointer: fine) {
-	.button-secondary:hover {background: var(--color-secondary);}
+  .button-secondary:hover {
+    background: var(--color-secondary);
+  }
 }
 @media (hover: none) and (pointer: coarse) {
-	.button-secondary:focus {background: var(--color-secondary);}
+  .button-secondary:focus {
+    background: var(--color-secondary);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.swiper-button-next:hover, .swiper-button-prev:hover {color: var(--color-gray);background: transparent;}
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    color: var(--color-gray);
+    background: transparent;
+  }
 }
 @media all and (max-width: 1439px) {
-	.swiper-button-next {right: 8px;}
-	.swiper-button-prev {left: 8px;}
+  .swiper-button-next {
+    right: 8px;
+  }
+  .swiper-button-prev {
+    left: 8px;
+  }
 }
 @media all and (max-width: 1023px) {
-	.swiper-button-next, .swiper-button-prev {top: calc(50% - 12px);width: 24px;height: 24px;line-height: 24px;font-size: 24px;}
+  .swiper-button-next,
+  .swiper-button-prev {
+    top: calc(50% - 12px);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 24px;
+  }
 }
 @media all and (min-width: 480px) {
-	.swiper-pagination {display: none;}
+  .swiper-pagination {
+    display: none;
+  }
 }
 @media all and (max-width: 479px) {
-	.swiper-button-next, .swiper-button-prev {display: none;}
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
 }
