@@ -4,20 +4,16 @@
   @@include('BreadCrumbs.html')
 {% ENDIF %}
 
-{% IF index_page %}
-  {% IFNOT index_page_new_goods_empty %}
+{% IF index_page %}  
     {% FOR index_page_new_goods %}
       @@include('ProductSchema.html', {"goods_array": "index_page_new_goods"})
-    {% ENDFOR %}
-  {% ENDIF %}
-  {% IFNOT index_page_goods_empty %}
+    {% ENDFOR %}  
+  
     {% FOR index_page_goods %}
       @@include('ProductSchema.html', {"goods_array": "index_page_goods"})
-    {% ENDFOR %}
-  {% ENDIF %}
-  {% IFNOT index_page_favorites_goods_empty %}
+    {% ENDFOR %}  
+  
     {% FOR index_page_favorites_goods %}
       @@include('ProductSchema.html', {"goods_array": "index_page_favorites_goods"})
-    {% ENDFOR %}
-  {% ENDIF %}
+    {% ENDFOR %}  
 {% ENDIF %}
