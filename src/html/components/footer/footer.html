@@ -3,8 +3,8 @@
 
     <div class="columns">
       <div class="column">
-        <h3 class="title">Контакты</h3>
-        <address>
+        <h3 class="title has-text-white">Контакты</h3>
+        <address class="has-text-white">
           {% IF SETTINGS_STORE_REGION %}<div><b>Адрес</b> <span>{SETTINGS_STORE_REGION}</span></div>{% ENDIF %}
           {% IF SETTINGS_STORE_WORK_TIME %}<div><b>Режим работы</b> <time>{SETTINGS_STORE_WORK_TIME}</time></div>{% ENDIF %}
           {% IF SETTINGS_STORE_PHONE_NUMBER1 %}<div><b>Телефон 1</b> <a href="tel:@@PHONE_1.Value">@@PHONE_1.Template</a></div>{% ENDIF %}
@@ -16,7 +16,7 @@
       </div>
 
       <div class="column">
-        <h3 class="title">Давайте дружить</h3>
+        <h3 class="title has-text-white">Давайте дружить</h3>
         <div class="columns">
           <div class="column is-half">
             @@include("../../components/social/social.html")
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Подвал. Копирайт -->
-    <div class="content has-text-centered is-size-7">
+    <div class="content has-text-centered is-size-7 has-text-white">
       <div>&copy;{DATE_YEAR} {SETTINGS_STORE_NAME}. Все права защищены.</div>
       <div>{SETTINGS_STORE_ORG_NAME}.</div>
       <div>{COPYRIGHT_FOR_DESIGN_THEMENAME}</div>
